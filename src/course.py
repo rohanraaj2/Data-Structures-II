@@ -4,9 +4,12 @@ import datetime
 class Course:
     """ Holds information on a course and its assignments.
     """
+    course_assignments = []
+    total_weightage = 0
 
     def __init__(self, title: str, hours: int, teacher: str, time: datetime.datetime) -> None:
         """Creates a course with the given information.
+
 
         Parameters:
         - self: mandatory reference to this object
@@ -18,7 +21,10 @@ class Course:
         Returns:
         none
         """
-        pass
+        self.title = title
+        self.hours = hours
+        self.teacher = teacher
+        self.time = time
 
     def __str__(self) -> str:
         """Returns the string to be printed when this object is passed to str().
@@ -32,9 +38,9 @@ class Course:
         Returns:
         A string representation of this object.
         """
-        pass
+        return (self.title, '\n', self.hours, '\n', self.teacher, '\n', self.time)
 
-    def add_assignment(self, assignment: (str, int)) -> bool:
+    def add_assignment(self, assignment: tuple[str, int]) -> bool:
         """Returns the success status of adding assignment to the list of this course's
         assignments.
 
@@ -52,7 +58,12 @@ class Course:
         True if adding assignment succeeds, False otherwise.
 
         """
-        pass
+        if self.total_weightage + self.assignment[1] > 100:
+            return False
+        elif self.assignment[0] in self.course_assignments:
+            return False
+        else:
+            return True
 
     def remove_assignment(self, assignment: str) -> bool:
         """Returns the success status of removing assignment from the list of this
@@ -70,7 +81,10 @@ class Course:
         True if removing assignment succeeds, False otherwise.
 
         """
-        pass
+        if self.assignment not in self.course_assignments:
+            return False
+        else:
+            return True
 
     def print_assignments(self) -> None:
         """Prints the assignments contained in the list of this course's assignments.
@@ -86,7 +100,9 @@ class Course:
         Returns:
         none
         """
-        pass
+        self.course_assignments[1].sort()
+        for i in range(len(self.course_assignments)):
+            print(self.course_assignments[i][0], self.course_assignments[i][1])
 
     def is_complete(self) -> None:
         """Returns whether the course is complete, i.e. the total weightage of the
@@ -98,4 +114,7 @@ class Course:
         Returns:
         True if the course is complete, False otherwise.
         """
-        pass
+        if self.total_weightage == 100:
+            return True
+        else:
+            return False

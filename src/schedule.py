@@ -5,7 +5,7 @@ class Schedule:
     """ Contains courses.
     """
 
-    def __init__(self, courses: [Course] = []) -> None:
+    def __init__(self, courses: list[Course] = []) -> None:
         """Creates a schedule containing courses.
 
         Parameters:
@@ -15,7 +15,7 @@ class Schedule:
         Returns:
         none
         """
-        pass
+        self.courses = courses
 
     def __str__(self) -> str:
         """Returns the string to be printed when this object is passed to print().
@@ -30,7 +30,9 @@ class Schedule:
         Returns:
         A string representation of this object.
         """
-        pass
+        self.courses.sort()
+        for i in self.courses:
+            print(i, "\n")
 
     def add_course(self, course: Course) -> bool:
         """Returns the success status of adding course to the schedule.
@@ -45,7 +47,10 @@ class Schedule:
         Returns:
         True if adding course succeeds, False otherwise.
         """
-        pass
+        for i in self.courses:
+            if i.time == course.time:
+                return False
+        return True
 
     def remove_course(self, course: str) -> bool:
         """Returns the success status of removing course from the schedule.
@@ -60,4 +65,7 @@ class Schedule:
         Returns:
         True if removing course succeeds, False otherwise.
         """
-        pass
+        if course in self.courses:
+            return True
+        else:
+            return False

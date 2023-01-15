@@ -7,7 +7,7 @@ def test_init():
         datetime.datetime(2022, 1, 11, hour=8, minute=30)
     course = Course(title, hours, instructor, time)
     course_str = str(course)
-    assert name in course_str, \
+    assert title in course_str, \
         f'{title=} not in course'
     assert str(hours) in course_str, \
         f'{hours=} not in course'
