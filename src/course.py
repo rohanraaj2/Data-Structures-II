@@ -6,6 +6,7 @@ class Course:
     """
     course_assignments = []
     total_weightage = 0
+    # assignment = ''
 
     def __init__(self, title: str, hours: int, teacher: str, time: datetime.datetime) -> None:
         """Creates a course with the given information.
@@ -38,7 +39,7 @@ class Course:
         Returns:
         A string representation of this object.
         """
-        return (self.title, '\n', self.hours, '\n', self.teacher, '\n', self.time)
+        return (self.title + '\n' + str(self.hours) + '\n' + str(self.teacher) + '\n' + str(self.time))
 
     def add_assignment(self, assignment: tuple[str, int]) -> bool:
         """Returns the success status of adding assignment to the list of this course's
@@ -58,12 +59,14 @@ class Course:
         True if adding assignment succeeds, False otherwise.
 
         """
-        if self.total_weightage + self.assignment[1] > 100:
+        if self.total_weightage + assignment[1] > 100:
             return False
-        elif self.assignment[0] in self.course_assignments:
-            return False
-        else:
-            return True
+        for i in self.course_assignments:
+            if assignment[0] == i[0]:
+                return False
+        self.course_assignments.append(assignment)
+        self.total_weightage += assignment[1]
+        return True
 
     def remove_assignment(self, assignment: str) -> bool:
         """Returns the success status of removing assignment from the list of this
@@ -81,10 +84,12 @@ class Course:
         True if removing assignment succeeds, False otherwise.
 
         """
-        if self.assignment not in self.course_assignments:
-            return False
-        else:
-            return True
+        for i in self.course_assignments:
+            if assignment == i[0]:
+                self.total_weightage -= i[1]
+                self.course_assignments.remove(i)
+                return True
+        return False
 
     def print_assignments(self) -> None:
         """Prints the assignments contained in the list of this course's assignments.

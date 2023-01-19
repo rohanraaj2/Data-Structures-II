@@ -30,9 +30,12 @@ class Schedule:
         Returns:
         A string representation of this object.
         """
-        self.courses.sort()
+        s = ''
+        # self.courses.sort(*, key: (Course))
         for i in self.courses:
-            print(i, "\n")
+            s += str(i) + "\n"
+            
+        return s
 
     def add_course(self, course: Course) -> bool:
         """Returns the success status of adding course to the schedule.
