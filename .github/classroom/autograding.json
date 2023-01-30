@@ -2,7 +2,7 @@
   "tests": [
     {
       "name": "Test Case 01",
-      "setup": "sudo -H pip3 install pytest",
+      "setup": "sudo -H pip3 install pytest && sudo -H pip3 install pillow",
       "run": "pytest",
       "input": "",
       "output": "",
