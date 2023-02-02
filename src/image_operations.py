@@ -38,8 +38,8 @@ def rotations(src: MyImage) -> MyImage:
 
     resulting_image = MyImage((new_width, new_height))
 
-    for row in range(original_width):
-        for column in range(original_height):
+    for row in range(original_height):
+        for column in range(original_width):
             # looping over each pixel to set rgb values
 
             rgb_value = src.get(row, column)
@@ -86,9 +86,87 @@ def resize(src: MyImage) -> MyImage:
     The new image has twice the dimensions of src. src is not modified.
 
     Args:
-    - src: the image which needs to be resized. 
+    - src: the image which needs to be resized.
 
     Returns:
     an image twice the size of src.
     """
-    pass
+
+    original_width = src.size[0]
+    original_height = src.size[1]
+
+    new_width = original_width * 2
+    new_height = original_height * 2
+
+    resulting_image = MyImage((new_width, new_height))
+
+    for row in range(original_width):
+        for column in range(original_height):
+            # looping over each pixel to set rgb values
+
+            rgb_value = src.get(row, column)
+
+            # 1st image (rotated 90 degrees anticlockwise) on 1st row, 1st column
+            resulting_image.set(row * 2, column * 2, rgb_value)
+
+    for row in range(new_width):
+        for column in range(new_height):
+
+            if column % 2 != 0:  # blank columns
+                if column != new_width:
+                    red1 = (resulting_image.get(row, column - 1))[0]
+                    green1 = (resulting_image.get(row, column - 1))[1]
+                    blue1 = (resulting_image.get(row, column - 1))[2]
+
+                    red2 = (resulting_image.get(row, column + 1))[0]
+                    green2 = (resulting_image.get(row, column + 1))[1]
+                    blue2 = (resulting_image.get(row, column + 1))[2]
+
+                    average_red = int((red1 + red2) / 2)
+                    average_green = int((green1 + green2) / 2)
+                    average_blue = int((blue1 + blue2) / 2)
+
+                    resulting_image.set(
+                        row, column, (average_red, average_green, average_blue))
+                    # resulting_image.set(row, column, 0.5 *
+                    #                     (resulting_image.get(row, column - 1) + resulting_image.get(row, column + 1)))
+                else:
+                    resulting_image.set(
+                        row, column, (int(red1 / 2), int(green1 / 2), int(blue1 / 2)))
+                    # resulting_image.set(row, column, 0.5 *
+                    #                     (resulting_image.get(row, column - 1)))
+                    # if row != new_width:
+                    #     resulting_image.set(row, column, 0.5 * (resulting_image.get(
+                    #         row - 1, column) + resulting_image.get(row + 1, column)))
+                    # else:
+                    #     resulting_image.set(row, column, 0.5 * (resulting_image.get(
+                    #         row - 1, column)))
+            # else:
+            if row % 2 != 0:  # blank rows
+                if row != new_height:
+                    red1 = (resulting_image.get(row - 1, column))[0]
+                    green1 = (resulting_image.get(row - 1, column))[1]
+                    blue1 = (resulting_image.get(row - 1, column))[2]
+
+                    red2 = (resulting_image.get(row + 1, column))[0]
+                    green2 = (resulting_image.get(row + 1, column))[1]
+                    blue2 = (resulting_image.get(row + 1, column))[2]
+
+                    average_red = int((red1 + red2) / 2)
+                    average_green = int((green1 + green2) / 2)
+                    average_blue = int((blue1 + blue2) / 2)
+
+                    resulting_image.set(
+                        row, column, (average_red, average_green, average_blue))
+                    # resulting_image.set(row, column, 0.5 *
+                    #                     (resulting_image.get(row, column - 1) + resulting_image.get(row, column + 1)))
+                else:
+                    resulting_image.set(
+                        row, column, (int(red1 / 2), int(green1 / 2), int(blue1 / 2)))
+            #         resulting_image.set(row, column, 0.5 * (resulting_image.get(
+            #             row - 1, column) + resulting_image.get(row + 1, column)))
+            #     else:
+            #         resulting_image.set(row, column, 0.5 * (resulting_image.get(
+            #             row - 1, column)))
+
+    return resulting_image
