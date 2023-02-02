@@ -19,8 +19,7 @@ class MyImage:
         """
         # Save size, create a list of the desired size with black pixels.
         width, height = self.size = size
-        self.pixels: ArrayList = ArrayList(width * height,
-                                               value=(0, 0, 0))
+        self.pixels: ArrayList = ArrayList(width * height, value=(0, 0, 0))
 
     def __iter__(self) -> 'MyImage':
         '''Iterator function to return an iterator (self) that allows iteration over

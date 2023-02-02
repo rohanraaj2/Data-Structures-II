@@ -1,3 +1,5 @@
+import array as arr
+
 class MyList:
     '''A list interface. Also implements Iterator functions in order to support
     iteration over this list.
@@ -16,7 +18,8 @@ class MyList:
         Returns:
         none
         """
-        pass
+        self.size = size
+        self.lst = [value] * size
 
     def __len__(self) -> int:
         '''Returns the size of the list. Allows len() to be called on it.
@@ -29,7 +32,7 @@ class MyList:
         Returns:
         the size of the list.
         '''
-        pass
+        return self.size
 
     def __getitem__(self, i: int):
         '''Returns the value at index, i. Allows indexing syntax.
@@ -46,7 +49,7 @@ class MyList:
         # Ensure bounds.
         assert 0 <= i < len(self),\
             f'Getting invalid list index {i} from list of size {len(self)}'
-        pass
+        return self.lst[i]
 
     def __setitem__(self, i: int, value) -> None:
         '''Sets the element at index, i, to value. Allows indexing syntax.
@@ -64,7 +67,7 @@ class MyList:
         # Ensure bounds.
         assert 0 <= i < len(self),\
             f'Setting invalid list index {i} in list of size {len(self)}'
-        pass
+        self.lst[i] = value
 
     def __iter__(self) -> 'MyList':
         '''Iterator function to return an iterator (self) that allows iteration over
