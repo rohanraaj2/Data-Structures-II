@@ -132,5 +132,69 @@ class MyList:
 
 
 class ArrayList(MyList):
-    pass
+    
+    def __init__(self, size: int, value=None) -> None:
+        """Creates a list of the given size, optionally intializing elements to value.
 
+        The list is static. It only has space for size elements.
+
+        Parameters:
+        - self: mandatory reference to this object
+        - size: size of the list; space is reserved for these many elements.
+        - value: the optional initial value of the created elements.
+
+        Returns:
+        none
+        """
+        
+        self.lst = [value] * size
+        self.size = size
+        a = arr.array('i',self.lst)
+
+    def __len__(self) -> int:
+        '''Returns the size of the list. Allows len() to be called on it.
+
+        Ref: https://stackoverflow.com/q/7642434/1382487
+
+        Parameters:
+        - self: mandatory reference to this object
+
+        Returns:
+        the size of the list.
+        '''
+        return self.size
+
+    def __getitem__(self, i: int):
+        '''Returns the value at index, i. Allows indexing syntax.
+
+        Ref: https://stackoverflow.com/a/33882066/1382487
+
+        Parameters:
+        - self: mandatory reference to this object
+        - i: the index from which to retrieve the value.
+
+        Returns:
+        the value at index i.
+        '''
+        # Ensure bounds.
+        assert 0 <= i < len(self),\
+            f'Getting invalid list index {i} from list of size {len(self)}'
+        return self.lst[i]
+
+    def __setitem__(self, i: int, value) -> None:
+        '''Sets the element at index, i, to value. Allows indexing syntax.
+
+        Ref: https://stackoverflow.com/a/33882066/1382487
+
+        Parameters:
+        - self: mandatory reference to this object
+        - i: the index of the elemnent to be set
+        - value: the value to be set
+
+        Returns:
+        none
+        '''
+        # Ensure bounds.
+        assert 0 <= i < len(self),\
+            f'Setting invalid list index {i} in list of size {len(self)}'
+        self.lst[i] = value

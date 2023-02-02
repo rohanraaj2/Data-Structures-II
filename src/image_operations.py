@@ -1,8 +1,7 @@
 from src.myimage import MyImage
+import copy
 
-
-def remove_channel(src: MyImage, red: bool = False, green: bool = False,
-                   blue: bool = False) -> MyImage:
+def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: bool = False) -> MyImage:
     """Returns a copy of src in which the indicated channels are suppressed.
 
     Suppresses the red channel if no channel is indicated. src is not modified.
@@ -16,7 +15,19 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False,
     Returns:
     a copy of src with the indicated channels suppressed.
     """
-    pass
+    img = copy.deepcopy(src)
+
+    width, height = img.size
+    for x in range(width):
+        for y in range(height):
+            rgb_img = img.convert('RGB')
+            r, g, b = rgb_img.getpixel((x, y))
+            if red == True:
+                img.set(x,y,(0,255,255))
+            elif green == True:
+                img.set(x,y,(255,0,255))
+            elif blue == True:
+                img.set(x,y,(255,255,0))        
 
 
 def rotations(src: MyImage) -> MyImage:
