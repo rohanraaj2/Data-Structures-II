@@ -146,9 +146,8 @@ class ArrayList(MyList):
         Returns:
         none
         """
-        self.size = size
         self.lst = [value] * size
-        a = arr.array('i',self.lst) # creating an array of type int and values of lst
+        self.a = arr.array('i',self.lst) # creating an array of type int and values of lst
 
     def __len__(self) -> int:
         '''Returns the size of the list. Allows len() to be called on it.
@@ -178,7 +177,7 @@ class ArrayList(MyList):
         # Ensure bounds.
         assert 0 <= i < len(self),\
             f'Getting invalid list index {i} from list of size {len(self)}'
-        return self.lst[i]
+        return self.a[i]
 
     def __setitem__(self, i: int, value) -> None:
         '''Sets the element at index, i, to value. Allows indexing syntax.
@@ -196,4 +195,4 @@ class ArrayList(MyList):
         # Ensure bounds.
         assert 0 <= i < len(self),\
             f'Setting invalid list index {i} in list of size {len(self)}'
-        self.lst[i] = value
+        self.a[i] = value   

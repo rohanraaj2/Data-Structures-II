@@ -19,13 +19,23 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: b
     width, height = img.size                    # get width and height seperately
 
     for x in range(width):                      # looping over the pixels
-        for y in range(height):                 
-            if red == True:                     # turn red off if red == True
-                img.set(x,y,(0,255,255))
-            elif green == True:                 # turn green off if green == True
-                img.set(x,y,(255,0,255))
-            elif blue == True:                  # turn blue off if blue == True
-                img.set(x,y,(255,255,0))        
+        for y in range(height):      
+            r, g, b = img.get(x, y)
+            if red == True:
+                r = 0
+            if green == True:
+                g = 0
+            if blue == True:
+                b = 0
+            img.set(x, y, (r, g, b))
+    return img          
+
+            # if red == True:                     # turn red off if red == True
+            #     img.set(x,y,(0,255,255))
+            # elif green == True:                 # turn green off if green == True
+            #     img.set(x,y,(255,0,255))
+            # elif blue == True:                  # turn blue off if blue == True
+            #     img.set(x,y,(255,255,0))        
 
 
 def rotations(src: MyImage) -> MyImage:
@@ -86,6 +96,7 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     Returns:
     an image which the result of applying the specified mask to src.
     """
+
     pass
 
 
