@@ -1,4 +1,4 @@
-import array as arr
+import array as arr # importing array module
 
 class MyList:
     '''A list interface. Also implements Iterator functions in order to support
@@ -146,10 +146,9 @@ class ArrayList(MyList):
         Returns:
         none
         """
-        
-        self.lst = [value] * size
         self.size = size
-        a = arr.array('i',self.lst)
+        self.lst = [value] * size
+        a = arr.array('i',self.lst) # creating an array of type int and values of lst
 
     def __len__(self) -> int:
         '''Returns the size of the list. Allows len() to be called on it.

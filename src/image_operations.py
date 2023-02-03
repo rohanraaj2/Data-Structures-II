@@ -15,18 +15,16 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: b
     Returns:
     a copy of src with the indicated channels suppressed.
     """
-    img = copy.deepcopy(src)
+    img = copy.deepcopy(src)                    # creating a copy of the image
+    width, height = img.size                    # get width and height seperately
 
-    width, height = img.size
-    for x in range(width):
-        for y in range(height):
-            rgb_img = img.convert('RGB')
-            r, g, b = rgb_img.getpixel((x, y))
-            if red == True:
+    for x in range(width):                      # looping over the pixels
+        for y in range(height):                 
+            if red == True:                     # turn red off if red == True
                 img.set(x,y,(0,255,255))
-            elif green == True:
+            elif green == True:                 # turn green off if green == True
                 img.set(x,y,(255,0,255))
-            elif blue == True:
+            elif blue == True:                  # turn blue off if blue == True
                 img.set(x,y,(255,255,0))        
 
 
