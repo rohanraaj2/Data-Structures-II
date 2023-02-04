@@ -133,7 +133,7 @@ class MyList:
 
 class ArrayList(MyList):
     
-    def __init__(self, size: int, value=None) -> None:
+    def __init__(self, size: int, value: (int, int, int)) -> None:
         """Creates a list of the given size, optionally intializing elements to value.
 
         The list is static. It only has space for size elements.
@@ -146,8 +146,11 @@ class ArrayList(MyList):
         Returns:
         none
         """
-        self.lst = [value] * size
-        self.a = arr.array('i',self.lst) # creating an array of type int and values of lst
+        self.size = size
+        r,g,b = value
+        self.r = arr.array('i', [r]*size)
+        self.g = arr.array('i', [g]*size)
+        self.b = arr.array('i', [b]*size)
 
     def __len__(self) -> int:
         '''Returns the size of the list. Allows len() to be called on it.
@@ -177,9 +180,12 @@ class ArrayList(MyList):
         # Ensure bounds.
         assert 0 <= i < len(self),\
             f'Getting invalid list index {i} from list of size {len(self)}'
-        return self.a[i]
+        red = self.r[i]
+        green = self.g[i]
+        blue = self.b[i]
+        return (red,green,blue)
 
-    def __setitem__(self, i: int, value) -> None:
+    def __setitem__(self, i: int, value: (int,int,int)) -> None:
         '''Sets the element at index, i, to value. Allows indexing syntax.
 
         Ref: https://stackoverflow.com/a/33882066/1382487
@@ -195,4 +201,6 @@ class ArrayList(MyList):
         # Ensure bounds.
         assert 0 <= i < len(self),\
             f'Setting invalid list index {i} in list of size {len(self)}'
-        self.a[i] = value   
+        self.r[i] = value[0]
+        self.g[i] = value[1]
+        self.b[i] = value[2]   

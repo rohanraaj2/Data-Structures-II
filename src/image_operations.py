@@ -18,24 +18,17 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: b
     img = copy.deepcopy(src)                    # creating a copy of the image
     width, height = img.size                    # get width and height seperately
 
-    for x in range(width):                      # looping over the pixels
+    for x in range(width):                      # looping over the pixels using x,y coordinatess
         for y in range(height):      
-            r, g, b = img.get(x, y)
+            r, g, b = img.get(x, y)             # get the rgb components at x,y coordinates 
             if red == True:
                 r = 0
             if green == True:
                 g = 0
             if blue == True:
                 b = 0
-            img.set(x, y, (r, g, b))
-    return img          
-
-            # if red == True:                     # turn red off if red == True
-            #     img.set(x,y,(0,255,255))
-            # elif green == True:                 # turn green off if green == True
-            #     img.set(x,y,(255,0,255))
-            # elif blue == True:                  # turn blue off if blue == True
-            #     img.set(x,y,(255,255,0))        
+            img.set(x, y, (r, g, b))            # use MyImage setter function to set new rgb values
+    return img                 
 
 
 def rotations(src: MyImage) -> MyImage:
