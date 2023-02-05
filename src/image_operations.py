@@ -120,9 +120,9 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
                         r_sum += r * mask[n * i + j]
                         g_sum += g * mask[n * i + j]
                         b_sum += b * mask[n * i + j]
+                        
             if average:
-                count = sum(mask)
-                img.set(x, y, (r_sum // count, g_sum // count, b_sum // count))
+                img.set(x, y, (r_sum // mask_sum, g_sum // mask_sum, b_sum // mask_sum))
             else:
                 img.set(x, y, (r_sum, g_sum, b_sum))
 
