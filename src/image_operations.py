@@ -1,6 +1,7 @@
 from src.myimage import MyImage
 import math
 
+
 def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: bool = False) -> MyImage:
     """Returns a copy of src in which the indicated channels are suppressed.
 
@@ -16,11 +17,14 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: b
     a copy of src with the indicated channels suppressed.
     """
     width, height = src.size                    # get width and height seperately
-    img = MyImage(src.size)                     # create a blank copy of src dimensions
+    # create a blank copy of src dimensions
+    img = MyImage(src.size)
 
-    for x in range(width):                      # looping over the pixels using x,y coordinatess
-        for y in range(height):      
-            r, g, b = src.get(x, y)             # get the rgb components at x,y coordinates 
+    # looping over the pixels using x,y coordinatess
+    for x in range(width):
+        for y in range(height):
+            # get the rgb components at x,y coordinates
+            r, g, b = src.get(x, y)
             if red == True:
                 r = 0
             if green == True:
@@ -28,9 +32,10 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: b
             if blue == True:
                 b = 0
             else:
-                r = 0    
-            img.set(x, y, (r, g, b))            # use MyImage setter function to set new rgb values
-    return img                 
+                r = 0
+            # use MyImage setter function to set new rgb values
+            img.set(x, y, (r, g, b))
+    return img
 
 
 def rotations(src: MyImage) -> MyImage:
@@ -44,8 +49,7 @@ def rotations(src: MyImage) -> MyImage:
     Returns:
     an image twice the size of src and containing the 4 rotations of src.
     """
-    original_width = src.size[0]
-    original_height = src.size[1]
+    original_width, original_height = src.size
 
     new_width = original_width * 2
     new_height = original_height * 2
@@ -92,18 +96,23 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     an image which the result of applying the specified mask to src.
     """
     width, height = src.size                    # get width and height seperately
-    img = MyImage(src.size)                     # create a blank copy of src dimensions
+    # create a blank copy of src dimensions
+    img = MyImage(src.size)
 
-    mask = open(maskfile, 'r').read().splitlines()  
-    mask = list(map(int,mask))                  # produces a list of int values of the file contents
+    mask = open(maskfile, 'r').read().splitlines()
+    # produces a list of int values of the file contents
+    mask = list(map(int, mask))
     n = mask[0]                                 # n: matrix size for nxn
-    mask = mask[1:]                             # listing matrix values in a list
+    # listing matrix values in a list
+    mask = mask[1:]
 
-    mask_sum = 0                                # calculating sum of mask values for weighted average
+    # calculating sum of mask values for weighted average
+    mask_sum = 0
     for i in mask:
         mask_sum += i
 
-    origin = n//2                               # center of mask appears at n//2,n//2 position in matrix
+    # center of mask appears at n//2,n//2 position in matrix
+    origin = n//2
 
     for x in range(width):                      # looping over the pixels of the image
         for y in range(height):
@@ -112,15 +121,16 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
             wg = 0
             wb = 0
 
-            for i in range(n):                  # looping over rows and columns of mask ie a nxn matrix
+            # looping over rows and columns of mask ie a nxn matrix
+            for i in range(n):
                 for j in range(n):
                     index = n * i + j           # index of element we want to access from mask list
                     x_ = x + i - origin
                     y_ = y + j - origin
 
                     if x_ >= 0 and x_ < width and y_ >= 0 and y < height:       # check edges
-                        r, g, b = src.get(x_, y_)                   
-                        wr += r * mask[index]   
+                        r, g, b = src.get(x_, y_)
+                        wr += r * mask[index]
                         wg += g * mask[index]
                         wb += b * mask[index]
 
@@ -131,7 +141,7 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
 
     src.show()
     img.show()
-    return img    
+    return img
 
 
 def resize(src: MyImage) -> MyImage:
@@ -146,121 +156,73 @@ def resize(src: MyImage) -> MyImage:
     an image twice the size of src.
     """
 
-    original_width = src.size[0]
-    original_height = src.size[1]
+    original_width, original_height = src.size
 
     new_width = original_width * 2
     new_height = original_height * 2
 
     resulting_image = MyImage((new_width, new_height))
 
-    for row in range(original_width):
-        for column in range(original_height):
-            # looping over each pixel to set rgb values
+    for row in range(original_height):
+        for column in range(original_width):
 
-            rgb_value = src.get(row, column)
+            # getting the rgb values of the particular row and column using the get function of MyImage
+            current_red, current_green, current_blue = src.get(
+                row, column)
 
-            # 1st image (rotated 90 degrees anticlockwise) on 1st row, 1st column
-            resulting_image.set(row * 2, column * 2, rgb_value)
+            # setting the pixel values on the enlarged image's corresponding coordinates
+            resulting_image.set(row * 2, column * 2,
+                                (current_red, current_green, current_blue))
 
-    for row in range(new_width):
-        for column in range(new_height):
+            if column < original_width - 1:  # if not the last column
 
-            if column % 2 != 0:  # blank columns
-                if column != new_width:
-                    red1 = (resulting_image.get(row, column - 1))[0]
-                    green1 = (resulting_image.get(row, column - 1))[1]
-                    blue1 = (resulting_image.get(row, column - 1))[2]
+                red_right, green_right, blue_right = src.get(
+                    row, column + 1)  # rgb values of next pixel on the right
 
-                    red2 = (resulting_image.get(row, column + 1))[0]
-                    green2 = (resulting_image.get(row, column + 1))[1]
-                    blue2 = (resulting_image.get(row, column + 1))[2]
+                average_red = int((current_red + red_right) / 2)
+                average_green = int((current_green + green_right) / 2)
+                average_blue = int((current_blue + blue_right) / 2)
 
-                    average_red = int((red1 + red2) / 2)
-                    average_green = int((green1 + green2) / 2)
-                    average_blue = int((blue1 + blue2) / 2)
+                resulting_image.set(row * 2, (column * 2) + 1,
+                                    (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
 
+            else:
+                resulting_image.set(row * 2, (column * 2) + 1,
+                                    (current_red, current_green, current_blue))  # setting the same rgb values as the block on the left for the last column
+
+            if row < original_height - 1:  # if not the last row
+
+                # rgb values of the next pixel of the block below
+                red_down, green_down, blue_down = src.get(row + 1, column)
+
+                average_red = int((current_red + red_down) / 2)
+                average_green = int((current_green + green_down) / 2)
+                average_blue = int((current_blue + blue_down) / 2)
+
+                resulting_image.set(
+                    (row * 2) + 1, column * 2, (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
+
+                if column < original_width - 1:  # if not the last column
+
+                    red_bottom_right, green_bottom_right, blue_bottom_right = src.get(
+                        row + 1, column + 1)
+
+                    average_red = int(
+                        (current_red + red_down + red_right + red_bottom_right) / 4)
+                    average_green = int(
+                        (current_green + green_down + green_right + green_bottom_right) / 4)
+                    average_blue = int(
+                        (current_blue + blue_down + blue_right + blue_bottom_right) / 4)
+
+                resulting_image.set(
+                    (row * 2) + 1, (column * 2) + 1, (average_red, average_green, average_blue))  # setting the rgb values for the diagonal block
+
+            if row == original_height - 1:
+
+                resulting_image.set(
+                    (row * 2) + 1, column * 2, (current_red, current_green, current_blue))  # setting the same rgb values as the blocks above for the last row
+                if column < original_width:
                     resulting_image.set(
-                        row, column, (average_red, average_green, average_blue))
-                    # resulting_image.set(row, column, 0.5 *
-                    #                     (resulting_image.get(row, column - 1) + resulting_image.get(row, column + 1)))
-                else:
-                    resulting_image.set(
-                        row, column, (int(red1 / 2), int(green1 / 2), int(blue1 / 2)))
-                    # resulting_image.set(row, column, 0.5 *
-                    #                     (resulting_image.get(row, column - 1)))
-                    # if row != new_width:
-                    #     resulting_image.set(row, column, 0.5 * (resulting_image.get(
-                    #         row - 1, column) + resulting_image.get(row + 1, column)))
-                    # else:
-                    #     resulting_image.set(row, column, 0.5 * (resulting_image.get(
-                    #         row - 1, column)))
-            # else:
-            if row % 2 != 0:  # blank rows
-                if row != new_height:
-                    red1 = (resulting_image.get(row - 1, column))[0]
-                    green1 = (resulting_image.get(row - 1, column))[1]
-                    blue1 = (resulting_image.get(row - 1, column))[2]
-
-                    red2 = (resulting_image.get(row + 1, column))[0]
-                    green2 = (resulting_image.get(row + 1, column))[1]
-                    blue2 = (resulting_image.get(row + 1, column))[2]
-
-                    average_red = int((red1 + red2) / 2)
-                    average_green = int((green1 + green2) / 2)
-                    average_blue = int((blue1 + blue2) / 2)
-
-                    resulting_image.set(
-                        row, column, (average_red, average_green, average_blue))
-                    # resulting_image.set(row, column, 0.5 *
-                    #                     (resulting_image.get(row, column - 1) + resulting_image.get(row, column + 1)))
-                else:
-                    resulting_image.set(
-<<<<<<< HEAD
-                        row, column, (average_red, average_green, average_blue))
-            if column % 2 != 0:  # blank columns
-                if column != new_width - 1:
-
-                    red_left, green_left, blue_left = resulting_image.get(
-                        row, column - 1)
-                    red_right, green_right, blue_right = resulting_image.get(
-                        row, column + 1)
-
-                    average_red = int((red_left + red_right) / 2)
-                    average_green = int((green_left + green_right) / 2)
-                    average_blue = int((blue_left + blue_right) / 2)
-
-                    resulting_image.set(
-                        row, column, (average_red, average_green, average_blue))
-                else:
-                    resulting_image.set(
-                        row, column, (int(red_left / 2), int(green_left / 2), int(blue_left / 2)))
-            if column % 2 != 0:  # blank columns
-                if column != new_width - 1:
-
-                    red_left, green_left, blue_left = resulting_image.get(
-                        row, column - 1)
-                    red_right, green_right, blue_right = resulting_image.get(
-                        row, column + 1)
-
-                    average_red = int((red_left + red_right) / 2)
-                    average_green = int((green_left + green_right) / 2)
-                    average_blue = int((blue_left + blue_right) / 2)
-
-                    resulting_image.set(
-                        row, column, (average_red, average_green, average_blue))
-                else:
-                    resulting_image.set(
-                        row, column, (int(red_left / 2), int(green_left / 2), int(blue_left / 2)))
-    # src.show()
-    # resulting_image.show()
-=======
-                        row, column, (int(red1 / 2), int(green1 / 2), int(blue1 / 2)))
-            #         resulting_image.set(row, column, 0.5 * (resulting_image.get(
-            #             row - 1, column) + resulting_image.get(row + 1, column)))
-            #     else:
-            #         resulting_image.set(row, column, 0.5 * (resulting_image.get(
-            #             row - 1, column)))
->>>>>>> parent of 2fe6ada (Merge branch 'main' of https://github.com/CS-201-Spring-2023/hw1-hw1-l2-group-6)
+                        (row * 2) + 1, (column * 2) + 1, (current_red, current_green, current_blue))  # setting the same rgb values as the blocks above for the last row
 
     return resulting_image
