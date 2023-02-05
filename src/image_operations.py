@@ -97,6 +97,7 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     an image which the result of applying the specified mask to src.
     """
 <<<<<<< HEAD
+<<<<<<< HEAD
     width, height = src.size                    # get width and height seperately
     img = MyImage(src.size)                     # create a blank copy of src dimensions
 
@@ -211,6 +212,8 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     # return img  
 =======
 >>>>>>> parent of a1d5ce2 (update)
+=======
+>>>>>>> parent of a1d5ce2 (update)
 
 
 def resize(src: MyImage) -> MyImage:
@@ -247,6 +250,7 @@ def resize(src: MyImage) -> MyImage:
 
                 red_right, green_right, blue_right = src.get(
                     row, column + 1)  # rgb values of next pixel on the right
+<<<<<<< HEAD
 
                 average_red = int((current_red + red_right) / 2)
                 average_green = int((current_green + green_right) / 2)
@@ -288,6 +292,16 @@ def resize(src: MyImage) -> MyImage:
                     
 =======
 
+=======
+
+                average_red = int((current_red + red_right) / 2)
+                average_green = int((current_green + green_right) / 2)
+                average_blue = int((current_blue + blue_right) / 2)
+
+                resulting_image.set(row * 2, (column * 2) + 1,
+                                    (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
+
+>>>>>>> parent of a1d5ce2 (update)
             else:
                 resulting_image.set(row * 2, (column * 2) + 1,
                                     (current_red, current_green, current_blue))  # setting the same rgb values as the block on the left for the last column
@@ -326,6 +340,9 @@ def resize(src: MyImage) -> MyImage:
                 if column < original_width:
                     resulting_image.set(
                         (row * 2) + 1, (column * 2) + 1, (current_red, current_green, current_blue))  # setting the same rgb values as the blocks above for the last row
+<<<<<<< HEAD
+>>>>>>> parent of a1d5ce2 (update)
+=======
 >>>>>>> parent of a1d5ce2 (update)
 
     return resulting_image
