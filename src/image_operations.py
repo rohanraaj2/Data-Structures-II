@@ -1,5 +1,5 @@
 from src.myimage import MyImage
-import math
+import copy
 
 
 def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: bool = False) -> MyImage:
@@ -17,7 +17,7 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: b
     a copy of src with the indicated channels suppressed.
     """
     width, height = src.size                    # get width and height seperately
-    img = MyImage(src.size)                     # create a blank copy of src dimensions
+    img = MyImage(src.size)
 
     # looping over the pixels using x,y coordinatess
     for x in range(width):
@@ -57,8 +57,10 @@ def rotations(src: MyImage) -> MyImage:
 
     for row in range(original_height):
         for column in range(original_width):
+
             # looping over each pixel to set rgb values
 
+            # getting the rgb values of the particular row and column using the get function of MyImage
             rgb_value = src.get(row, column)
 
             # 1st image (rotated 90 degrees anticlockwise) on 1st row, 1st column
@@ -94,6 +96,7 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     Returns:
     an image which the result of applying the specified mask to src.
     """
+<<<<<<< HEAD
     width, height = src.size                    # get width and height seperately
     img = MyImage(src.size)                     # create a blank copy of src dimensions
 
@@ -206,6 +209,8 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     #             img.set(x, y, (wr, wg, wb))
 
     # return img  
+=======
+>>>>>>> parent of a1d5ce2 (update)
 
 
 def resize(src: MyImage) -> MyImage:
@@ -249,6 +254,7 @@ def resize(src: MyImage) -> MyImage:
 
                 resulting_image.set(row * 2, (column * 2) + 1,
                                     (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
+<<<<<<< HEAD
             else:
                 resulting_image.set(row * 2, (column * 2) + 1,
                                     (current_red, current_green, current_blue))  # setting the same rgb values as the block on the left for the last column
@@ -280,5 +286,46 @@ def resize(src: MyImage) -> MyImage:
                             (row * 2) + 1, (column * 2) + 1, (current_red, current_green, current_blue))
                     
                     
+=======
+
+            else:
+                resulting_image.set(row * 2, (column * 2) + 1,
+                                    (current_red, current_green, current_blue))  # setting the same rgb values as the block on the left for the last column
+
+            if row < original_height - 1:  # if not the last row
+
+                # rgb values of the next pixel of the block below
+                red_down, green_down, blue_down = src.get(row + 1, column)
+
+                average_red = int((current_red + red_down) / 2)
+                average_green = int((current_green + green_down) / 2)
+                average_blue = int((current_blue + blue_down) / 2)
+
+                resulting_image.set(
+                    (row * 2) + 1, column * 2, (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
+
+                if column < original_width - 1:  # if not the last column
+
+                    red_bottom_right, green_bottom_right, blue_bottom_right = src.get(
+                        row + 1, column + 1)
+
+                    average_red = int(
+                        (current_red + red_down + red_right + red_bottom_right) / 4)
+                    average_green = int(
+                        (current_green + green_down + green_right + green_bottom_right) / 4)
+                    average_blue = int(
+                        (current_blue + blue_down + blue_right + blue_bottom_right) / 4)
+
+                resulting_image.set(
+                    (row * 2) + 1, (column * 2) + 1, (average_red, average_green, average_blue))  # setting the rgb values for the diagonal block
+
+            if row == original_height - 1:
+
+                resulting_image.set(
+                    (row * 2) + 1, column * 2, (current_red, current_green, current_blue))  # setting the same rgb values as the blocks above for the last row
+                if column < original_width:
+                    resulting_image.set(
+                        (row * 2) + 1, (column * 2) + 1, (current_red, current_green, current_blue))  # setting the same rgb values as the blocks above for the last row
+>>>>>>> parent of a1d5ce2 (update)
 
     return resulting_image
