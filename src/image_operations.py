@@ -1,5 +1,5 @@
 from src.myimage import MyImage
-import copy
+import math
 
 
 def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: bool = False) -> MyImage:
@@ -17,7 +17,7 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: b
     a copy of src with the indicated channels suppressed.
     """
     width, height = src.size                    # get width and height seperately
-    img = MyImage(src.size)
+    img = MyImage(src.size)                     # create a blank copy of src dimensions
 
     # looping over the pixels using x,y coordinatess
     for x in range(width):
@@ -57,10 +57,8 @@ def rotations(src: MyImage) -> MyImage:
 
     for row in range(original_height):
         for column in range(original_width):
-
             # looping over each pixel to set rgb values
 
-            # getting the rgb values of the particular row and column using the get function of MyImage
             rgb_value = src.get(row, column)
 
             # 1st image (rotated 90 degrees anticlockwise) on 1st row, 1st column
@@ -96,6 +94,118 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     Returns:
     an image which the result of applying the specified mask to src.
     """
+    width, height = src.size                    # get width and height seperately
+    img = MyImage(src.size)                     # create a blank copy of src dimensions
+
+    mask = open(maskfile, 'r').read().splitlines()  
+    mask = list(map(int,mask))                  # produces a list of int values of the file contents
+    n = mask[0]                                 # n: matrix size for nxn
+    mask = mask[1:]                             # listing matrix values in a list
+
+    mask_sum = 0                                # calculating sum of mask values for weighted average
+    for i in mask:
+        mask_sum += i
+
+    for x in range(width):
+        for y in range(height):
+            r_sum = 0
+            g_sum = 0
+            b_sum = 0
+            for i in range(n):
+                for j in range(n):
+                    x_ = x + i - (n // 2)
+                    y_ = y + j - (n // 2)
+                    if 0 <= x_ < width and 0 <= y_ < height:
+                        r, g, b = src.get(x_, y_)
+                        r_sum += r * mask[n * i + j]
+                        g_sum += g * mask[n * i + j]
+                        b_sum += b * mask[n * i + j]
+            if average:
+                count = sum(mask)
+                img.set(x, y, (r_sum // count, g_sum // count, b_sum // count))
+            else:
+                img.set(x, y, (r_sum, g_sum, b_sum))
+
+    return img    
+
+    # for x in range(width):                      # looping over the pixels of the image using x,y coordinates
+    #     for y in range(height):  
+    #         r, g, b = src.get(x,y)
+
+    #         index = math.ceil((n**2)/2)         # index of origin in mask list
+    #         dist = n - n//2                     # distance from origin in mask
+
+    #         wr = r * mask[index]
+    #         wg = g * mask[index]
+    #         wb = b * mask[index]
+
+    #         # trasversing around the mask origin
+    #         for d in range(dist):
+
+    #             up = index - (d+1)*n            # index of value above origin in mask list
+    #             down = index + (d+1)*n          # index of value below origin in mask list
+    #             left = index - d                # index of value to the left of origin in mask list
+    #             right = index + d               # index of value to the right of origin in mask list
+
+    #             # check from top
+    #             if y - d >= 0:
+    #                 r, g, b = src.get(x,y-d)
+    #                 wr += r * mask[up]
+    #                 wg += g * mask[up]
+    #                 wb += b * mask[up]
+
+    #             # check from bottom
+    #             if y + d <= height:
+    #                 r, g, b = src.get(x,y+d)
+    #                 wr += r * mask[down]
+    #                 wg += g * mask[down]
+    #                 wb += b * mask[down]    
+
+    #             # check from right
+    #             if x + d <= width:
+    #                 r, g, b = src.get(x+d,y)
+    #                 wr += r * mask[right]
+    #                 wg += g * mask[right]
+    #                 wb += b * mask[right]
+
+    #             # check from left
+    #             if x - d >= 0:
+    #                 r, g, b = src.get(x-d,y)
+    #                 wr += r * mask[left]
+    #                 wg += g * mask[left]
+    #                 wb += b * mask[left]  
+
+    #             # check diagonals
+    #             if  y - d >= 0 and x + d <= width:  # check from top and right
+    #                 r, g, b = src.get(x+d,y-d)
+    #                 wr += r * mask[up+1]
+    #                 wg += g * mask[up+1]
+    #                 wb += b * mask[up+1]
+
+    #             if  y - d >= 0 and x - d >= 0:      # check from top and left
+    #                 r, g, b = src.get(x-d,y-d)
+    #                 wr += r * mask[up-1]
+    #                 wg += g * mask[up-1]
+    #                 wb += b * mask[up-1]    
+
+    #             if  y + d <= height and x + d <= width: # check from bottom and right
+    #                 r, g, b = src.get(x+d,y+d)
+    #                 wr += r * mask[down+d+1]
+    #                 wg += g * mask[down+d+1]
+    #                 wb += b * mask[down+d+1]    
+
+    #             if  y - d >= 0 and x + d <= width:  # check from bottom and left
+    #                 r, g, b = src.get(x-d,y+d)
+    #                 wr += r * mask[down-d-1]
+    #                 wg += g * mask[down-d-1]
+    #                 wb += b * mask[down-d-1]    
+
+    #         if average == True:                     # mask with weighted average
+    #             img.set(x, y, (wr//mask_sum, wg//mask_sum, wb//mask_sum))
+    #         else:                                   # mask with weighted sum
+    #             img.set(x, y, (wr, wg, wb))
+
+    # return img  
 
 
 def resize(src: MyImage) -> MyImage:
@@ -120,63 +230,65 @@ def resize(src: MyImage) -> MyImage:
     for row in range(original_height):
         for column in range(original_width):
 
-            # getting the rgb values of the particular row and column using the get function of MyImage
-            current_red, current_green, current_blue = src.get(
-                row, column)
+            rgb_value = src.get(row, column)
 
-            # setting the pixel values on the enlarged image's corresponding coordinates
-            resulting_image.set(row * 2, column * 2,
-                                (current_red, current_green, current_blue))
+            resulting_image.set(row * 2, column * 2, rgb_value)
 
-            if column < original_width - 1:  # if not the last column
+    for row in range(new_height):
+        for column in range(new_width):
 
-                red_right, green_right, blue_right = src.get(
-                    row, column + 1)  # rgb values of next pixel on the right
+            if row % 2 != 0:  # blank rows
+                if row != new_height - 1:
+                    red_left, green_left, blue_left = resulting_image.get(
+                        row - 1, column)
+                    red_right, green_right, blue_right = resulting_image.get(
+                        row + 1, column)
+                    
+                    average_red = int((red_left + red_right) / 2)
+                    average_green = int((green_left + green_right) / 2)
+                    average_blue = int((blue_left + blue_right) / 2)
 
-                average_red = int((current_red + red_right) / 2)
-                average_green = int((current_green + green_right) / 2)
-                average_blue = int((current_blue + blue_right) / 2)
-
-                resulting_image.set(row * 2, (column * 2) + 1,
-                                    (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
-
-            else:
-                resulting_image.set(row * 2, (column * 2) + 1,
-                                    (current_red, current_green, current_blue))  # setting the same rgb values as the block on the left for the last column
-
-            if row < original_height - 1:  # if not the last row
-
-                # rgb values of the next pixel of the block below
-                red_down, green_down, blue_down = src.get(row + 1, column)
-
-                average_red = int((current_red + red_down) / 2)
-                average_green = int((current_green + green_down) / 2)
-                average_blue = int((current_blue + blue_down) / 2)
-
-                resulting_image.set(
-                    (row * 2) + 1, column * 2, (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
-
-                if column < original_width - 1:  # if not the last column
-
-                    red_bottom_right, green_bottom_right, blue_bottom_right = src.get(
-                        row + 1, column + 1)
-
-                    average_red = int(
-                        (current_red + red_down + red_right + red_bottom_right) / 4)
-                    average_green = int(
-                        (current_green + green_down + green_right + green_bottom_right) / 4)
-                    average_blue = int(
-                        (current_blue + blue_down + blue_right + blue_bottom_right) / 4)
-
-                resulting_image.set(
-                    (row * 2) + 1, (column * 2) + 1, (average_red, average_green, average_blue))  # setting the rgb values for the diagonal block
-
-            if row == original_height - 1:
-
-                resulting_image.set(
-                    (row * 2) + 1, column * 2, (current_red, current_green, current_blue))  # setting the same rgb values as the blocks above for the last row
-                if column < original_width:
                     resulting_image.set(
-                        (row * 2) + 1, (column * 2) + 1, (current_red, current_green, current_blue))  # setting the same rgb values as the blocks above for the last row
+                        row, column, (average_red, average_green, average_blue))
+
+                else:
+                    resulting_image.set(
+                        row, column, (average_red, average_green, average_blue))
+            if column % 2 != 0:  # blank columns
+                if column != new_width - 1:
+
+                    red_left, green_left, blue_left = resulting_image.get(
+                        row, column - 1)
+                    red_right, green_right, blue_right = resulting_image.get(
+                        row, column + 1)
+
+                    average_red = int((red_left + red_right) / 2)
+                    average_green = int((green_left + green_right) / 2)
+                    average_blue = int((blue_left + blue_right) / 2)
+
+                    resulting_image.set(
+                        row, column, (average_red, average_green, average_blue))
+                else:
+                    resulting_image.set(
+                        row, column, (int(red_left / 2), int(green_left / 2), int(blue_left / 2)))
+            if column % 2 != 0:  # blank columns
+                if column != new_width - 1:
+
+                    red_left, green_left, blue_left = resulting_image.get(
+                        row, column - 1)
+                    red_right, green_right, blue_right = resulting_image.get(
+                        row, column + 1)
+
+                    average_red = int((red_left + red_right) / 2)
+                    average_green = int((green_left + green_right) / 2)
+                    average_blue = int((blue_left + blue_right) / 2)
+
+                    resulting_image.set(
+                        row, column, (average_red, average_green, average_blue))
+                else:
+                    resulting_image.set(
+                        row, column, (int(red_left / 2), int(green_left / 2), int(blue_left / 2)))
+    # src.show()
+    resulting_image.show()
 
     return resulting_image
