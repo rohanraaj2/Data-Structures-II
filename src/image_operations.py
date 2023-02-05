@@ -120,6 +120,17 @@ def resize(src: MyImage) -> MyImage:
     for row in range(original_height):
         for column in range(original_width):
 
+            if row != 0 and column != 0 and column < original_width - 1 and row < original_height - 1:
+
+                top_left = src.get(row - 1, column - 1)
+                top = src.get(row - 1, column)
+                top_right = src.get(row - 1, column + 1)
+                left = src.get(row, column - 1)
+                right = src.get(row, column + 1)
+                bottom_left = src.get(row + 1, column - 1)
+                bottom = src.get(row + 1, column)
+                bottom_right = src.get(row + 1, column + 1)
+                
             # getting the rgb values of the particular row and column using the get function of MyImage
             red_left, green_left, blue_left = src.get(row, column)
 
@@ -151,14 +162,17 @@ def resize(src: MyImage) -> MyImage:
 
                 resulting_image.set(
                     (row * 2) + 1, column * 2, (average_red, average_green, average_blue))
-                
+
                 if column < original_width - 1:
                     red_bottom_right, green_bottom_right, blue_bottom_right = src.get(
                         row + 1, column + 1)
 
-                    average_red = int((red_up + red_down + red_right + red_bottom_right) / 2)
-                    average_green = int((green_up + green_down + green_right + green_bottom_right) / 2)
-                    average_blue = int((blue_up + blue_down + blue_right + blue_bottom_right) / 2)
+                    average_red = int(
+                        (red_up + red_down + red_right + red_bottom_right) / 2)
+                    average_green = int(
+                        (green_up + green_down + green_right + green_bottom_right) / 2)
+                    average_blue = int(
+                        (blue_up + blue_down + blue_right + blue_bottom_right) / 2)
 
                 resulting_image.set(
                     (row * 2) + 1, (column * 2) + 1, (average_red, average_green, average_blue))
