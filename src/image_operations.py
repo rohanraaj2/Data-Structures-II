@@ -230,65 +230,55 @@ def resize(src: MyImage) -> MyImage:
     for row in range(original_height):
         for column in range(original_width):
 
-            rgb_value = src.get(row, column)
+            # getting the rgb values of the particular row and column using the get function of MyImage
+            current_red, current_green, current_blue = src.get(
+                row, column)
 
-            resulting_image.set(row * 2, column * 2, rgb_value)
+            # setting the pixel values on the enlarged image's corresponding coordinates
+            resulting_image.set(row * 2, column * 2,
+                                (current_red, current_green, current_blue))
 
-    for row in range(new_height):
-        for column in range(new_width):
+            if column < original_width - 1:  # if not the last column
 
-            if row % 2 != 0:  # blank rows
-                if row != new_height - 1:
-                    red_left, green_left, blue_left = resulting_image.get(
-                        row - 1, column)
-                    red_right, green_right, blue_right = resulting_image.get(
-                        row + 1, column)
+                red_right, green_right, blue_right = src.get(
+                    row, column + 1)  # rgb values of next pixel on the right
+
+                average_red = int((current_red + red_right) / 2)
+                average_green = int((current_green + green_right) / 2)
+                average_blue = int((current_blue + blue_right) / 2)
+
+                resulting_image.set(row * 2, (column * 2) + 1,
+                                    (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
+            else:
+                resulting_image.set(row * 2, (column * 2) + 1,
+                                    (current_red, current_green, current_blue))  # setting the same rgb values as the block on the left for the last column
+                if row < original_height - 1:  # if not the last row
+                    # rgb values of the next pixel of the block below
+                    red_down, green_down, blue_down = src.get(row + 1, column)
+                    average_red = int((current_red + red_down) / 2)
+                    average_green = int((current_green + green_down) / 2)
+                    average_blue = int((current_blue + blue_down) / 2)
+                    resulting_image.set(
+                        (row * 2) + 1, column * 2, (average_red, average_green, average_blue))  # setting the rgb values for the blank block betweent the two coloured blocks
+                    if column < original_width - 1:  # if not the last column
+                        red_bottom_right, green_bottom_right, blue_bottom_right = src.get(
+                            row + 1, column + 1)
+                        average_red = int(
+                            (current_red + red_down + red_right + red_bottom_right) / 4)
+                        average_green = int(
+                            (current_green + green_down + green_right + green_bottom_right) / 4)
+                        average_blue = int(
+                            (current_blue + blue_down + blue_right + blue_bottom_right) / 4)
+                    resulting_image.set(
+                        (row * 2) + 1, (column * 2) + 1, (average_red, average_green, average_blue))  # setting the rgb values for the diagonal block
+                if row == original_height - 1:
+                    resulting_image.set(
+                        (row * 2) + 1, column * 2, (current_red, current_green, current_blue))  # setting the same rgb values as the blocks above for the last row
+                    if column < original_width:
+                        # setting the same rgb values as the blocks above for the last row
+                        resulting_image.set(
+                            (row * 2) + 1, (column * 2) + 1, (current_red, current_green, current_blue))
                     
-                    average_red = int((red_left + red_right) / 2)
-                    average_green = int((green_left + green_right) / 2)
-                    average_blue = int((blue_left + blue_right) / 2)
-
-                    resulting_image.set(
-                        row, column, (average_red, average_green, average_blue))
-
-                else:
-                    resulting_image.set(
-                        row, column, (average_red, average_green, average_blue))
-            if column % 2 != 0:  # blank columns
-                if column != new_width - 1:
-
-                    red_left, green_left, blue_left = resulting_image.get(
-                        row, column - 1)
-                    red_right, green_right, blue_right = resulting_image.get(
-                        row, column + 1)
-
-                    average_red = int((red_left + red_right) / 2)
-                    average_green = int((green_left + green_right) / 2)
-                    average_blue = int((blue_left + blue_right) / 2)
-
-                    resulting_image.set(
-                        row, column, (average_red, average_green, average_blue))
-                else:
-                    resulting_image.set(
-                        row, column, (int(red_left / 2), int(green_left / 2), int(blue_left / 2)))
-            if column % 2 != 0:  # blank columns
-                if column != new_width - 1:
-
-                    red_left, green_left, blue_left = resulting_image.get(
-                        row, column - 1)
-                    red_right, green_right, blue_right = resulting_image.get(
-                        row, column + 1)
-
-                    average_red = int((red_left + red_right) / 2)
-                    average_green = int((green_left + green_right) / 2)
-                    average_blue = int((blue_left + blue_right) / 2)
-
-                    resulting_image.set(
-                        row, column, (average_red, average_green, average_blue))
-                else:
-                    resulting_image.set(
-                        row, column, (int(red_left / 2), int(green_left / 2), int(blue_left / 2)))
-    # src.show()
-    resulting_image.show()
+                    
 
     return resulting_image

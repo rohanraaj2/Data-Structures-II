@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1675622813 "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" "hw1.pdf" "hw1" 1675622815 0
+["pdflatex"] 1675624113 "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" "hw1.pdf" "hw1" 1675624116 0
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1674663004 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1673454661 11548 df22f82a8ca7f6afd53df890504140c9 ""
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcst0800.pk" 1674663011 8632 0dfa4bb211fc2a5186c4fa2ba45d6b06 ""
@@ -108,8 +108,8 @@
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
   "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" 1674662892 20168 c8394684213528a5beb5ae4c8cae134c ""
-  "hw1.aux" 1675622815 7618 a73bf9321cf6e98019556e06fe6a99f8 "pdflatex"
-  "hw1.out" 1675622815 2373 ee3a2bf7cb0a5131d692e745246ae8f1 "pdflatex"
+  "hw1.aux" 1675624115 7618 a73bf9321cf6e98019556e06fe6a99f8 "pdflatex"
+  "hw1.out" 1675624115 2373 ee3a2bf7cb0a5131d692e745246ae8f1 "pdflatex"
   "hw1.tex" 1674662892 20168 c8394684213528a5beb5ae4c8cae134c ""
   "images//campus-blur.jpg" 1674662892 29255 bdc6e17dbc425d55de3e104adb09d6fc ""
   "images//campus-edge-detect.jpg" 1674662892 68783 8596a4f7089890269988d3af65845ca6 ""
@@ -123,7 +123,7 @@
   "images//pool.jpg" 1674662892 176939 d0cd08ddf4755233476d9233f7c85446 ""
   "images//resize.png" 1674662892 38076 cef0c9c608d882350f0a17c36abb62b1 ""
   "pythonhighlight.sty" 1674662892 5150 40967d7d3281875008d1e2da4cf4c81e ""
-  "src/image_operations.py" 1675622809 11831 91f3096e083eb2a69f05041472879780 ""
+  "src/image_operations.py" 1675624112 12472 d34b5ed04ea595387b1d23dfd853b0f8 ""
   "src/myimage.py" 1675622416 5636 91bab4f40220beee511d5433550f87a5 ""
   "src/mylist.py" 1675620048 6125 95a48f0fed5d7a40216a1a02e637d802 ""
   (generated)
