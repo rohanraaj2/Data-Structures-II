@@ -19,9 +19,6 @@ class Case:
         self.rotated = ''
         self.masked = ''
         self.resize = ''
-
-        # self.resized = ''
-
         self.suppress = []
         self.maskfiles = []
         self.maskaverages = []
@@ -72,41 +69,9 @@ def test_array_resize():
 
         resized = urlopen(case.resize)
 
-        # im = Image.open(OUTPUT_IMAGE)
-
-        # pixellist = list(im.getdata())
-
-        # im2 = Image.open(resized)
-
-        # pixellist2 = list(im2.getdata())
-
-        # # im.show()
-
-        # # im2.show()
-
-        # compare(pixellist, pixellist2)
-
         assert Image.open(OUTPUT_IMAGE) == Image.open(resized),\
             f'rotation of {case.source} does not match reference'\
             f'{case.resized}'
-
-
-def compare(pixellist, pixellist2):
-    # print("pixel1 : ", pixellist[1468])
-
-    # print("pixel2:", pixellist2[1468])
-
-    for i in range(len(pixellist)):
-
-        if pixellist[i] != pixellist2[i]:
-
-            print("pixel1 : ", pixellist[i])
-
-            print("pixel2:", pixellist2[i])
-
-            print("counter :", i)
-
-            # break
 
 
 def test_array_suppression():
