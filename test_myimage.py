@@ -80,9 +80,9 @@ def test_array_resize():
 
         pixellist2 = list(im2.getdata())
 
-        im.show()
+        # im.show()
 
-        im2.show()
+        # im2.show()
 
         compare(pixellist, pixellist2)
 
@@ -90,7 +90,8 @@ def test_array_resize():
             f'rotation of {case.source} does not match reference'\
             f'{case.resized}'
 
-def compare (pixellist, pixellist2):
+
+def compare(pixellist, pixellist2):
 
     for i in range(len(pixellist)):
 

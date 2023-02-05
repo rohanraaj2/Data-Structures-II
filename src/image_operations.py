@@ -125,7 +125,7 @@ def resize(src: MyImage) -> MyImage:
 
             resulting_image.set(row * 2, column * 2,
                                 (red_left, green_left, blue_left))
-            
+
             if column < original_width - 1:
                 red_right, green_right, blue_right = src.get(row, column + 1)
 
@@ -133,30 +133,40 @@ def resize(src: MyImage) -> MyImage:
                 average_green = int((green_left + green_right) / 2)
                 average_blue = int((blue_left + blue_right) / 2)
 
-                resulting_image.set(row * 2, column * 2 + 1,
+                resulting_image.set(row * 2, (column * 2) + 1,
                                     (average_red, average_green, average_blue))
-            
-            
+
             else:
-                resulting_image.set(row * 2, column * 2 + 1,
-                    (red_left, green_left, blue_left))
+                resulting_image.set(row * 2, (column * 2) + 1,
+                                    (red_left, green_left, blue_left))
 
             red_up, green_up, blue_up = src.get(row, column)
 
             if row < original_height - 1:
                 red_down, green_down, blue_down = src.get(row + 1, column)
-            
+
                 average_red = int((red_up + red_down) / 2)
                 average_green = int((green_up + green_down) / 2)
                 average_blue = int((blue_up + blue_down) / 2)
 
                 resulting_image.set(
                     (row * 2) + 1, column * 2, (average_red, average_green, average_blue))
+                
+                if column < original_width - 1:
+                    red_bottom_right, green_bottom_right, blue_bottom_right = src.get(
+                        row + 1, column + 1)
+
+                    average_red = int((red_up + red_down + red_right + red_bottom_right) / 2)
+                    average_green = int((green_up + green_down + green_right + green_bottom_right) / 2)
+                    average_blue = int((blue_up + blue_down + blue_right + blue_bottom_right) / 2)
+
+                resulting_image.set(
+                    (row * 2) + 1, (column * 2) + 1, (average_red, average_green, average_blue))
             else:
                 resulting_image.set(
                     (row * 2) + 1, column * 2, (red_up, green_up, blue_up))
-                    
+
     # src.show()
-    # resulting_image.show()
+    resulting_image.show()
 
     return resulting_image
