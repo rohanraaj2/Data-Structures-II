@@ -121,10 +121,10 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
             for i in range(n):
                 for j in range(n):
                     index = n * i + j           # index of element we want to access from mask list
-                    x_ = x + i - origin
-                    y_ = y + j - origin
+                    x_ = x + i - origin         # gives row coordinate of image with mask
+                    y_ = y + j - origin         # gives col coordinate of image with mask
 
-                    if x_ >= 0 and x_ < width and y_ >= 0 and y < height:       # check edges
+                    if x_ >= 0 and x_ < width and y_ >= 0 and y_ < height:       # check edges
                         r, g, b = src.get(x_, y_)
                         wr += r * mask[index]
                         wg += g * mask[index]
