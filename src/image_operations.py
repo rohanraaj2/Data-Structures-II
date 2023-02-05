@@ -120,17 +120,6 @@ def resize(src: MyImage) -> MyImage:
     for row in range(original_height):
         for column in range(original_width):
 
-            if row != 0 and column != 0 and column < original_width - 1 and row < original_height - 1:
-
-                top_left = src.get(row - 1, column - 1)
-                top = src.get(row - 1, column)
-                top_right = src.get(row - 1, column + 1)
-                left = src.get(row, column - 1)
-                right = src.get(row, column + 1)
-                bottom_left = src.get(row + 1, column - 1)
-                bottom = src.get(row + 1, column)
-                bottom_right = src.get(row + 1, column + 1)
-
             # getting the rgb values of the particular row and column using the get function of MyImage
             current_red, current_green, current_blue = src.get(
                 row, column)
@@ -151,8 +140,6 @@ def resize(src: MyImage) -> MyImage:
             else:
                 resulting_image.set(row * 2, (column * 2) + 1,
                                     (current_red, current_green, current_blue))
-
-            # red_up, green_up, blue_up = src.get(row, column)
 
             if row < original_height - 1:
                 red_down, green_down, blue_down = src.get(row + 1, column)
@@ -177,9 +164,12 @@ def resize(src: MyImage) -> MyImage:
 
                 resulting_image.set(
                     (row * 2) + 1, (column * 2) + 1, (average_red, average_green, average_blue))
-            else:
+            if row == original_height - 1:
                 resulting_image.set(
                     (row * 2) + 1, column * 2, (current_red, current_green, current_blue))
+                if column < original_width:
+                    resulting_image.set(
+                        (row * 2) + 1, (column * 2) + 1, (current_red, current_green, current_blue))
 
     # src.show()
     # resulting_image.show()

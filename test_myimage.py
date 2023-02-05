@@ -20,7 +20,7 @@ class Case:
         self.masked = ''
         self.resize = ''
 
-        self.resized = ''
+        # self.resized = ''
 
         self.suppress = []
         self.maskfiles = []
@@ -72,19 +72,19 @@ def test_array_resize():
 
         resized = urlopen(case.resize)
 
-        im = Image.open(OUTPUT_IMAGE)
+        # im = Image.open(OUTPUT_IMAGE)
 
-        pixellist = list(im.getdata())
+        # pixellist = list(im.getdata())
 
-        im2 = Image.open(resized)
+        # im2 = Image.open(resized)
 
-        pixellist2 = list(im2.getdata())
+        # pixellist2 = list(im2.getdata())
 
-        # im.show()
+        # # im.show()
 
-        # im2.show()
+        # # im2.show()
 
-        compare(pixellist, pixellist2)
+        # compare(pixellist, pixellist2)
 
         assert Image.open(OUTPUT_IMAGE) == Image.open(resized),\
             f'rotation of {case.source} does not match reference'\
@@ -92,9 +92,9 @@ def test_array_resize():
 
 
 def compare(pixellist, pixellist2):
-    # print("pixel1 : ", pixellist[1471])
+    # print("pixel1 : ", pixellist[1468])
 
-    # print("pixel2:", pixellist2[1471])
+    # print("pixel2:", pixellist2[1468])
 
     for i in range(len(pixellist)):
 
@@ -106,7 +106,7 @@ def compare(pixellist, pixellist2):
 
             print("counter :", i)
 
-            break
+            # break
 
 
 def test_array_suppression():
@@ -155,6 +155,3 @@ def test_array_mask():
             f'masking of {case.source} does not match reference '\
             f'{case.masked}\nunder masks {case.maskfiles} '\
             f'and averages {case.maskaverages}'
-
-
-test_array_resize()
