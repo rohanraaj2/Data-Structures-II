@@ -169,11 +169,11 @@ def resize(src: MyImage) -> MyImage:
                         row + 1, column + 1)
 
                     average_red = int(
-                        (current_red + red_down + red_right + red_bottom_right) / 2)
+                        (current_red + red_down + red_right + red_bottom_right) / 4)
                     average_green = int(
-                        (current_green + green_down + green_right + green_bottom_right) / 2)
+                        (current_green + green_down + green_right + green_bottom_right) / 4)
                     average_blue = int(
-                        (current_blue + blue_down + blue_right + blue_bottom_right) / 2)
+                        (current_blue + blue_down + blue_right + blue_bottom_right) / 4)
 
                 resulting_image.set(
                     (row * 2) + 1, (column * 2) + 1, (average_red, average_green, average_blue))
@@ -182,6 +182,6 @@ def resize(src: MyImage) -> MyImage:
                     (row * 2) + 1, column * 2, (current_red, current_green, current_blue))
 
     # src.show()
-    resulting_image.show()
+    # resulting_image.show()
 
     return resulting_image

@@ -92,6 +92,9 @@ def test_array_resize():
 
 
 def compare(pixellist, pixellist2):
+    # print("pixel1 : ", pixellist[1471])
+
+    # print("pixel2:", pixellist2[1471])
 
     for i in range(len(pixellist)):
 
