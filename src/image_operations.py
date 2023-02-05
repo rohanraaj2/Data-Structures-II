@@ -1,5 +1,5 @@
 from src.myimage import MyImage
-import copy
+import math
 
 def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: bool = False) -> MyImage:
     """Returns a copy of src in which the indicated channels are suppressed.
@@ -16,7 +16,7 @@ def remove_channel(src: MyImage, red: bool = False, green: bool = False, blue: b
     a copy of src with the indicated channels suppressed.
     """
     width, height = src.size                    # get width and height seperately
-    img = MyImage(src.size)
+    img = MyImage(src.size)                     # create a blank copy of src dimensions
 
     for x in range(width):                      # looping over the pixels using x,y coordinatess
         for y in range(height):      
@@ -91,8 +91,118 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     Returns:
     an image which the result of applying the specified mask to src.
     """
+    width, height = src.size                    # get width and height seperately
+    img = MyImage(src.size)                     # create a blank copy of src dimensions
 
-    pass
+    mask = open(maskfile, 'r').read().splitlines()  
+    mask = list(map(int,mask))                  # produces a list of int values of the file contents
+    n = mask[0]                                 # n: matrix size for nxn
+    mask = mask[1:]                             # listing matrix values in a list
+
+    mask_sum = 0                                # calculating sum of mask values for weighted average
+    for i in mask:
+        mask_sum += i
+
+    for x in range(width):
+        for y in range(height):
+            r_sum = 0
+            g_sum = 0
+            b_sum = 0
+            for i in range(n):
+                for j in range(n):
+                    x_ = x + i - (n // 2)
+                    y_ = y + j - (n // 2)
+                    if 0 <= x_ < width and 0 <= y_ < height:
+                        r, g, b = src.get(x_, y_)
+                        r_sum += r * mask[n * i + j]
+                        g_sum += g * mask[n * i + j]
+                        b_sum += b * mask[n * i + j]
+            if average:
+                count = sum(mask)
+                img.set(x, y, (r_sum // count, g_sum // count, b_sum // count))
+            else:
+                img.set(x, y, (r_sum, g_sum, b_sum))
+
+    return img    
+
+    # for x in range(width):                      # looping over the pixels of the image using x,y coordinates
+    #     for y in range(height):  
+    #         r, g, b = src.get(x,y)
+
+    #         index = math.ceil((n**2)/2)         # index of origin in mask list
+    #         dist = n - n//2                     # distance from origin in mask
+
+    #         wr = r * mask[index]
+    #         wg = g * mask[index]
+    #         wb = b * mask[index]
+
+    #         # trasversing around the mask origin
+    #         for d in range(dist):
+
+    #             up = index - (d+1)*n            # index of value above origin in mask list
+    #             down = index + (d+1)*n          # index of value below origin in mask list
+    #             left = index - d                # index of value to the left of origin in mask list
+    #             right = index + d               # index of value to the right of origin in mask list
+
+    #             # check from top
+    #             if y - d >= 0:
+    #                 r, g, b = src.get(x,y-d)
+    #                 wr += r * mask[up]
+    #                 wg += g * mask[up]
+    #                 wb += b * mask[up]
+
+    #             # check from bottom
+    #             if y + d <= height:
+    #                 r, g, b = src.get(x,y+d)
+    #                 wr += r * mask[down]
+    #                 wg += g * mask[down]
+    #                 wb += b * mask[down]    
+
+    #             # check from right
+    #             if x + d <= width:
+    #                 r, g, b = src.get(x+d,y)
+    #                 wr += r * mask[right]
+    #                 wg += g * mask[right]
+    #                 wb += b * mask[right]
+
+    #             # check from left
+    #             if x - d >= 0:
+    #                 r, g, b = src.get(x-d,y)
+    #                 wr += r * mask[left]
+    #                 wg += g * mask[left]
+    #                 wb += b * mask[left]  
+
+    #             # check diagonals
+    #             if  y - d >= 0 and x + d <= width:  # check from top and right
+    #                 r, g, b = src.get(x+d,y-d)
+    #                 wr += r * mask[up+1]
+    #                 wg += g * mask[up+1]
+    #                 wb += b * mask[up+1]
+
+    #             if  y - d >= 0 and x - d >= 0:      # check from top and left
+    #                 r, g, b = src.get(x-d,y-d)
+    #                 wr += r * mask[up-1]
+    #                 wg += g * mask[up-1]
+    #                 wb += b * mask[up-1]    
+
+    #             if  y + d <= height and x + d <= width: # check from bottom and right
+    #                 r, g, b = src.get(x+d,y+d)
+    #                 wr += r * mask[down+d+1]
+    #                 wg += g * mask[down+d+1]
+    #                 wb += b * mask[down+d+1]    
+
+    #             if  y - d >= 0 and x + d <= width:  # check from bottom and left
+    #                 r, g, b = src.get(x-d,y+d)
+    #                 wr += r * mask[down-d-1]
+    #                 wg += g * mask[down-d-1]
+    #                 wb += b * mask[down-d-1]    
+
+    #         if average == True:                     # mask with weighted average
+    #             img.set(x, y, (wr//mask_sum, wg//mask_sum, wb//mask_sum))
+    #         else:                                   # mask with weighted sum
+    #             img.set(x, y, (wr, wg, wb))
+
+    # return img  
 
 
 def resize(src: MyImage) -> MyImage:
