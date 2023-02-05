@@ -80,9 +80,9 @@ def test_array_resize():
 
         pixellist2 = list(im2.getdata())
 
-        # im.show()
+        im.show()
 
-        # im2.show()
+        im2.show()
 
         compare(pixellist, pixellist2)
 
