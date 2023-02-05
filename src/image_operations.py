@@ -95,24 +95,20 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     Returns:
     an image which the result of applying the specified mask to src.
     """
-    width, height = src.size                    # get width and height seperately
-    # create a blank copy of src dimensions
-    img = MyImage(src.size)
+    width, height = src.size                    # get width and height seperately                            
+    img = MyImage(src.size)                     # create a blank copy of src dimensions
 
     mask = open(maskfile, 'r').read().splitlines()
-    # produces a list of int values of the file contents
-    mask = list(map(int, mask))
+    mask = list(map(int, mask))                 # produces a list of int values of the file contents
     n = mask[0]                                 # n: matrix size for nxn
-    # listing matrix values in a list
-    mask = mask[1:]
+    mask = mask[1:]                             # listing matrix values in a list
 
     # calculating sum of mask values for weighted average
     mask_sum = 0
     for i in mask:
         mask_sum += i
 
-    # center of mask appears at n//2,n//2 position in matrix
-    origin = n//2
+    origin = n//2                               # center of mask appears at n//2,n//2 position in matrix
 
     for x in range(width):                      # looping over the pixels of the image
         for y in range(height):
