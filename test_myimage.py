@@ -66,9 +66,7 @@ def test_array_resize():
             continue
         source = urlopen(case.source)
         resize(MyImage.open(source)).save(OUTPUT_IMAGE)
-
         resized = urlopen(case.resize)
-
         assert Image.open(OUTPUT_IMAGE) == Image.open(resized),\
             f'rotation of {case.source} does not match reference'\
             f'{case.resized}'
