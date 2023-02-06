@@ -154,14 +154,14 @@ def resize(src: MyImage) -> MyImage:
     an image twice the size of src.
     """
 
-    original_width, original_height = src.size
+    original_width, original_height = src.size # dimensions of original image
 
-    new_width = original_width * 2
+    new_width = original_width * 2  # dimensions of enlarged image
     new_height = original_height * 2
 
-    resulting_image = MyImage((new_width, new_height))
+    resulting_image = MyImage((new_width, new_height)) # new object created for enlarged image
 
-    for row in range(original_height):
+    for row in range(original_height): # looping over each pixel of the original image instead of enlarged image to avoid excessive looping
         for column in range(original_width):
 
             # getting the rgb values of the particular row and column using the get function of MyImage
