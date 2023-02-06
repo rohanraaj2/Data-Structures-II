@@ -108,34 +108,38 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
     for i in mask:
         mask_sum += i
 
-    origin = n//2                               # center of mask appears at n//2,n//2 position in matrix
+    origin = n // 2                               # center of mask appears at n//2,n//2 position in matrix
     # oi = math.ceil((n**2)/2)                    # index of origin in mask list
 
     for x in range(width):                      # looping over the pixels of the image
         for y in range(height):
             # initial weighted r,g,b values
-            wr = 0
-            wg = 0
-            wb = 0
+            # wr = 0
+            # wg = 0
+            # wb = 0
+            rgb = 0
 
             # looping over rows and columns of mask ie a nxn matrix
             for i in range(n):
                 for j in range(n):
-                    index = n * i + j           # index of element we want to access from mask list
-                    x_ = x + i - origin         # gives row coordinate of image when mask is applied
-                    y_ = y + j - origin         # gives col coordinate of image when mask is applied
 
-                    if x_ >= 0 and x_ < width and y_ >= 0 and y_ < height:       # check edges
-                        r, g, b = src.get(x_, y_)
+                    index = (n * i) + j           # index of element we want to access from mask list
+                    ix = x + i - origin           # gives row coordinate of image when mask is applied
+                    iy = y + j - origin           # gives col coordinate of image when mask is applied
+
+                    if ix >= 0 and ix < width and iy >= 0 and iy < height:       # check edges
+                        r, g, b = src.get(ix, iy)
                         # adding weighted sums
-                        wr += r * mask[index]   
-                        wg += g * mask[index]
-                        wb += b * mask[index]
+                        # wr += r * mask[index]   
+                        # wg += g * mask[index]
+                        # wb += b * mask[index]
+                        rgb += ((r + g + b) // 3) * mask[index]
 
-            if average:                         # for weighted averge
-                img.set(x, y, (wr // mask_sum, wg // mask_sum, wb // mask_sum))
+            w_avg = rgb // mask_sum
+            if average == True:                    # for weighted averge
+                img.set(x, y, (w_avg, w_avg, w_avg))
             else:
-                img.set(x, y, (wr, wg, wb))     # for weighted sum
+                img.set(x, y, (rgb, rgb, rgb))     # for weighted sum
 
     # src.show()
     img.show()
