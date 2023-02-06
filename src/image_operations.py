@@ -109,10 +109,11 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
         mask_sum += i
 
     origin = n//2                               # center of mask appears at n//2,n//2 position in matrix
+    # oi = math.ceil((n**2)/2)                    # index of origin in mask list
 
     for x in range(width):                      # looping over the pixels of the image
         for y in range(height):
-            # weighted r,g,b values
+            # initial weighted r,g,b values
             wr = 0
             wg = 0
             wb = 0
@@ -121,12 +122,13 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
             for i in range(n):
                 for j in range(n):
                     index = n * i + j           # index of element we want to access from mask list
-                    x_ = x + i - origin         # gives row coordinate of image with mask
-                    y_ = y + j - origin         # gives col coordinate of image with mask
+                    x_ = x + i - origin         # gives row coordinate of image when mask is applied
+                    y_ = y + j - origin         # gives col coordinate of image when mask is applied
 
                     if x_ >= 0 and x_ < width and y_ >= 0 and y_ < height:       # check edges
                         r, g, b = src.get(x_, y_)
-                        wr += r * mask[index]
+                        # adding weighted sums
+                        wr += r * mask[index]   
                         wg += g * mask[index]
                         wb += b * mask[index]
 
@@ -135,7 +137,7 @@ def apply_mask(src: MyImage, maskfile: str, average: bool = True) -> MyImage:
             else:
                 img.set(x, y, (wr, wg, wb))     # for weighted sum
 
-    src.show()
+    # src.show()
     img.show()
     return img
 
