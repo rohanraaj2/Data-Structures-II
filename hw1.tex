@@ -312,10 +312,10 @@ The grading is defined in the accompanying rubric file.
   \begin{solution}
     \newline
     Let's assume we have to perform the append operation n times. 
-    Let the cost of each append operation is $x_i$, while the size of the array after each append operation is $l_i$. 
+    Let the cost of each append operation be $x_i$, while the size of the array after each append operation be $l_i$. 
     \newline
     \newline
-    We want to prove that the append() operation still takes O(1) time in the amortized sense.
+    We want to prove that the append() operation still takes O(1) time in the amortized sense even if it reserves space for $n + \lceil \frac{n}{4} \rceil$ elements instead of $2n$ elements.
     That means that if we apply the append operation n times, our total cost would be $O(n)$
     \newline
     \newline

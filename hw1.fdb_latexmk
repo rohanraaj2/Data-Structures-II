@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1675708980 "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" "hw1.pdf" "hw1" 1675708982 0
+["pdflatex"] 1675709230 "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" "hw1.pdf" "hw1" 1675709232 0
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1675708035 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1673454661 11548 df22f82a8ca7f6afd53df890504140c9 ""
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcst0800.pk" 1674663011 8632 0dfa4bb211fc2a5186c4fa2ba45d6b06 ""
@@ -108,10 +108,10 @@
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1654690828 7147 be6981d9f5d866a5634048c4a11814a9 ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" 1675708979 22428 af325540a4bdb5fa8f083e138433f32a ""
-  "hw1.aux" 1675708982 7618 6cb8fb522df6e04019254e42aa7d3d40 "pdflatex"
-  "hw1.out" 1675708982 2373 ee3a2bf7cb0a5131d692e745246ae8f1 "pdflatex"
-  "hw1.tex" 1675708979 22428 af325540a4bdb5fa8f083e138433f32a ""
+  "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" 1675709229 22524 d683d55297d5929833de3484a71f1618 ""
+  "hw1.aux" 1675709232 7618 6cb8fb522df6e04019254e42aa7d3d40 "pdflatex"
+  "hw1.out" 1675709232 2373 ee3a2bf7cb0a5131d692e745246ae8f1 "pdflatex"
+  "hw1.tex" 1675709229 22524 d683d55297d5929833de3484a71f1618 ""
   "images//campus-blur.jpg" 1674662892 29255 bdc6e17dbc425d55de3e104adb09d6fc ""
   "images//campus-edge-detect.jpg" 1674662892 68783 8596a4f7089890269988d3af65845ca6 ""
   "images//campus.jpeg" 1674662892 63380 b954d8bfea7672d5b36d6fdf2adbc284 ""
