@@ -310,11 +310,42 @@ The grading is defined in the accompanying rubric file.
   \titledquestion{Amortized Analysis}
   Consider an \pyth{ArrayStack} implementation of the \pyth{List} interface with a slightly altered \pyth{resize()} operation. Instead of reserving space for $2n$ elements in the new array, it reserves space for $n + \lceil \frac{n}{4} \rceil$ elements. Prove that the \pyth{append()} operation still takes $O(1)$ time in the amortized sense.
   \begin{solution}
-    
+    \newline
     Let's assume we have to perform the append operation n times. 
-    Let the cost of each append operation is $c_i$, while the size of the array after each append operation is $s_i$
+    Let the cost of each append operation is $x_i$, while the size of the array after each append operation is $l_i$. 
+    \newline
+    \newline
     We want to prove that the append() operation still takes O(1) time in the amortized sense.
-    That means applying the append operation n times, our total cost would be $O(n)$
+    That means that if we apply the append operation n times, our total cost would be $O(n)$
+    \newline
+    \newline
+    The total cost of resizing is calculated by adding the cost every time resize operation is performed, i.e. the size goes from $l_i$ (which is our current size) to $l_{i+1}$ (which is our size after resize operation is performed), to total.  Here, $l_i$ is $k \cdot \frac{n}{4}$ where $k$ is a positive integer
+    \newline
+    \newline
+    Using the equation for new array size (after resizing operation is performed):
+    \newline
+    \newline
+    $l_{i+1} = n + \left\lfloor \frac{l_i}{4} \right\rfloor$
+    \newline
+    \newline
+    Since $l_i$ is $k \cdot \frac{n}{4}$, substituting it in the equation $l_{i+1} = n + \left\lfloor \frac{l_i}{4} \right\rfloor = n + \left\lfloor \frac{k \cdot \frac{n}{4}}{4} \right\rfloor = n + \left\lfloor \frac{k}{4} \right\rfloor \cdot \frac{n}{4}$
+    \newline
+    \newline
+    Because $k$ is a positive integer, $\left\lfloor \frac{k}{4} \right\rfloor \cdot \frac{n}{4} < \left\lfloor \frac{k}{4} \right\rfloor \cdot \frac{n}{4} + \frac{1}{4} \cdot \frac{n}{4}$.
+    \newline
+    \newline
+    Therefore, $l_{i+1} < n + \frac{n}{4} \cdot \left(\frac{k}{4} + 1\right)$.
+    \newline
+    \newline
+    This shows that the size of array after resize operation $ < n + \frac{n}{4}$ always. Hence, the total resize operations cost $ = O(n)$.
+    \newline
+    \newline
+    The cost every time append operation peformed $x_i =  1$. Therefore, the total cost which is the cost of this operation performed $n$ times would be $O(n)$. This is the cost for one resize operation, i.e. the size goes from $l_i$ to $l_{i+1}$.
+    \newline
+    \newline
+    The total cost for all resize operations would be the sum of the cost of each of the resize operation, i.e. $O(n) + O(n) = O(n)$. Therefore, the the average cost per append operation is $O(1)$.
+    
+
 
   \end{solution}
 

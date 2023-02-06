@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1675706621 "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" "hw1.pdf" "hw1" 1675706623 0
-  "C:/Users/rohan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1674663004 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
+["pdflatex"] 1675708980 "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" "hw1.pdf" "hw1" 1675708982 0
+  "C:/Users/rohan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1675708035 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1673454661 11548 df22f82a8ca7f6afd53df890504140c9 ""
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcst0800.pk" 1674663011 8632 0dfa4bb211fc2a5186c4fa2ba45d6b06 ""
   "C:/Users/rohan/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tctt0800.pk" 1673454659 7416 b70b9cc8846573d551a8aba29f0ba341 ""
@@ -32,6 +32,7 @@
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1247596667 30251 6afa5cb1d0204815a708a080681d4674 ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247596667 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "C:/Users/rohan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb" 1247596667 37912 07513ec114ac737ab54cea0152f4424b ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1247596667 36281 c355509802a035cadc5f15869451dcee ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb" 1247596667 36094 798f80770b3b148ceedd006d487db67c ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
@@ -107,10 +108,10 @@
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1654690828 7147 be6981d9f5d866a5634048c4a11814a9 ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/rohan/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" 1675706621 20542 8c94620d1fce2737ee6e92bb3efbce00 ""
-  "hw1.aux" 1675706623 7618 a73bf9321cf6e98019556e06fe6a99f8 "pdflatex"
-  "hw1.out" 1675706623 2373 ee3a2bf7cb0a5131d692e745246ae8f1 "pdflatex"
-  "hw1.tex" 1675706621 20542 8c94620d1fce2737ee6e92bb3efbce00 ""
+  "c:/Users/rohan/OneDrive/Documents/GitHub/hw1-hw1-l2-group-6/hw1.tex" 1675708979 22428 af325540a4bdb5fa8f083e138433f32a ""
+  "hw1.aux" 1675708982 7618 6cb8fb522df6e04019254e42aa7d3d40 "pdflatex"
+  "hw1.out" 1675708982 2373 ee3a2bf7cb0a5131d692e745246ae8f1 "pdflatex"
+  "hw1.tex" 1675708979 22428 af325540a4bdb5fa8f083e138433f32a ""
   "images//campus-blur.jpg" 1674662892 29255 bdc6e17dbc425d55de3e104adb09d6fc ""
   "images//campus-edge-detect.jpg" 1674662892 68783 8596a4f7089890269988d3af65845ca6 ""
   "images//campus.jpeg" 1674662892 63380 b954d8bfea7672d5b36d6fdf2adbc284 ""
