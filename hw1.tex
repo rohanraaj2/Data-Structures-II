@@ -310,6 +310,11 @@ The grading is defined in the accompanying rubric file.
   \titledquestion{Amortized Analysis}
   Consider an \pyth{ArrayStack} implementation of the \pyth{List} interface with a slightly altered \pyth{resize()} operation. Instead of reserving space for $2n$ elements in the new array, it reserves space for $n + \lceil \frac{n}{4} \rceil$ elements. Prove that the \pyth{append()} operation still takes $O(1)$ time in the amortized sense.
   \begin{solution}
+    
+    Let's assume we have to perform the append operation n times. 
+    Let the cost of each append operation is $c_i$, while the size of the array after each append operation is $s_i$
+    We want to prove that the append() operation still takes O(1) time in the amortized sense.
+    That means applying the append operation n times, our total cost would be $O(n)$
 
   \end{solution}
 
