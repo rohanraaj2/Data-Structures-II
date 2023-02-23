@@ -1,12 +1,63 @@
 import array
 
 class DynamicArrayList:
-    pass
 
+    def __init__(self) -> None:
+        pass
+
+    def insert(index : int , value) -> None:
+        pass
+
+    def delete(index : int) -> None:
+        pass
+
+    def get(index : int):
+        pass
+
+    def size() -> int:
+        pass
+
+    def display() -> str:
+        pass    
+
+
+class Node:
+
+    def __init__(self, data : int) -> None:
+        self.data = data
+        self.next = None
 
 class LinkedList:
-    
-    pass
+
+    def __init__(self) -> None:
+        # n : size of list, head : pointing to start of list
+        # initialized to none as list is empty initially
+        n = None
+        head = None
+
+    def insert(self, index : int , value) -> None:
+        node = Node(value)                              # create a new node using Node class
+
+        if self.n == 0:                                 # check if list is empty
+            self.head = node                            # if empty, head is assigned node
+        else:                                           
+            i = self.head                               # if not empty, traverse through the list to find the tail
+            while i.next != None:
+                i = self.head.next    
+            i.next = node                               # assign the node to the tail of the list
+        pass
+
+    def delete(index : int) -> None:
+        pass
+
+    def get(index : int):
+        pass
+
+    def size() -> int:
+        pass
+
+    def display() -> str:
+        pass 
 
 
 def load(file_path, out_file):
