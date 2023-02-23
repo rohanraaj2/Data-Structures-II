@@ -30,22 +30,24 @@ class Node:
 class LinkedList:
 
     def __init__(self) -> None:
-        # n : size of list, head : pointing to start of list
+        # head : pointing to start of list
         # initialized to none as list is empty initially
-        n = None
-        head = None
+        self.head = None
 
-    def insert(self, index : int , value) -> None:
+    def insert(self, index : int , value : int) -> None:
         node = Node(value)                              # create a new node using Node class
 
-        if self.n == 0:                                 # check if list is empty
-            self.head = node                            # if empty, head is assigned node
+        if index == 0:                                  # if index is 0, that means add at the start of the list
+            node.next = self.head
+            self.head = node
         else:                                           
             i = self.head                               # if not empty, traverse through the list to find the tail
-            while i.next != None:
-                i = self.head.next    
+            count = 0
+            while count < index-1 and i.next != None:
+                i = i.next    
+                count += 1
+            node.next = i.next
             i.next = node                               # assign the node to the tail of the list
-        pass
 
     def delete(index : int) -> None:
         pass
