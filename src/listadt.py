@@ -30,8 +30,7 @@ class Node:
 class LinkedList:
 
     def __init__(self) -> None:
-        # head : pointing to start of list
-        # initialized to none as list is empty initially
+        # head : pointing to start of list, initialized to none as list is empty initially
         self.head = None
 
     def insert(self, index : int , value : int) -> None:
@@ -49,17 +48,40 @@ class LinkedList:
             node.next = i.next
             i.next = node                               # assign the node to the tail of the list
 
-    def delete(index : int) -> None:
-        pass
+    def delete(self, index : int) -> None:
+        if index == 0:
+            self.head = self.head.next                  # if you remove the head, the next node is assigned as the new head
+        else:
+            i = self.head                               
+            count = 0
+            while count < index - 1 and i.next != None: # traverse through the list to find the index
+                i = i.next
+                count += 1
+            i.next = i.next.next                        # update the next pointer  
 
-    def get(index : int):
-        pass
+    def get(self, index : int):
+        i = self.head
+        count = 0
+        while count < index and i != None:              # traverse through the list to find the index
+            i = i.next
+            count += 1
+        return i.data                                   # return data of node at that index
 
-    def size() -> int:
-        pass
+    def size(self) -> int:
+        count = 0
+        i = self.head
+        while i.next != None:                           # traverse to find end of list
+            count += 1
+            i = i.next
+        return (count + 1)                              # since the last node is not being counted, we return the count+1
 
-    def display() -> str:
-        pass 
+    def display(self) -> str:
+        val = []
+        i = self.head
+        while i != None:                                # keep adding the values to val list
+            val.append(i.data)
+            i = i.next
+        return val                                      # return val list ie a list of values from linkedlist
 
 
 def load(file_path, out_file):
