@@ -5,19 +5,19 @@ class DynamicArrayList:
     def __init__(self) -> None:
         pass
 
-    def insert(index : int , value) -> None:
+    def insert(self, index : int , value) -> None:
         pass
 
-    def delete(index : int) -> None:
+    def delete(self, index : int) -> None:
         pass
 
-    def get(index : int):
+    def get(self, index : int):
         pass
 
-    def size() -> int:
+    def size(self) -> int:
         pass
 
-    def display() -> str:
+    def display(self) -> str:
         pass    
 
 
