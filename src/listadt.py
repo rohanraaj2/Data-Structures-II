@@ -2,13 +2,20 @@ import array
 
 class DynamicArrayList:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, size : int) -> None:
+        self.size = size
+        self.array = array.array('i', [0] * self.size)  # initialize the array with 0
 
     def insert(self, index : int , value) -> None:
+        # check if number of elements in array = size of array
+        # resize if true 
+        # add element
         pass
 
     def delete(self, index : int) -> None:
+        # delete element
+        # check if number of elements < 1/3 size of array
+        # if true, resize accordingly
         pass
 
     def get(self, index : int):
