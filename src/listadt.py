@@ -4,7 +4,7 @@ class DynamicArrayList:
 
     def __init__(self, size : int) -> None:
         self.size = size
-        self.array = array.array('i', [0] * self.size)  # initialize the array with 0
+        self.array = array('i', [0] * self.size)  # initialize the array with 0
 
     def insert(self, index : int , value) -> None:
         # check if number of elements in array = size of array
