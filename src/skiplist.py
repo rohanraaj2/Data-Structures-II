@@ -9,8 +9,8 @@ class Node(object):
 
     The key is used to compare nodes. The tower automatically includes level 0.
     '''
-    
-    def __init__(self, data: (Any,Any), height: int=0) -> None:
+
+    def __init__(self, data: (Any, Any), height: int = 0) -> None:
         '''Construct node with given data and of given height.
 
         The height is the largest level, starting from 0, of the tower.
@@ -23,7 +23,10 @@ class Node(object):
         Returns:
         None
         '''
-        pass
+        
+        self.node_key, self.key_value = data
+        self.height = height
+        self.next = [None] * (height + 1)
 
     def __repr__(self) -> str:
         '''Returns the representation of this node.
@@ -36,7 +39,8 @@ class Node(object):
         Returns:
         this node's string representation.
         '''
-        pass
+        return self.node_key, self.key_value, self.height, self.next
+
 
     def __str__(self) -> str:
         '''Returns a string representation of this node.
@@ -50,8 +54,8 @@ class Node(object):
         Returns:
         this node's string representation.
         '''
-        return self.__repr__()
-    
+        return str(self.__repr__())
+
     def height(self) -> int:
         '''Returns the height of this node's tower.
 
@@ -63,7 +67,7 @@ class Node(object):
         Returns:
         the height of this node's tower.
         '''
-        pass
+        return self.height
 
     def key(self) -> Any:
         '''Returns the key stored in this node.
@@ -74,7 +78,7 @@ class Node(object):
         Returns:
         the key stored in this node.
         '''
-        pass
+        return self.node_key
 
     def value(self) -> Any:
         '''Returns the value stored in this node.
@@ -85,7 +89,7 @@ class Node(object):
         Returns:
         the value stored in this node.
         '''
-        pass
+        return self.key_value
 
     def add_level(self, forward: Optional[Node] = None) -> None:
         '''Adds a level to this node which points to forward.
@@ -97,8 +101,8 @@ class Node(object):
         Returns:
         None.
         '''
-        pass
-
+        self.height += 1
+        self.next.append(forward)
 
 class SkipList(object):
     '''A skiplist of nodes containing (key, value) pairs. Nodes are ordered
@@ -118,8 +122,11 @@ class SkipList(object):
         Returns:
         None
         '''
-        pass
+
+        self.head = Node((None, None))
         
+
+
     def __len__(self) -> int:
         '''Returns the number of pairs stored in this skiplist.
 
@@ -145,7 +152,7 @@ class SkipList(object):
         this skiplist's string representation.
         '''
         pass
-    
+
     def __str__(self) -> str:
         '''Returns a string representation of this skiplist.
 
@@ -256,7 +263,7 @@ class SkipList(object):
         '''
         pass
 
-    def insert(self, data: (Any,Any)) -> None:
+    def insert(self, data: (Any, Any)) -> None:
         '''Inserts a (key value) pair in this skiplist, overwrites the old value
         if key already exists.
 
@@ -279,7 +286,7 @@ class SkipList(object):
         the number of pairs stored in this skiplist.
         '''
         pass
-    
+
     def is_empty(self) -> bool:
         '''Returns whether the skiplist is empty.
 
@@ -290,4 +297,3 @@ class SkipList(object):
         True if no pairs are stored in this skiplist, False otherwise.
         '''
         pass
-
