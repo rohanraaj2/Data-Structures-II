@@ -4,18 +4,18 @@ class DynamicArrayList:
 
     def __init__(self, size : int) -> None:
         self.size = size
-        self.array = array('i', [0] * self.size)  # initialize the array with 0
+        self.array = array('i', [-1] * self.size)  # initialize the array with 0
 
     def insert(self, index : int , value) -> None:
         # check if number of elements in array = size of array
         n = 0                                   
-        while self.array[n] != 0:
+        while self.array[n] != -1:
             n += 1
 
         # resize if true 
         if n == len(self.array):
             self.size = 2 * n
-            arr = array('i', [0] * self.size)
+            arr = array('i', [-1] * self.size)
             for i in range(n):
                 arr[i] = self.array[i]
             self.array = arr    
@@ -33,25 +33,28 @@ class DynamicArrayList:
 
         # count number of elements
         n = 0                                   
-        while self.array[n] != 0:
+        while self.array[n] != -1:
             n += 1
 
         # if len >= 3n, reduce array to half size
         if len(self.array) >= 3*n:
             self.size = 2 * n
-            arr = array('i', [0] * self.size)
+            arr = array('i', [-1] * self.size)
             for i in range(n):
                 arr[i] = self.array[i]
             self.array = arr    
 
     def get(self, index : int):
-        pass
+        return self.array[index]
 
     def size(self) -> int:
-        pass
+        return len(self.array)
 
     def display(self) -> str:
-        pass    
+        val = []
+        for i in range(self.size):
+            val.append(self.array[i])
+        return val            
 
 
 class Node:
