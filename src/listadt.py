@@ -2,44 +2,44 @@ import array
 
 class DynamicArrayList:
 
-    def __init__(self, size : int) -> None:
-        self.size = size
-        self.array = array('i', [-1] * self.size)  # initialize the array with 0
+    def __init__(self) -> None:
+        self.s = 1
+        self.array = array.array('i', [-1] * self.s)  # initialize the array with -1
 
     def insert(self, index : int , value) -> None:
         # check if number of elements in array = size of array
         n = 0                                   
-        while self.array[n] != -1:
-            n += 1
+        while n < len(self.array) and self.array[n] != -1:
+            n += 1  
 
         # resize if true 
         if n == len(self.array):
-            self.size = 2 * n
-            arr = array('i', [-1] * self.size)
+            self.s = 2 * n
+            arr = array.array('i', [-1] * self.s)
             for i in range(n):
                 arr[i] = self.array[i]
-            self.array = arr    
+            self.array = arr   
 
         # add element at index and shift the elements after it to the right
-        for i in range(index+1,self.size):
-            self.array[i] = self.array[i-1]
+        for i in range(n-1, index-1, -1):
+            self.array[i+1] = self.array[i]
         self.array[index] = value
 
     def delete(self, index : int) -> None:
         # delete element and shift elements left
-        for i in range(index,self.size-1):
+        for i in range(index,self.s-1):
             self.array[i] = self.array[i+1]
-        self.array[self.size-1] = 0    
+        self.array[self.s-1] = -1    
 
         # count number of elements
         n = 0                                   
-        while self.array[n] != -1:
+        while n < len(self.array) and self.array[n] != -1:
             n += 1
 
         # if len >= 3n, reduce array to half size
         if len(self.array) >= 3*n:
-            self.size = 2 * n
-            arr = array('i', [-1] * self.size)
+            self.s = 2 * n
+            arr = array.array('i', [-1] * self.s)
             for i in range(n):
                 arr[i] = self.array[i]
             self.array = arr    
@@ -52,7 +52,7 @@ class DynamicArrayList:
 
     def display(self) -> str:
         val = []
-        for i in range(self.size):
+        for i in range(self.s):
             val.append(self.array[i])
         return val            
 
@@ -108,7 +108,8 @@ class LinkedList:
         while i.next != None:                           # traverse to find end of list
             count += 1
             i = i.next
-        return (count + 1)                              # since the last node is not being counted, we return the count+1
+        count += 1    
+        return count                                    # since the last node is not being counted, we return the count+1
 
     def display(self) -> str:
         val = []
