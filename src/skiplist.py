@@ -68,7 +68,7 @@ class Node(object):
         the height of this node's tower.
         '''
         return self.height
-
+    
     def key(self) -> Any:
         '''Returns the key stored in this node.
 
@@ -103,7 +103,6 @@ class Node(object):
         '''
         self.height += 1
         self.next.append(forward)
-
 class SkipList(object):
     '''A skiplist of nodes containing (key, value) pairs. Nodes are ordered
     according to keys. Keys are unique, reinserting an existing key overwrites
@@ -124,9 +123,8 @@ class SkipList(object):
         '''
 
         self.head = Node((None, None))
-        self.head.add_level()
         self.size = 0
-        
+
     def __len__(self) -> int:
         '''Returns the number of pairs stored in this skiplist.
 
@@ -151,7 +149,7 @@ class SkipList(object):
         Returns:
         this skiplist's string representation.
         '''
-        return str(self.head)
+        return self.head
 
     def __str__(self) -> str:
         '''Returns a string representation of this skiplist.
