@@ -8,15 +8,41 @@ class DynamicArrayList:
 
     def insert(self, index : int , value) -> None:
         # check if number of elements in array = size of array
+        n = 0                                   
+        while self.array[n] != 0:
+            n += 1
+
         # resize if true 
-        # add element
-        pass
+        if n == len(self.array):
+            self.size = 2 * n
+            arr = array('i', [0] * self.size)
+            for i in range(n):
+                arr[i] = self.array[i]
+            self.array = arr    
+
+        # add element at index and shift the elements after it to the right
+        for i in range(index+1,self.size):
+            self.array[i] = self.array[i-1]
+        self.array[index] = value
 
     def delete(self, index : int) -> None:
-        # delete element
-        # check if number of elements < 1/3 size of array
-        # if true, resize accordingly
-        pass
+        # delete element and shift elements left
+        for i in range(index,self.size-1):
+            self.array[i] = self.array[i+1]
+        self.array[self.size-1] = 0    
+
+        # count number of elements
+        n = 0                                   
+        while self.array[n] != 0:
+            n += 1
+
+        # if len >= 3n, reduce array to half size
+        if len(self.array) >= 3*n:
+            self.size = 2 * n
+            arr = array('i', [0] * self.size)
+            for i in range(n):
+                arr[i] = self.array[i]
+            self.array = arr    
 
     def get(self, index : int):
         pass
