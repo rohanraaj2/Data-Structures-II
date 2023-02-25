@@ -10,7 +10,7 @@ class DynamicArrayList:
         # check if number of elements in array = size of array
         n = 0                                   
         while n < len(self.array) and self.array[n] != -1:
-            n += 1  
+            n += 1 
 
         # resize if true 
         if n == len(self.array):
@@ -24,6 +24,8 @@ class DynamicArrayList:
         for i in range(n-1, index-1, -1):
             self.array[i+1] = self.array[i]
         self.array[index] = value
+
+        # print(self.array)
 
     def delete(self, index : int) -> None:
         # delete element and shift elements left
@@ -44,11 +46,16 @@ class DynamicArrayList:
                 arr[i] = self.array[i]
             self.array = arr    
 
+        # print(self.array)    
+
     def get(self, index : int):
         return self.array[index]
 
     def size(self) -> int:
-        return len(self.array)
+        n = 0                                   
+        while n < len(self.array) and self.array[n] != -1:
+            n += 1 
+        return n    
 
     def display(self) -> str:
         val = []
