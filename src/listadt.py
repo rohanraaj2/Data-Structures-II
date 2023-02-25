@@ -56,7 +56,6 @@ class DynamicArrayList:
             val.append(self.array[i])
         return val            
 
-
 class Node:
 
     def __init__(self, data : int) -> None:
