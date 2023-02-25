@@ -20,7 +20,7 @@ class Table(object):
         Returns:
         None
         '''
-        pass
+        self.index = SkipList()
 
     def read(self, csvfile: str) -> None:
         '''Read and store records from the given CSV file.
@@ -107,6 +107,5 @@ class Table(object):
         The deleted record,  None in case of error.
         '''
         pass
-
         
         

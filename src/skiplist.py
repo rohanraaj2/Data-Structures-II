@@ -23,7 +23,7 @@ class Node(object):
         Returns:
         None
         '''
-        
+
         self.node_key, self.key_value = data
         self.height = height
         self.next = [None] * (height + 1)
@@ -124,9 +124,9 @@ class SkipList(object):
         '''
 
         self.head = Node((None, None))
+        self.head.add_level()
+        self.size = 0
         
-
-
     def __len__(self) -> int:
         '''Returns the number of pairs stored in this skiplist.
 
@@ -138,7 +138,7 @@ class SkipList(object):
         Returns:
         the number of pairs stored in this skiplist.
         '''
-        pass
+        return self.size
 
     def __repr__(self) -> str:
         '''Returns a string representation of this skiplist.
@@ -151,7 +151,7 @@ class SkipList(object):
         Returns:
         this skiplist's string representation.
         '''
-        pass
+        return str(self.head)
 
     def __str__(self) -> str:
         '''Returns a string representation of this skiplist.
@@ -165,7 +165,7 @@ class SkipList(object):
         Returns:
         this skiplist's string representation.
         '''
-        return self.__repr__()
+        return str(self.__repr__())
 
     def _search_path(self, key: Any) -> [Node]:
         '''Returns the search path in this skiplist for key.
