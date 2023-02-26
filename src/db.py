@@ -1,5 +1,7 @@
 from typing import List, Optional
 from src.skiplist import SkipList
+import csv
+# import os
 
 
 class Table(object):
@@ -32,7 +34,23 @@ class Table(object):
         Returns:
         None
         '''
-        pass
+        # Opening the CSV file which is a list of rows
+        file_path = 'books.csv'
+        file = open(file_path, 'r')
+
+        # Reading the CSV file
+        reader = csv.reader(file)
+
+        # Initializing the records list
+        records = []
+
+        # Iterating over each row in the CSV file and adding to the records list as a list of strings
+        for row in reader:
+            records.append(row)
+
+        # Closing the CSV file
+        file.close()
+
 
     def create_index(self, attribute: str) -> None:
         '''Construct an index using values of the specified attribute.
@@ -54,7 +72,30 @@ class Table(object):
         Returns:
         None
         '''
-        pass
+        if attribute == 'Book Code':
+
+            for i in range(len(self.records)):
+                self.index.insert(self.records[i][0], i)
+
+        elif attribute == 'Title':
+
+            for i in range(len(self.records)):
+                self.index.insert(self.records[i][1], i)
+
+        elif attribute == 'Category':
+
+            for i in range(len(self.records)):
+                self.index.insert(self.records[i][2], i)
+
+        elif attribute == 'Price,Pages':
+
+            for i in range(len(self.records)):
+                self.index.insert(self.records[i][3], i)
+        
+        elif attribute == 'Pages':
+
+            for i in range(len(self.records)):
+                self.index.insert(self.records[i][4], i)
 
     def select(self, key: str) -> Optional[List[str]]:
         '''Return the record corresponding to the given key, None in case of
@@ -71,7 +112,10 @@ class Table(object):
         Returns:
         The record corresponding to key, None in case of error.
         '''
-        pass
+        if self.index.find(key) == None:
+            return None
+        else:
+            return self.records[self.index.find(key)]
 
     def select_range(self, start: str, end: str) -> Optional[List[List[str]]]:
         '''Returns the records corresponding to the keys in the range
@@ -89,8 +133,18 @@ class Table(object):
         The records in the order of the keys in the range [start,end], None in
         case of error.
         '''
-        pass
-
+        for i in range(len(self.records)):
+            if self.records[i][0] == start:
+                start_index = i
+            if self.records[i][0] == end:
+                end_index = i
+        if start_index == None or end_index == None:
+            return None
+        if start_index > end_index:
+            return None
+        else:
+            return self.records[start_index:end_index+1]
+    
     def delete(self, key: str) -> Optional[List[str]]:
         '''Deletes the record corresponding to key from the table and the index.
         Returns the deleted record, None in case of error.
@@ -106,6 +160,12 @@ class Table(object):
         Returns:
         The deleted record,  None in case of error.
         '''
-        pass
-        
+        for i in range(len(self.records)):
+            if self.records[i][0] == key:
+                index = i
+        if index == None:
+            return None
+        else:
+            self.index.delete(key)
+            return self.records.pop(index) 
         
