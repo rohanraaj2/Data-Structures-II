@@ -39,7 +39,7 @@ class Node(object):
         Returns:
         this node's string representation.
         '''
-        return self.node_key, self.key_value, self.height, self.next
+        return f'Node({self.node_key}, {self.key_value}, {self.height})'
 
     def __str__(self) -> str:
         '''Returns a string representation of this node.
@@ -239,7 +239,7 @@ class SkipList(object):
         Returns:
         the height of this skiplist.
         '''
-        return self.height()
+        return self.head.height
 
     def find(self, key: Any) -> Optional[Any]:
         '''Returns the value stored in this skiplist corresponding to key, None
@@ -254,7 +254,7 @@ class SkipList(object):
         '''
         prev = self._find_prev(key)
         if prev.next[0] is not None and prev.next[0].key() == key:
-            return prev.next[0]
+            return prev.next[0].value()
         else:
             return None
 
@@ -298,13 +298,14 @@ class SkipList(object):
         in this skiplist
         '''
         prev = self._find_prev(key)
-        current_node = prev.next
-        if current_node[0] is not None and current_node[0].key() == key:
-            removed_node = current_node[0]
-            for i in range(removed_node.height()):
-                current_node[i] = removed_node.next[i]
-            self.size -= 1
-            return removed_node
+        if prev.next[0] is not None and prev.next[0].key() == key:
+            value = prev.next[0].value()
+            current_node = prev.next[0]
+            for i in range(current_node.height()):
+                prev[i].next[i] = current_node.next[i]
+            return value
+
+        return None
 
 
     def insert(self, data: (Any, Any)) -> None:
@@ -352,3 +353,5 @@ class SkipList(object):
         '''
         if self.size == 0:
             return True
+        else:
+            return False
