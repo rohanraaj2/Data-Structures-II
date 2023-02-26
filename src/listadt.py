@@ -63,7 +63,7 @@ class DynamicArrayList:
             val.append(self.array[i])
         return val            
 
-class Node:
+class Node:                                             # required for linkedlist
 
     def __init__(self, data : int) -> None:
         self.data = data
@@ -125,7 +125,6 @@ class LinkedList:
             val.append(i.data)
             i = i.next
         return val                                      # return val list ie a list of values from linkedlist
-
 
 def load(file_path, out_file):
     """
