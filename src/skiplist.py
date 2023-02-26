@@ -150,7 +150,12 @@ class SkipList(object):
         Returns:
         this skiplist's string representation.
         '''
-        return self.head
+        node = self.head.forward[0]
+        values = []
+        while node is not None:
+            values.append(str(node))
+            node = node.forward[0]
+        return str([{', '.join(values)}])
 
     def __str__(self) -> str:
         '''Returns a string representation of this skiplist.
@@ -267,7 +272,17 @@ class SkipList(object):
         order of keys.
         '''
 
-        pass
+        prev = self._find_prev(key1)
+        if prev.next[0] is not None and prev.next[0].key() == key1:
+            starting_node = prev.next[0]
+
+        current_node = starting_node
+        values = []
+        while current_node is not None and current_node.key() <= key2:
+            values.append(current_node.value())
+            current_node = current_node.next[0]
+
+        return values
 
     def remove(self, key: Any) -> Optional[Any]:
         '''Returns the value stored for key in this skiplist and removes
@@ -282,7 +297,15 @@ class SkipList(object):
         the stored value for key in this skiplist, None if key does not exist
         in this skiplist
         '''
-        pass
+        prev = self._find_prev(key)
+        current_node = prev.next
+        if current_node[0] is not None and current_node[0].key() == key:
+            removed_node = current_node[0]
+            for i in range(removed_node.height()):
+                current_node[i] = removed_node.next[i]
+            self.size -= 1
+            return removed_node
+
 
     def insert(self, data: (Any, Any)) -> None:
         '''Inserts a (key value) pair in this skiplist, overwrites the old value
@@ -296,15 +319,15 @@ class SkipList(object):
         None
         '''
         key, value = data
-        prev = self._find_prev(key)
-        if prev.next[0] is not None and prev.next[0].key() == key:
-            prev.next[0].key_value = value
+        prev = self._search_path(key)
+        if prev[0].next[0] is not None and prev[0].next[0].key() == key:
+            prev[0].next[0].value = value
         else:
-            new_node = Node((key, value))
-            new_node.next = [None] * new_node.height()
+            new_node = Node(data, [None] * (self.max_level + 1))
+            new_node.height = self._random_height()
             for i in range(new_node.height()):
-                new_node.next[i] = prev.next[i]
-                prev.next[i] = new_node
+                new_node.next[i] = prev[i].next[i]
+                prev[i].next[i] = new_node
             self.size += 1
 
     def size(self) -> int:
@@ -316,7 +339,7 @@ class SkipList(object):
         Returns:
         the number of pairs stored in this skiplist.
         '''
-        pass
+        return self.size
 
     def is_empty(self) -> bool:
         '''Returns whether the skiplist is empty.
@@ -327,4 +350,5 @@ class SkipList(object):
         Returns:
         True if no pairs are stored in this skiplist, False otherwise.
         '''
-        pass
+        if self.size == 0:
+            return True
