@@ -73,29 +73,26 @@ class Table(object):
         None
         '''
         if attribute == 'Book Code':
-
             for i in range(len(self.records)):
-                self.index.insert(self.records[i][0], i)
+                self.index.insert((self.records[i][0], i))
+
 
         elif attribute == 'Title':
-
             for i in range(len(self.records)):
-                self.index.insert(self.records[i][1], i)
+                self.index.insert((self.records[i][1], i))
 
         elif attribute == 'Category':
-
             for i in range(len(self.records)):
-                self.index.insert(self.records[i][2], i)
+                self.index.insert((self.records[i][2], i))
 
         elif attribute == 'Price':
-
             for i in range(len(self.records)):
-                self.index.insert(self.records[i][3], i)
-        
+                self.index.insert((self.records[i][3], i))
+
         elif attribute == 'Pages':
-
             for i in range(len(self.records)):
-                self.index.insert(self.records[i][4], i)
+                self.index.insert((self.records[i][4], i))
+
 
     def select(self, key: str) -> Optional[List[str]]:
         '''Return the record corresponding to the given key, None in case of
