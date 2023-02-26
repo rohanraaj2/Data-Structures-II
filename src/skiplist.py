@@ -41,7 +41,6 @@ class Node(object):
         '''
         return self.node_key, self.key_value, self.height, self.next
 
-
     def __str__(self) -> str:
         '''Returns a string representation of this node.
 
@@ -68,7 +67,7 @@ class Node(object):
         the height of this node's tower.
         '''
         return self.height
-    
+
     def key(self) -> Any:
         '''Returns the key stored in this node.
 
@@ -103,6 +102,8 @@ class Node(object):
         '''
         self.height += 1
         self.next.append(forward)
+
+
 class SkipList(object):
     '''A skiplist of nodes containing (key, value) pairs. Nodes are ordered
     according to keys. Keys are unique, reinserting an existing key overwrites
@@ -180,7 +181,15 @@ class SkipList(object):
         the descend nodes at each level of the skiplist, ordered from highest
         level to level 0.
         '''
-        pass
+        path = [Node(None, [None] * (self.max_level + 1))
+                for _ in range(self.height())]
+        level = self.height() - 1
+
+        while level >= 0:
+            while path[level].next[level] is not None and path[level].next[level].key < key:
+                path[level] = path[level].next[level]
+            level -= 1
+        return path
 
     def _find_prev(self, key: Any) -> Node:
         '''Returns the node in the skiplist that contains the predecessor key.
@@ -192,7 +201,15 @@ class SkipList(object):
         Returns:
         the node in the skiplist that contains the predecessor key.
         '''
-        pass
+        current_node = self.head
+        level = self.height() - 1
+
+        while level >= 0:
+            while current_node.next[level] is not None and current_node.next[level].key < key:
+                current_node = current_node.next[level]
+            level -= 1
+
+        return current_node
 
     def reset(self) -> None:
         '''Empty the skiplist.
@@ -203,7 +220,8 @@ class SkipList(object):
         Returns:
         None
         '''
-        pass
+        self.head = Node((None, None))
+        self.size = 0
 
     def height(self) -> int:
         '''Returns the height of the skiplist.
@@ -216,7 +234,7 @@ class SkipList(object):
         Returns:
         the height of this skiplist.
         '''
-        pass
+        return self.height()
 
     def find(self, key: Any) -> Optional[Any]:
         '''Returns the value stored in this skiplist corresponding to key, None
@@ -229,7 +247,11 @@ class SkipList(object):
         Returns:
         the stored value for key, None if key does not exist in this skiplist.
         '''
-        pass
+        prev = self._find_prev(key)
+        if prev.next[0] is not None and prev.next[0].key() == key:
+            return prev.next[0]
+        else:
+            return None
 
     def find_range(self, key1: Any, key2: Any) -> [Any]:
         '''Returns the values stored in this skiplist corresponding to the keys
@@ -244,6 +266,7 @@ class SkipList(object):
         the stored values for the keys between key1 and key2 inclusive in sorted
         order of keys.
         '''
+
         pass
 
     def remove(self, key: Any) -> Optional[Any]:
@@ -272,7 +295,17 @@ class SkipList(object):
         Returns:
         None
         '''
-        pass
+        key, value = data
+        prev = self._find_prev(key)
+        if prev.next[0] is not None and prev.next[0].key() == key:
+            prev.next[0].key_value = value
+        else:
+            new_node = Node((key, value))
+            new_node.next = [None] * new_node.height()
+            for i in range(new_node.height()):
+                new_node.next[i] = prev.next[i]
+                prev.next[i] = new_node
+            self.size += 1
 
     def size(self) -> int:
         '''Returns the number of pairs stored in this skiplist.
