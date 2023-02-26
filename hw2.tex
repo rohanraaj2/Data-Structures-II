@@ -41,7 +41,8 @@
   Design a version of a skiplist that implements the \texttt{SSet} interface, but also allows fast access to elements by \textit{rank}. That is, it also supports the function \texttt{get(i)}, which returns the element whose rank is \texttt{i} in $O(\log n)$ expected time. (The rank of an element \texttt{x} in an \texttt{SSet} is the number of elements in the \texttt{SSet} that are less than \texttt{x}.)
   Describe how your version differs from a regular skiplist and provide pseudocode of \texttt{find(x)} and \texttt{get(i)} for this version.
   \begin{solution}
-    % Enter your solution here.
+    In our version of the skiplist, we are keeping track of additional information (ie rank) alongside the other information contained in a skiplist such as head, forward, height etc. Due to this change, we now have two additional functions, $\text{get}(i)$ and $\text{find}(x)$, and we are able to access elements faster using their ranks. This also means that now, when updating the skiplist (adding/removing nodes), we will have to update the ranks of each node.
+    \par The pseudocode for the $\text{get}(i)$ and $\text{find}(x)$ functions are as follows:
   \end{solution}
 
   \titledquestion{Finger Search}[10]\footnote{Adapted from Exercise 4.10 in the textbook.}
