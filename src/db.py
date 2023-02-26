@@ -35,7 +35,7 @@ class Table(object):
         None
         '''
         # Opening the CSV file which is a list of rows
-        file = open(csvfile, 'r')
+        file = open(csvfile, 'r', encoding='utf-8')
 
         # Reading the CSV file
         reader = csv.reader(file)

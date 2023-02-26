@@ -90,7 +90,7 @@ class Node(object):
         '''
         return self.key_value
 
-    def add_level(self, forward: Optional[Node] = None) -> None:
+    def add_level(self, forward: Optional["Node"] = None) -> None:
         '''Adds a level to this node which points to forward.
 
         Parameters:
