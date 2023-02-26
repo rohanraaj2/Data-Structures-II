@@ -1,8 +1,11 @@
 from typing import List, Optional
 from src.skiplist import SkipList
 import csv
+<<<<<<< Updated upstream
 # import os
 
+=======
+>>>>>>> Stashed changes
 
 class Table(object):
     '''A table that stores records and allows creation of an index on the
@@ -34,6 +37,7 @@ class Table(object):
         Returns:
         None
         '''
+<<<<<<< Updated upstream
         # Opening the CSV file which is a list of rows
         file_path = 'books.csv'
         file = open(file_path, 'r')
@@ -51,6 +55,15 @@ class Table(object):
         # Closing the CSV file
         file.close()
 
+=======
+        self.rows = []
+        with open(csvfile, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                self.rows.append(row)
+                # self.index.append(row)
+        # pass        
+>>>>>>> Stashed changes
 
     def create_index(self, attribute: str) -> None:
         '''Construct an index using values of the specified attribute.
