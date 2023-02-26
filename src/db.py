@@ -35,8 +35,7 @@ class Table(object):
         None
         '''
         # Opening the CSV file which is a list of rows
-        file_path = 'books.csv'
-        file = open(file_path, 'r')
+        file = open(csvfile, 'r')
 
         # Reading the CSV file
         reader = csv.reader(file)
@@ -51,6 +50,7 @@ class Table(object):
         # Closing the CSV file
         file.close()
 
+        self.records = records
 
     def create_index(self, attribute: str) -> None:
         '''Construct an index using values of the specified attribute.
@@ -87,7 +87,7 @@ class Table(object):
             for i in range(len(self.records)):
                 self.index.insert(self.records[i][2], i)
 
-        elif attribute == 'Price,Pages':
+        elif attribute == 'Price':
 
             for i in range(len(self.records)):
                 self.index.insert(self.records[i][3], i)
@@ -112,7 +112,7 @@ class Table(object):
         Returns:
         The record corresponding to key, None in case of error.
         '''
-        if self.index.find(key) == None:
+        if self.index.find(key) is None:
             return None
         else:
             return self.records[self.index.find(key)]
@@ -160,12 +160,14 @@ class Table(object):
         Returns:
         The deleted record,  None in case of error.
         '''
+        index = None
         for i in range(len(self.records)):
             if self.records[i][0] == key:
                 index = i
+                break
         if index == None:
             return None
         else:
             self.index.delete(key)
-            return self.records.pop(index) 
+            return self.records.pop(index)
         
