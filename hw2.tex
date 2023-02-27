@@ -43,6 +43,29 @@
   \begin{solution}
     In our version of the skiplist, we are keeping track of additional information (ie rank) alongside the other information contained in a skiplist such as head, forward, height etc. Due to this change, we now have two additional functions, $\text{get}(i)$ and $\text{find}(x)$, and we are able to access elements faster using their ranks. This also means that now, when updating the skiplist (adding/removing nodes), we will have to update the ranks of each node.
     \par The pseudocode for the $\text{get}(i)$ and $\text{find}(x)$ functions are as follows:
+    \begin{lstlisting}[language=Python]
+    def find(self, x) -> int:
+      current_node = self.head
+      for level in range(self.height() - 1, -1, -1):          # start from the highest level
+          while current_node.forward[level] != None           
+          and current_node.forward[level].key < x:            # check if there is another node on the same level and key < x
+              current_node = current_node.forward[level]      # if true, assign the next node to current node 
+      current_node = current_node.forward[0]                  # assign next node at level 0 to current node
+      if current_node != None and current_node.key == x:
+          return current_node.value                           # return value of current node
+  
+    def get(self, i) -> int:
+      current_node = self.head
+      rank = -1
+      for level in range(self.height()-1, -1, -1):            # start from the highest level
+          while current_node.forward[level] != None         
+          and rank + current_node.forward[level].span <= i:   # check if there is another node on the same level and rank+span < i
+              rank += current_node.forward[level].span        # if true, update the rank
+              current_node = current_node.forward[level]      # if true, assign the next node to current node
+      current_node = current_node.forward[0]                  # assign next node at level 0 to current node
+      if current_node != None and rank + 1 == i:
+          return current_node.value                           # returns element with rank i
+      \end{lstlisting}
   \end{solution}
 
   \titledquestion{Finger Search}[10]\footnote{Adapted from Exercise 4.10 in the textbook.}
