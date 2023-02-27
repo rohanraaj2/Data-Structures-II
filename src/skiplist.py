@@ -150,11 +150,11 @@ class SkipList(object):
         Returns:
         this skiplist's string representation.
         '''
-        node = self.head.forward[0]
+        node = self.head.next[0]
         values = []
         while node is not None:
             values.append(str(node))
-            node = node.forward[0]
+            node = node.next[0]
         return str([{', '.join(values)}])
 
     def __str__(self) -> str:
