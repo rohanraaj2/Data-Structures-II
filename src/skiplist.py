@@ -26,7 +26,7 @@ class Node(object):
 
         self.node_key, self.key_value = data
         self.height = height
-        self.next = [None] * (height + 1)
+        self.next = [None]
 
     def __repr__(self) -> str:
         '''Returns the representation of this node.
@@ -125,6 +125,7 @@ class SkipList(object):
         '''
 
         self.head = Node((None, None))
+        self.max_level = 0
         self.size = 0
 
     def __len__(self) -> int:
@@ -320,15 +321,15 @@ class SkipList(object):
         None
         '''
         key, value = data
-        prev = self._search_path(key)
-        if prev[0].next[0] is not None and prev[0].next[0].key() == key:
-            prev[0].next[0].value = value
+        prev = self._find_prev(key)
+        if prev.next[0] is not None and prev.next[0].key() == key:
+            prev.next[0].value = value
         else:
-            new_node = Node(data, [None] * (self.max_level + 1))
-            new_node.height = self._random_height()
+            new_node = Node(data)
+            new_node.height = self.height
             for i in range(new_node.height()):
                 new_node.next[i] = prev[i].next[i]
-                prev[i].next[i] = new_node
+                prev.next[i] = new_node
             self.size += 1
 
     def size(self) -> int:
