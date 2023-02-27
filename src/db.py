@@ -116,6 +116,7 @@ class Table(object):
         The record corresponding to key, None in case of error.
         '''
         if self.index.find(key) is None:
+            print("Error: Index not created or key is invalid")
             return None
         else:
             return self.records[self.index.find(key)]
