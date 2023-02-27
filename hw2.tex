@@ -46,25 +46,35 @@
     \begin{lstlisting}[language=Python]
     def find(self, x) -> int:
       current_node = self.head
-      for level in range(self.height() - 1, -1, -1):          # start from the highest level
+      # start from the highest level
+      for level in range(self.height() - 1, -1, -1):         
+          # check if there is another node on the same level and key < x 
           while current_node.forward[level] != None           
-          and current_node.forward[level].key < x:            # check if there is another node on the same level and key < x
-              current_node = current_node.forward[level]      # if true, assign the next node to current node 
-      current_node = current_node.forward[0]                  # assign next node at level 0 to current node
+          and current_node.forward[level].key < x:
+              # if true, assign the next node to current node             
+              current_node = current_node.forward[level]   
+      # assign next node at level 0 to current node           
+      current_node = current_node.forward[0]                  
       if current_node != None and current_node.key == x:
-          return current_node.value                           # return value of current node
+          # return value of current node
+          return current_node.value                           
   
     def get(self, i) -> int:
       current_node = self.head
       rank = -1
-      for level in range(self.height()-1, -1, -1):            # start from the highest level
+      # start from the highest level
+      for level in range(self.height()-1, -1, -1):
+          # check if there is another node on the same level and rank+span < i           
           while current_node.forward[level] != None         
-          and rank + current_node.forward[level].span <= i:   # check if there is another node on the same level and rank+span < i
-              rank += current_node.forward[level].span        # if true, update the rank
-              current_node = current_node.forward[level]      # if true, assign the next node to current node
-      current_node = current_node.forward[0]                  # assign next node at level 0 to current node
+          and rank + current_node.forward[level].span <= i: 
+              # if true, update the rank and assign the next node to current node
+              rank += current_node.forward[level].span        
+              current_node = current_node.forward[level]     
+      # assign next node at level 0 to current node
+      current_node = current_node.forward[0]                  
       if current_node != None and rank + 1 == i:
-          return current_node.value                           # returns element with rank i
+          # returns element with rank i
+          return current_node.value                           
       \end{lstlisting}
   \end{solution}
 
