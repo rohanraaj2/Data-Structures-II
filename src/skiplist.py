@@ -189,13 +189,14 @@ class SkipList(object):
         # if self.size == 0:
         #     return [None] * self.max_level
         # else:
-        path = [None] * self.height()
+        path = []
         current_node = self.head
         # level = self.height() - 1
         for level in range(self.height()-1, -1, -1):
             while current_node.next[level] is not None and str(current_node.next[level].key()) <= str(key):
                 current_node = current_node.next[level]
-            path[level] = current_node
+            path.append(current_node)
+            # path[level] = current_node
         return path
         
         # path = [None] * self.height()
@@ -336,7 +337,8 @@ class SkipList(object):
         None
         '''
         key, value = data
-        path = (self._search_path(key)).reverse()
+        path = (self._search_path(key))
+        path.reverse()
         # if path[0].next[0] is not None and str(path[0].next[0].key()) == str(key):
         #     path[0].next[0].value = value
         # else:
