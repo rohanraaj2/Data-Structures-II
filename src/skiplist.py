@@ -186,16 +186,28 @@ class SkipList(object):
         the descend nodes at each level of the skiplist, ordered from highest
         level to level 0.
         '''
-        path = [None] * self.height()
-        current_node = self.head
-        level = self.height() - 1
-        # print (level)
-        while level >= 0:
-            while current_node.next[level] is not None and str(current_node.next[level].key()) <= str(key):
-                current_node = current_node.next[level]
-            path[level] = current_node
-            level -= 1
-        return path
+        if self.size == 0:
+            return [None] * self.max_level
+        else:
+            path = [None] * self.height()
+            current_node = self.head
+            level = self.height() - 1
+            for level in range(self.height()-1, -1, -1):
+                while current_node.next[level] is not None and str(current_node.next[level].key()) <= str(key):
+                    current_node = current_node.next[level]
+                path[level] = current_node
+            return path
+        # path = [None] * self.height()
+        # current_node = self.head
+        # level = self.height() - 1
+        # # print (level)
+        # # for level in range(self.height()-1, -1, -1):
+        # while level >= 0:
+        #     while level < len(current_node.next) and current_node.next[level] is not None and str(current_node.next[level].key()) <= str(key):
+        #         current_node = current_node.next[level]
+        #     path[level] = current_node
+        #     level -= 1
+        # return path
 
     def _find_prev(self, key: Any) -> Node:
         '''Returns the node in the skiplist that contains the predecessor key.
