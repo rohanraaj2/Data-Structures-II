@@ -52,6 +52,8 @@ class Table(object):
 
         self.records = records
 
+        # print (self.records)
+
     def create_index(self, attribute: str) -> None:
         '''Construct an index using values of the specified attribute.
 

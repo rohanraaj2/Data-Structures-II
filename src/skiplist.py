@@ -102,6 +102,7 @@ class Node(object):
         '''
         self.height += 1
         self.next.append(forward)
+        self.next[next] = forward
 
 
 class SkipList(object):
@@ -190,7 +191,7 @@ class SkipList(object):
                 for _ in range(self.height())]
         level = self.height() - 1
 
-        while level >= 0:
+        while level >= 0 and path[level].next[level] is not None:
             while path[level].next[level] is not None and path[level].next[level].key < key:
                 path[level] = path[level].next[level]
             level -= 1
@@ -306,7 +307,6 @@ class SkipList(object):
             return value
 
         return None
-
 
     def insert(self, data: (Any, Any)) -> None:
         '''Inserts a (key value) pair in this skiplist, overwrites the old value
