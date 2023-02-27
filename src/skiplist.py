@@ -25,8 +25,8 @@ class Node(object):
         '''
 
         self.node_key, self.key_value = data
-        self.height = height
-        self.next = [None]
+        self.num_of_levels = height
+        self.next = [None] 
 
     def __repr__(self) -> str:
         '''Returns the representation of this node.
@@ -39,7 +39,7 @@ class Node(object):
         Returns:
         this node's string representation.
         '''
-        return f'Node({self.node_key}, {self.key_value}, {self.height})'
+        return f'Node({self.node_key}, {self.key_value}, {self.num_of_levels})'
 
     def __str__(self) -> str:
         '''Returns a string representation of this node.
@@ -66,7 +66,7 @@ class Node(object):
         Returns:
         the height of this node's tower.
         '''
-        return self.height
+        return self.num_of_levels
 
     def key(self) -> Any:
         '''Returns the key stored in this node.
@@ -100,7 +100,7 @@ class Node(object):
         Returns:
         None.
         '''
-        self.height += 1
+        self.num_of_levels += 1
         self.next.append(forward)
         self.next[next] = forward
 
@@ -123,9 +123,8 @@ class SkipList(object):
         Returns:
         None
         '''
-
-        self.head = Node((None, None))
         self.max_level = 0
+        self.head = Node((None, None))
         self.size = 0
 
     def __len__(self) -> int:
@@ -208,10 +207,12 @@ class SkipList(object):
         Returns:
         the node in the skiplist that contains the predecessor key.
         '''
-        current_node = self.head
-        level = self.height() - 1
 
+        level = self.height()
+        current_node = self.head
+        # print (level)
         while level >= 0:
+            # print ("x")
             while current_node.next[level] is not None and current_node.next[level].key < key:
                 current_node = current_node.next[level]
             level -= 1
@@ -241,7 +242,7 @@ class SkipList(object):
         Returns:
         the height of this skiplist.
         '''
-        return self.head.height
+        return self.head.height()
 
     def find(self, key: Any) -> Optional[Any]:
         '''Returns the value stored in this skiplist corresponding to key, None
@@ -324,12 +325,16 @@ class SkipList(object):
         prev = self._find_prev(key)
         if prev.next[0] is not None and prev.next[0].key() == key:
             prev.next[0].value = value
+            # print (prev.next[0].value)
         else:
-            new_node = Node(data)
-            new_node.height = self.height
-            for i in range(new_node.height()):
+            # print('y')
+
+            new_node = Node(data, [None] * (self.max_level + 1))
+            new_node.num_of_levels = random.randint(1, self.max_level + 1)
+            # print (new_node.num_of_levels)
+            for i in range(new_node.num_of_levels):
                 new_node.next[i] = prev[i].next[i]
-                prev.next[i] = new_node
+                prev[i].next[i] = new_node
             self.size += 1
 
     def size(self) -> int:
