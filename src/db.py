@@ -23,7 +23,6 @@ class Table(object):
         None
         '''
         self.index = SkipList()
-        # self.records = []
 
     def read(self, csvfile: str) -> None:
         '''Read and store records from the given CSV file.
@@ -35,24 +34,19 @@ class Table(object):
         Returns:
         None
         '''
+        self.records = []
         # Opening the CSV file which is a list of rows
         file = open(csvfile, 'r', encoding='utf-8')
 
         # Reading the CSV file
         reader = csv.reader(file)
 
-        # Initializing the records list
-        records = []
-
         # Iterating over each row in the CSV file and adding to the records list as a list of strings
         for row in reader:
-            records.append(str(row))
-            # print (row)
+            self.records.append(str(row))
 
         # Closing the CSV file
         file.close()
-
-        self.records = records
 
         # print(self.records)
 
@@ -97,9 +91,6 @@ class Table(object):
             for i in range(len(self.records)):
                 self.index.insert((self.records[i][4], i))
 
-        # print ("Index: ", self.index)
-
-
     def select(self, key: str) -> Optional[List[str]]:
         '''Return the record corresponding to the given key, None in case of
         error.
@@ -115,8 +106,7 @@ class Table(object):
         Returns:
         The record corresponding to key, None in case of error.
         '''
-        if self.index.find(key) is None:
-            print("Error: Index not created or key is invalid")
+        if self.index.find(key) is None or self.index.size == 0:
             return None
         else:
             return self.records[self.index.find(key)]
@@ -145,13 +135,10 @@ class Table(object):
                 self.start_index = i
             if self.records[i][0] == end:
                 self.end_index = i
-        if self.start_index is None or self.end_index is None:
-            return None
-        if self.start_index > self.end_index:
+        if (self.start_index is None or self.end_index is None) or (self.start_index > self.end_index):
             return None
         else:
             result = self.records[self.start_index:self.end_index+1]
-            # result.sort()
             return result
     
     def delete(self, key: str) -> Optional[List[str]]:

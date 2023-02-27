@@ -26,7 +26,7 @@ class Node(object):
 
         self.node_key, self.key_value = data
         self.num_of_levels = height
-        self.next = [None] * height
+        self.next = [None] * (height + 1)
 
     def __repr__(self) -> str:
         '''Returns the representation of this node.
@@ -66,7 +66,7 @@ class Node(object):
         Returns:
         the height of this node's tower.
         '''
-        return len(self.next) - 1
+        return len(self.next)
 
     def key(self) -> Any:
         '''Returns the key stored in this node.
@@ -101,7 +101,7 @@ class Node(object):
         None.
         '''
         self.next.append(forward)
-        self.num_of_levels += 1
+        # self.num_of_levels += 1
 
 class SkipList(object):
     '''A skiplist of nodes containing (key, value) pairs. Nodes are ordered
