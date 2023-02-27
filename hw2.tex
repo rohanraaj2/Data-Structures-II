@@ -85,7 +85,41 @@
 
   Design, i.e. provide the necessary pseudo code for, a version of a skiplist that implements \texttt{find(x)} operations using an internal finger. This subclass stores a finger, which is then used so that every \texttt{find(x)} operation is implemented as a finger search. During each \texttt{find(x)} operation the finger is updated so that each \texttt{find(x)} operation uses, as a starting point, a finger that points to the result of the previous \texttt{find(x)} operation.
   \begin{solution}
-    % Enter your solution here.
+    \begin{lstlisting}[language=Python]
+      class SkipList(object):
+          def __init__(self) -> None:
+              # initialize finger to empty array
+              self.finger = []       
+              self.head = Node((None, None))
+              self.max_level = 0
+              self.size = 0
+      
+          def find(self, x) -> int:
+              # check if array is empty
+              if len(self.finger) == 0:
+                  # if true, start search from head
+                  node = self.head
+                  level = self.maxLevel
+              else:
+                  # else, start search from finger node
+                  node, level = self.finger[-1]
+      
+              while True:
+                  if level == 0:
+                      # element not found
+                      return None
+                  elif node.next[level] != None and node.next[level].x < x:
+                      node = node.next[level]
+                  elif node.next[level] != None and node.next[level].x == x:
+                      # update finger to point to this node
+                      self.finger.append((node, level))
+                      return node.next[level]
+                  else:
+                      # node.next[level] != None and node.next[level].x > x
+                      # move down a level and update finger
+                      level -= 1
+                      self.finger.append((node, level))
+          \end{lstlisting}
   \end{solution}
 
 
