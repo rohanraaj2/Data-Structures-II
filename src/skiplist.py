@@ -26,7 +26,7 @@ class Node(object):
 
         self.node_key, self.key_value = data
         self.num_of_levels = height
-        self.next = [None] * (height + 1)
+        self.next = [None] * (height)
 
     def __repr__(self) -> str:
         '''Returns the representation of this node.
@@ -186,17 +186,17 @@ class SkipList(object):
         the descend nodes at each level of the skiplist, ordered from highest
         level to level 0.
         '''
-        if self.size == 0:
-            return [None] * self.max_level
-        else:
-            path = [None] * self.height()
-            current_node = self.head
-            level = self.height() - 1
-            for level in range(self.height()-1, -1, -1):
-                while current_node.next[level] is not None and str(current_node.next[level].key()) <= str(key):
-                    current_node = current_node.next[level]
-                path[level] = current_node
-            return path
+        # if self.size == 0:
+        #     return [None] * self.max_level
+        # else:
+        path = [None] * self.height()
+        current_node = self.head
+        # level = self.height() - 1
+        for level in range(self.height()-1, -1, -1):
+            while current_node.next[level] is not None and str(current_node.next[level].key()) <= str(key):
+                current_node = current_node.next[level]
+            path[level] = current_node
+        return path
         
         # path = [None] * self.height()
         # current_node = self.head
@@ -255,7 +255,7 @@ class SkipList(object):
         Returns:
         the height of this skiplist.
         '''
-        return self.head.num_of_levels
+        return self.head.height()
 
     def find(self, key: Any) -> Optional[Any]:
         '''Returns the value stored in this skiplist corresponding to key, None
@@ -270,8 +270,8 @@ class SkipList(object):
         '''
         prev = self._find_prev(key)
         # print   (prev)
-        if prev.next[0] is not None and prev.next[0].key == key:
-            return prev.next[0].value
+        if prev.next[0] is not None and prev.next[0].key() == key:
+            return prev.next[0].value()
         return None
     
 
