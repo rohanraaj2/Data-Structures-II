@@ -252,15 +252,12 @@ class SkipList(object):
         Returns:
         the stored value for key, None if key does not exist in this skiplist.
         '''
-        current_node = self.head
-        level = current_node.num_of_levels - 1
-        while level >= 0:
-            while current_node.next[level] is not None and current_node.next[level].key < key:
-                current_node = current_node.next[level]
-            level -= 1
-        if current_node.next[0] is not None and current_node.next[0].key == key:
-            return current_node.next[0].value
+        prev = self._find_prev(key)
+        if prev.next[0] is not None and prev.next[0].key == key:
+            return prev.next[0].value
         return None
+    
+    
 
     def find_range(self, key1: Any, key2: Any) -> [Any]:
         '''Returns the values stored in this skiplist corresponding to the keys
@@ -330,11 +327,16 @@ class SkipList(object):
             if level > self.max_level:
                 self.max_level = level
             new_node = Node(data, level)
-            print(new_node)
+            # print(new_node)
             for i in range(level):
-                new_node.next[i] = prev.next[i]
-                prev.next[i] = new_node
+                if i >= len(prev.next):
+                    prev.next.append(new_node)
+                else:
+                    new_node.next[i] = prev.next[i]
+                    prev.next[i] = new_node
             self.size += 1
+        # print(prev.next)
+
 
     def _random_level(self) -> int:
         '''Returns a random level for a new node.

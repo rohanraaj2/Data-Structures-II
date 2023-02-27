@@ -97,7 +97,7 @@ class Table(object):
             for i in range(len(self.records)):
                 self.index.insert((self.records[i][4], i))
 
-        # print (self.index)
+        # print ("Index: ", self.index)
 
 
     def select(self, key: str) -> Optional[List[str]]:
