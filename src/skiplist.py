@@ -26,7 +26,7 @@ class Node(object):
 
         self.node_key, self.key_value = data
         self.num_of_levels = height
-        self.next = [None] * (height)
+        self.next = [None] * (height + 1)
 
     def __repr__(self) -> str:
         '''Returns the representation of this node.
@@ -122,7 +122,7 @@ class SkipList(object):
         None
         '''
         self.head = Node((None, None))
-        self.size = 0
+        self.size_of_sl = 0
         self.max_level = 0
 
 
@@ -137,7 +137,7 @@ class SkipList(object):
         Returns:
         the number of pairs stored in this skiplist.
         '''
-        return self.size
+        return self.size_of_sl
 
     def __repr__(self) -> str:
         '''Returns a string representation of this skiplist.
@@ -242,7 +242,7 @@ class SkipList(object):
         None
         '''
         self.head = Node((None, None))
-        self.size = 0
+        self.size_of_sl = 0
         self.max_level = 0
 
     def height(self) -> int:
@@ -321,7 +321,7 @@ class SkipList(object):
             current_node = prev.next[0]
             for i in range(current_node.num_of_levels):
                 prev.next[i] = current_node.next[i]
-            self.size -= 1
+            self.size_of_sl -= 1
             return value
         return None
 
@@ -352,7 +352,7 @@ class SkipList(object):
             if step < level:
                 new_node.next[step] = path[step].next[step]
                 path[step].next[step] = new_node
-        self.size += 1
+        self.size_of_sl += 1
 
 
 
@@ -379,7 +379,7 @@ class SkipList(object):
         Returns:
         the number of pairs stored in this skiplist.
         '''
-        return self.size
+        return self.size_of_sl
     
     def is_empty(self) -> bool:
         '''Returns whether the skiplist is empty.
@@ -390,4 +390,4 @@ class SkipList(object):
         Returns:
         True if no pairs are stored in this skiplist, False otherwise.
         '''
-        return self.size == 0
+        return self.size_of_sl == 0

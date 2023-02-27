@@ -43,7 +43,7 @@ class Table(object):
 
         # Iterating over each row in the CSV file and adding to the records list as a list of strings
         for row in reader:
-            self.records.append(str(row))
+            self.records.append(row)
 
         # Closing the CSV file
         file.close()
@@ -70,6 +70,7 @@ class Table(object):
         Returns:
         None
         '''
+        self.index.reset()
 
         if attribute == 'Book Code':
             for i in range(len(self.records)):
@@ -106,7 +107,7 @@ class Table(object):
         Returns:
         The record corresponding to key, None in case of error.
         '''
-        if self.index.find(key) is None or self.index.size == 0:
+        if self.index.size() == 0:
             return None
         else:
             return self.records[self.index.find(key)]
