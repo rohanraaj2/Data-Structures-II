@@ -10,7 +10,7 @@ class Table(object):
     to efficiently retrieve records using key values. The index can be
     re-initialized in run-time using a different attribute.
     '''
-    
+
     def __init__(self) -> None:
         '''Initialize this table with an empty index.
 
@@ -34,21 +34,23 @@ class Table(object):
         Returns:
         None
         '''
+        # Initializing the records list
         self.records = []
-        # Opening the CSV file which is a list of rows
+
+        # Opening the CSV file in read mode and encoding it as utf-8 to avoid errors with special characters in the file name
         file = open(csvfile, 'r', encoding='utf-8')
 
         # Reading the CSV file
         reader = csv.reader(file)
 
-        # Iterating over each row in the CSV file and adding to the records list as a list of strings
-        for row in reader:
-            self.records.append(row)
+        # Getting the next line in the CSV file
+        self.next_line = next(reader)
+
+        for row in reader:  # Iterating over each row in the CSV file
+            self.records.append(row)  # Adding the row to the records list
 
         # Closing the CSV file
         file.close()
-
-        # print(self.records)
 
     def create_index(self, attribute: str) -> None:
         '''Construct an index using values of the specified attribute.
@@ -70,27 +72,15 @@ class Table(object):
         Returns:
         None
         '''
+        # Resetting the index
         self.index.reset()
 
-        if attribute == 'Book Code':
-            for i in range(len(self.records)):
-                self.index.insert((self.records[i][0], i))
+        # Getting the index of the attribute
+        ix = self.next_line.index(attribute)
 
-        elif attribute == 'Title':
-            for i in range(len(self.records)):
-                self.index.insert((self.records[i][1], i))
-
-        elif attribute == 'Category':
-            for i in range(len(self.records)):
-                self.index.insert((self.records[i][2], i))
-
-        elif attribute == 'Price':
-            for i in range(len(self.records)):
-                self.index.insert((self.records[i][3], i))
-
-        elif attribute == 'Pages':
-            for i in range(len(self.records)):
-                self.index.insert((self.records[i][4], i))
+        for line in range(len(self.records)):  # Iterating over each record
+            # Inserting the key and value into the index
+            self.index.insert((self.records[line][ix], line))
 
     def select(self, key: str) -> Optional[List[str]]:
         '''Return the record corresponding to the given key, None in case of
@@ -107,10 +97,13 @@ class Table(object):
         Returns:
         The record corresponding to key, None in case of error.
         '''
-        if self.index.size() == 0:
+        if self.index.size() == 0:  # If the index is empty,
             return None
         else:
-            return self.records[self.index.find(key)]
+            if self.index.find(key) is None:  # If the key is not found in the index,
+                return None
+            else:  # If the key is found in the index,
+                return self.records[self.index.find(key)]  # Return the record
 
     def select_range(self, start: str, end: str) -> Optional[List[List[str]]]:
         '''Returns the records corresponding to the keys in the range
@@ -128,20 +121,26 @@ class Table(object):
         The records in the order of the keys in the range [start,end], None in
         case of error.
         '''
+        # Initializing the list of records
+        records_of_range = []
 
-        # if self.records is None:
-        #     return None
-        for i in range(len(self.records)):
-            if self.records[i][0] == start:
-                self.start_index = i
-            if self.records[i][0] == end:
-                self.end_index = i
-        if (self.start_index is None or self.end_index is None) or (self.start_index > self.end_index):
+        # if the index is empty or start is greater than end, we return None
+        if self.index.size() == 0 or start > end:
             return None
-        else:
-            result = self.records[self.start_index:self.end_index+1]
-            return result
-    
+
+        # Finding the indexes of the start and end keys
+        indexlist = self.index.find_range(str(start), str(end))
+
+        # If we do not get the indexes, we return None
+        if indexlist == None:
+            return None
+
+        # Iterating over the indexes and appending the records to the list records_of_range
+        for i in indexlist:
+            records_of_range.append(self.records[i])
+
+        return records_of_range
+
     def delete(self, key: str) -> Optional[List[str]]:
         '''Deletes the record corresponding to key from the table and the index.
         Returns the deleted record, None in case of error.
@@ -157,14 +156,16 @@ class Table(object):
         Returns:
         The deleted record,  None in case of error.
         '''
-        index = None
-        for i in range(len(self.records)):
-            if self.records[i][0] == key:
-                index = i
-                break
-        if index == None:
+
+        # Storing the index of the key in key_index
+        key_index = self.index.find(key)
+
+        # If the key is not found in the index, we return None
+        if key_index is None:
             return None
-        else:
-            self.index.delete(key)
-            return self.records.pop(index)
-        
+
+        # Deleting the key from the index
+        self.index.remove(key)
+
+        # Returning the record
+        return self.records.pop(key_index)
