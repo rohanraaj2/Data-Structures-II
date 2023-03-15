@@ -18,7 +18,12 @@ class MySet(object):
         Returns:
         None
         """
-        self.set = elements
+        self.n = 0
+        self.set = set(elements)
+        # for coordinate in elements:
+            # self.set.
+
+            # hash_value = coordinate[0]
 
     def add(self, element: Any) -> None:
         """Adds element to this set.
@@ -33,7 +38,7 @@ class MySet(object):
         None
         """
         self.hash_value = hash(element[0]) * 31 + hash(element[1])
-        self.set.insert(hash_value, element)
+        self.set.add()
 
     def discard(self, element: Any) -> None:
         """Removes element from this set.
@@ -58,8 +63,9 @@ class MySet(object):
         Args:
         - self: manadatory reference to this object.
         """
-        self.n = 1
-        return self
+        self.n += 1
+        # if self.n <= len(self.set):
+        return iter(self)
 
 
 class ChainedSet(MySet):
@@ -67,6 +73,21 @@ class ChainedSet(MySet):
     hash table to implement the set.
     '''
 
+    def __init__(self, elements: [Any]) -> None:
+        """Initializes this set with elements.
+
+        Each element in elements must be hashable by python.
+
+        Args:
+        - self: manadatory reference to this object.
+        - elements: this set is populated with these elements.
+
+        Returns:
+        None
+        """
+        super().__init__(elements)
+        print(self.set)
+
     def add(self, element: Any) -> None:
         """Adds element to this set.
 
@@ -79,11 +100,12 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        super.add(element)
-        desired_place = self.set[self.hash_value]
-        if type(desired_place) == tuple:
-            chain = [desired_place, element]
-        desired_place = chain
+        pass
+        # super.add(element)
+        # desired_place = self.set[self.hash_value]
+        # if type(desired_place) == tuple:
+        #     chain = [desired_place, element]
+        # desired_place = chain
 
 
 class LinearSet(MySet):
@@ -91,6 +113,22 @@ class LinearSet(MySet):
     probing hash table to implement the set.
     '''
 
+    def __init__(self, elements: [Any]) -> None:
+        """Initializes this set with elements.
+
+        Each element in elements must be hashable by python.
+
+        Args:
+        - self: manadatory reference to this object.
+        - elements: this set is populated with these elements.
+
+        Returns:
+        None
+        """
+        
+            
+        super().__init__(elements)
+
     def add(self, element: Any) -> None:
         """Adds element to this set.
 
@@ -103,17 +141,21 @@ class LinearSet(MySet):
         Returns:
         None
         """
-        super.add(element)
-        desired_index = self.hash_value
-        desired_place = self.set[self.hash_value]
-        while type(desired_place) == tuple:
-            if desired_index == len:
-                desired_index = 0
-            desired_place = self.set[desired_index]
-            desired_index += 1
+        pass
+        # super().add(element)
+        # desired_index = self.hash_value
+        # desired_place = self.set[self.hash_value]
+        # while type(desired_place) == tuple:
+        #     if desired_index == len:
+        #         desired_index = 0
+        #     desired_place = self.set[desired_index]
+        #     desired_index += 1
 
-        if type(desired_place) != tuple:
-            self.set.insert(desired_index, element)
+        # if type(desired_place) != tuple:
+        #     self.set.insert(desired_index, element)
+
+        # print (element)
+        # print (self.set)
 
 
 class MyDict(object):
