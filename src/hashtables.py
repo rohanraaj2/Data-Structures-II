@@ -135,7 +135,7 @@ class LinearSet(MySet):
         pass
         super().add(element)
         index = self.hash_value
-        index_data = self.set[index]
+        index_data = self.set[index - 1]
         counter = 0
         while type(index_data) == tuple and counter < len(self.set):
             if index == len:
