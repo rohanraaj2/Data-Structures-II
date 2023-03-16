@@ -198,11 +198,6 @@ class MyDict(object):
         Returns:
         the stored value for key, default if no such value exists.
         """
-        # print ("dsjkogjdfojgodj")
-        # for entry in self.dict:
-        #     if entry[0] == key:
-        #         return entry[1]
-        # print("dndfkfn", self.dict.get(key, 0))
 
         return self.dict.get(key, default)
 
@@ -215,7 +210,10 @@ class MyDict(object):
         Returns:
         the key-value pairs of the dictionary as tuples in a list.
         """
-        pass
+        pair_list = []
+        for pair in self.dict:
+            pair_list.append(pair)
+        return pair_list
 
     def clear(self) -> None:
         """Clears the dictionary.
@@ -330,5 +328,6 @@ class LinearDict(MyDict):
         the stored value for key, default if no such value exists.
         """
         return (super().get(key, default))
+        # return self.dict.get(key, 0)
 
 # x = ChainedSet([(1,2), (2, 5), (6, 5)])
