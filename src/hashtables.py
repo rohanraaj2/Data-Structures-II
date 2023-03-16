@@ -96,8 +96,10 @@ class ChainedSet(MySet):
         super().add(element)
         desired_place_data = self.set[self.hash_value - 2]
         if type(desired_place_data) == tuple:
-            desired_place_data = [desired_place_data, element]
-        # desired_place_data = chain
+            chain = [desired_place_data, element]
+            desired_place_data = chain
+        elif type(desired_place_data) == list:
+            desired_place_data.append(element)
 
 
 class LinearSet(MySet):
