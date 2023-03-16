@@ -2,7 +2,7 @@
   "tests": [
     {
       "name": "Test Case 01",
-      "setup": "sudo -H pip3 install pytest nltk python3-tk pygame",
+      "setup": "sudo -H pip3 install pytest nltk pygame & apt-get install python3-tk",
       "run": "pytest",
       "input": "",
       "output": "",
