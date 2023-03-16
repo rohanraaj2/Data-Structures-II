@@ -33,7 +33,7 @@ class MySet(object):
         None
         """
         self.hash_value = hash(element)
-        self.set.insert(self.hash_value, element)
+        # self.set.insert(self.hash_value, element)
 
     def discard(self, element: Any) -> None:
         """Removes element from this set.
@@ -92,9 +92,8 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        # pass
         super().add(element)
-        desired_place_data = self.set[self.hash_value - 2]
+        desired_place_data = self.set[self.hash_value - 3]
         if type(desired_place_data) == tuple:
             chain = [desired_place_data, element]
             desired_place_data = chain
