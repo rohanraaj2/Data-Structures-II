@@ -165,7 +165,7 @@ class MyDict(object):
         Returns:
         none
         """
-        pass
+        self.dict = {}
 
     def __setitem__(self, key: Any, newvalue: Any) -> None:
         """Adds (key, newvalue) to the dictionary, overwriting any prior value.
@@ -183,7 +183,7 @@ class MyDict(object):
         Returns:
         None
         """
-        pass
+        self.dict[key] = newvalue
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -198,7 +198,13 @@ class MyDict(object):
         Returns:
         the stored value for key, default if no such value exists.
         """
-        pass
+        # print ("dsjkogjdfojgodj")
+        # for entry in self.dict:
+        #     if entry[0] == key:
+        #         return entry[1]
+        # print("dndfkfn", self.dict.get(key, 0))
+
+        return self.dict.get(key, default)
 
     def items(self) -> [(Any, Any)]:
         """Returns the key-value pairs of the dictionary as tuples in a list.
@@ -227,13 +233,102 @@ class ChainedDict(MyDict):
     '''Overrides and implementes the methods defined in MyDict. Uses a chained
     hash table to implement the dictionary.
     '''
-    pass
+
+    def __init__(self) -> None:
+        """Initializes this dictionary.
+
+        Args:
+        - self: manadatory reference to this object.
+
+        Returns:
+        none
+        """
+        self.dict = {}
+
+    def __setitem__(self, key: Any, newvalue: Any) -> None:
+        """Adds (key, newvalue) to the dictionary, overwriting any prior value.
+
+        dunder method allows assignment using indexing syntax, e.g.
+        d[key] = newvalue
+
+        key must be hashable by pytohn.
+
+        Args:
+        - self: manadatory reference to this object.
+        - key: the key to add to the dictionary
+        - newvalue: the value to store for the key, overwriting any prior value 
+
+        Returns:
+        None
+        """
+        self.dict[key] = newvalue
+
+    def get(self, key: Any, default: Any = None) -> Any:
+        """Returns the value stored for key, default if no value exists.
+
+        key must be hashable by pytohn.
+
+        Args:
+        - self: manadatory reference to this object.
+        - key: the key whose value is sought.
+        - default: the value to return if key does not exist in this dictionary
+
+        Returns:
+        the stored value for key, default if no such value exists.
+        """
+        # for entry in self.dict:
+        #     if entry[0] == key:
+        #         return entry[1]
+        return self.dict.get(key)
 
 
 class LinearDict(MyDict):
     '''Overrides and implementes the methods defined in MyDict. Uses a linear
     probing hash table to implement the dictionary.
     '''
-    pass
+
+    def __init__(self) -> None:
+        """Initializes this dictionary.
+
+        Args:
+        - self: manadatory reference to this object.
+
+        Returns:
+        none
+        """
+        self.dict = {}
+
+    def __setitem__(self, key: Any, newvalue: Any) -> None:
+        """Adds (key, newvalue) to the dictionary, overwriting any prior value.
+
+        dunder method allows assignment using indexing syntax, e.g.
+        d[key] = newvalue
+
+        key must be hashable by pytohn.
+
+        Args:
+        - self: manadatory reference to this object.
+        - key: the key to add to the dictionary
+        - newvalue: the value to store for the key, overwriting any prior value 
+
+        Returns:
+        None
+        """
+        self.dict[key] = newvalue
+
+    def get(self, key: Any, default: Any = None) -> Any:
+        """Returns the value stored for key, default if no value exists.
+
+        key must be hashable by pytohn.
+
+        Args:
+        - self: manadatory reference to this object.
+        - key: the key whose value is sought.
+        - default: the value to return if key does not exist in this dictionary
+
+        Returns:
+        the stored value for key, default if no such value exists.
+        """
+        return (super().get(key, default))
 
 # x = ChainedSet([(1,2), (2, 5), (6, 5)])
