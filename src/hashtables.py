@@ -18,6 +18,7 @@ class MySet(object):
         Returns:
         None
         """
+        # print (elements)
         self.set = elements
 
     def add(self, element: Any) -> None:
@@ -33,7 +34,7 @@ class MySet(object):
         None
         """
         self.hash_value = hash(element)
-        # self.set.insert(self.hash_value, element)
+        self.set.insert(self.hash_value, element)
 
     def discard(self, element: Any) -> None:
         """Removes element from this set.
@@ -133,7 +134,6 @@ class LinearSet(MySet):
         Returns:
         None
         """
-        pass
         super().add(element)
         index = self.hash_value
         index_data = self.set[index - 1]
@@ -148,10 +148,6 @@ class LinearSet(MySet):
 
         if type(index_data) != tuple:
             self.set.insert(index, element)
-
-        # print (element)
-        # print (self.set)
-
 
 class MyDict(object):
     '''An abstract class that provides a dictionary interface which is just
@@ -226,24 +222,12 @@ class MyDict(object):
         Returns:
         None.
         """
-        pass
-
+        self.dict.clear()
 
 class ChainedDict(MyDict):
     '''Overrides and implementes the methods defined in MyDict. Uses a chained
     hash table to implement the dictionary.
     '''
-
-    def __init__(self) -> None:
-        """Initializes this dictionary.
-
-        Args:
-        - self: manadatory reference to this object.
-
-        Returns:
-        none
-        """
-        super().__init__()
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -258,9 +242,7 @@ class ChainedDict(MyDict):
         Returns:
         the stored value for key, default if no such value exists.
         """
-        # for entry in self.dict:
-        #     if entry[0] == key:
-        #         return entry[1]
+        
         return (super().get(key, default))
 
 
@@ -269,17 +251,6 @@ class LinearDict(MyDict):
     probing hash table to implement the dictionary.
     '''
 
-    # def __init__(self) -> None:
-    #     """Initializes this dictionary.
-
-    #     Args:
-    #     - self: manadatory reference to this object.
-
-    #     Returns:
-    #     none
-    #     """
-    #     self.dict = {}
-
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
 
@@ -294,6 +265,5 @@ class LinearDict(MyDict):
         the stored value for key, default if no such value exists.
         """
         return (super().get(key, default))
-        # return self.dict.get(key, 0)
 
 # x = ChainedSet([(1,2), (2, 5), (6, 5)])
