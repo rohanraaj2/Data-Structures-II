@@ -93,11 +93,11 @@ class ChainedSet(MySet):
         None
         """
         # pass
-        # super.add(element)
-        desired_place_data = self.set[self.hash_value]
+        super().add(element)
+        desired_place_data = self.set[self.hash_value - 2]
         if type(desired_place_data) == tuple:
-            chain = [desired_place_data, element]
-        desired_place_data = chain
+            desired_place_data = [desired_place_data, element]
+        # desired_place_data = chain
 
 
 class LinearSet(MySet):
@@ -242,25 +242,7 @@ class ChainedDict(MyDict):
         Returns:
         none
         """
-        self.dict = {}
-
-    def __setitem__(self, key: Any, newvalue: Any) -> None:
-        """Adds (key, newvalue) to the dictionary, overwriting any prior value.
-
-        dunder method allows assignment using indexing syntax, e.g.
-        d[key] = newvalue
-
-        key must be hashable by pytohn.
-
-        Args:
-        - self: manadatory reference to this object.
-        - key: the key to add to the dictionary
-        - newvalue: the value to store for the key, overwriting any prior value 
-
-        Returns:
-        None
-        """
-        self.dict[key] = newvalue
+        super().__init__()
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -278,7 +260,7 @@ class ChainedDict(MyDict):
         # for entry in self.dict:
         #     if entry[0] == key:
         #         return entry[1]
-        return self.dict.get(key)
+        return (super().get(key, default))
 
 
 class LinearDict(MyDict):
@@ -286,34 +268,16 @@ class LinearDict(MyDict):
     probing hash table to implement the dictionary.
     '''
 
-    def __init__(self) -> None:
-        """Initializes this dictionary.
+    # def __init__(self) -> None:
+    #     """Initializes this dictionary.
 
-        Args:
-        - self: manadatory reference to this object.
+    #     Args:
+    #     - self: manadatory reference to this object.
 
-        Returns:
-        none
-        """
-        self.dict = {}
-
-    def __setitem__(self, key: Any, newvalue: Any) -> None:
-        """Adds (key, newvalue) to the dictionary, overwriting any prior value.
-
-        dunder method allows assignment using indexing syntax, e.g.
-        d[key] = newvalue
-
-        key must be hashable by pytohn.
-
-        Args:
-        - self: manadatory reference to this object.
-        - key: the key to add to the dictionary
-        - newvalue: the value to store for the key, overwriting any prior value 
-
-        Returns:
-        None
-        """
-        self.dict[key] = newvalue
+    #     Returns:
+    #     none
+    #     """
+    #     self.dict = {}
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
