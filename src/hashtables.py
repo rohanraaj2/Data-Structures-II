@@ -91,12 +91,12 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        pass
+        # pass
         # super.add(element)
-        # desired_place = self.set[self.hash_value]
-        # if type(desired_place) == tuple:
-        #     chain = [desired_place, element]
-        # desired_place = chain
+        desired_place_data = self.set[self.hash_value]
+        if type(desired_place_data) == tuple:
+            chain = [desired_place_data, element]
+        desired_place_data = chain
 
 
 class LinearSet(MySet):
@@ -116,8 +116,7 @@ class LinearSet(MySet):
         Returns:
         None
         """
-        
-            
+
         super().__init__(elements)
 
     def add(self, element: Any) -> None:
@@ -134,16 +133,19 @@ class LinearSet(MySet):
         """
         pass
         # super().add(element)
-        # desired_index = self.hash_value
-        # desired_place = self.set[self.hash_value]
-        # while type(desired_place) == tuple:
-        #     if desired_index == len:
-        #         desired_index = 0
-        #     desired_place = self.set[desired_index]
-        #     desired_index += 1
+        index = self.hash_value
+        index_data = self.set[index]
+        counter = 0
+        while type(index_data) == tuple and counter < len(self.set):
+            if index == len:
+                index = 0
+                counter += 1
+            index_data = self.set[index]
+            index += 1
+            counter += 1
 
-        # if type(desired_place) != tuple:
-        #     self.set.insert(desired_index, element)
+        if type(index_data) != tuple:
+            self.set.insert(index, element)
 
         # print (element)
         # print (self.set)
