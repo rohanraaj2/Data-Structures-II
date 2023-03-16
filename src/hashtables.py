@@ -19,10 +19,6 @@ class MySet(object):
         None
         """
         self.set = elements
-        # for coordinate in elements:
-            # self.set.
-
-            # hash_value = coordinate[0]
 
     def add(self, element: Any) -> None:
         """Adds element to this set.
@@ -37,7 +33,7 @@ class MySet(object):
         None
         """
         self.hash_value = hash(element[0]) * 31 + hash(element[1])
-        self.set.add()
+        self.set.insert(self.hash_value, element)
 
     def discard(self, element: Any) -> None:
         """Removes element from this set.
@@ -62,7 +58,6 @@ class MySet(object):
         Args:
         - self: manadatory reference to this object.
         """
-        print(self.set)
         return iter(self.set)
 
 class ChainedSet(MySet):
@@ -83,7 +78,6 @@ class ChainedSet(MySet):
         None
         """
         super().__init__(elements)
-        # print(self.set)
 
     def add(self, element: Any) -> None:
         """Adds element to this set.
