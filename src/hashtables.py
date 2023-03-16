@@ -18,8 +18,7 @@ class MySet(object):
         Returns:
         None
         """
-        self.n = 0
-        self.set = set(elements)
+        self.set = elements
         # for coordinate in elements:
             # self.set.
 
@@ -63,10 +62,8 @@ class MySet(object):
         Args:
         - self: manadatory reference to this object.
         """
-        self.n += 1
-        # if self.n <= len(self.set):
-        return iter(self)
-
+        print(self.set)
+        return iter(self.set)
 
 class ChainedSet(MySet):
     '''Overrides and implementes the methods defined in MySet. Uses a chained
@@ -86,7 +83,7 @@ class ChainedSet(MySet):
         None
         """
         super().__init__(elements)
-        print(self.set)
+        # print(self.set)
 
     def add(self, element: Any) -> None:
         """Adds element to this set.
@@ -242,3 +239,5 @@ class LinearDict(MyDict):
     probing hash table to implement the dictionary.
     '''
     pass
+
+# x = ChainedSet([(1,2), (2, 5), (6, 5)])
