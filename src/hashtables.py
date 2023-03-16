@@ -32,7 +32,7 @@ class MySet(object):
         Returns:
         None
         """
-        self.hash_value = hash(element[0]) * 31 + hash(element[1])
+        self.hash_value = hash(element)
         self.set.insert(self.hash_value, element)
 
     def discard(self, element: Any) -> None:
@@ -47,7 +47,8 @@ class MySet(object):
         Returns:
         None
         """
-        self.set.pop(element)
+        if element in self.set:
+            self.set.remove(element)
 
     def __iter__(self):
         """Makes this set iterable.
@@ -132,7 +133,7 @@ class LinearSet(MySet):
         None
         """
         pass
-        # super().add(element)
+        super().add(element)
         index = self.hash_value
         index_data = self.set[index]
         counter = 0
