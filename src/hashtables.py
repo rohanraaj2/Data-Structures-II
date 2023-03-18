@@ -18,8 +18,16 @@ class MySet(object):
         Returns:
         None
         """
+        self.set = []
+        for i in elements:
+            # print (i)
+            self.x = hash(i) % len(elements)
+            # print("HV: ", self.x)
+            self.set.insert(self.x, i)
         # print (elements)
-        self.set = elements
+        # print (self.set)
+        # self.set = elements.copy()
+
 
     def add(self, element: Any) -> None:
         """Adds element to this set.
@@ -33,8 +41,12 @@ class MySet(object):
         Returns:
         None
         """
-        self.hash_value = hash(element)
-        self.set.insert(self.hash_value, element)
+        # print("add")
+        # print (element)
+        # print(self.set)
+        self.hash_value = hash(element) % len(self.set)
+        # print ("HV:", self.hash_value)
+        # self.set.insert(self.hash_value, element)
 
     def discard(self, element: Any) -> None:
         """Removes element from this set.
@@ -48,8 +60,12 @@ class MySet(object):
         Returns:
         None
         """
+        # print ("discard")
         if element in self.set:
+            # print("before:", self.set)
             self.set.remove(element)
+            # print("after:", self.set)
+
 
     def __iter__(self):
         """Makes this set iterable.
@@ -93,13 +109,14 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        super().add(element)
-        desired_place_data = self.set[self.hash_value - 3]
-        if type(desired_place_data) == tuple:
-            chain = [desired_place_data, element]
-            desired_place_data = chain
-        elif type(desired_place_data) == list:
-            desired_place_data.append(element)
+        if element not in self.set:
+            super().add(element)
+            desired_place_data = self.set[self.hash_value]
+            if type(desired_place_data) == tuple:
+                chain = [desired_place_data, element]
+                desired_place_data = chain
+            elif type(desired_place_data) == list:
+                desired_place_data.append(element)
 
 
 class LinearSet(MySet):
@@ -134,26 +151,34 @@ class LinearSet(MySet):
         Returns:
         None
         """
-        super().add(element)
-        index = self.hash_value
-        index_data = self.set[index - 1]
-        counter = 0
-        while type(index_data) == tuple and counter < len(self.set):
-            if index == len:
-                index = 0
-                counter += 1
-            index_data = self.set[index]
-            index += 1
-            counter += 1
+        data = ()
+        index = 0
+        done = False
 
-        if type(index_data) != tuple:
-            self.set.insert(index, element)
+        if element not in self.set:
+            super().add(element)
+            index = self.hash_value 
+            # print(self.hash_value)
+            counter = 0
+            if index > len(self.set):
+                self.set.insert(index, element)
+                done = True
+                # index = 0
+                # counter += 1
+            else:
+                while type (self.set[index - 1]) == tuple:
+                    index += 1
+                    if index > len(self.set):
+                        self.set.insert(index, element)
+                        done = True
+                        break
+                if done == False:
+                    self.set.insert(index, element)
 
 class MyDict(object):
     '''An abstract class that provides a dictionary interface which is just
     sufficient for the implementation of this assignment.
     '''
-
     def __init__(self) -> None:
         """Initializes this dictionary.
 
@@ -181,7 +206,8 @@ class MyDict(object):
         Returns:
         None
         """
-        self.dict[key] = newvalue
+        if type(hash(key) == int):
+            self.dict[key] = newvalue
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -196,7 +222,14 @@ class MyDict(object):
         Returns:
         the stored value for key, default if no such value exists.
         """
+        # for k, value in self.dict.items():
+        #     if k == key:
+        #         return value
 
+        # # for k in self.dict:
+        # #     if k == key:
+        # #         return self.dict[key]
+        # return default
         return self.dict.get(key, default)
 
     def items(self) -> [(Any, Any)]:
@@ -209,8 +242,10 @@ class MyDict(object):
         the key-value pairs of the dictionary as tuples in a list.
         """
         pair_list = []
-        for pair in self.dict:
-            pair_list.append(pair)
+        for key in self.dict:
+            # print (key)
+            pair_list.append((key, self.dict[key]))
+        # print (pair_list)
         return pair_list
 
     def clear(self) -> None:
@@ -228,6 +263,9 @@ class ChainedDict(MyDict):
     '''Overrides and implementes the methods defined in MyDict. Uses a chained
     hash table to implement the dictionary.
     '''
+
+    def __init__(self) -> None:
+        super().__init__()
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
