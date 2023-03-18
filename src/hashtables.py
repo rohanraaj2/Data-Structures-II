@@ -152,22 +152,24 @@ class LinearSet(MySet):
         Returns:
         None
         """
+        data = ()
+        index = 0
         if element not in self.set:
             super().add(element)
-            self.linear_index = self.hash_value 
+            index = self.hash_value 
             # print(self.hash_value)
-            self.linear_index_data = self.set[self.linear_index - 1]
+            data = self.set[index - 1]
             counter = 0
-            while type(self.linear_index_data) == tuple and counter < len(self.set):
+            while type(data) == tuple and counter < len(self.set):
                 if index == len:
                     index = 0
                     counter += 1
-                self.linear_index_data = self.set[index]
-                self.linear_index += 1
+                data = self.set[index]
+                index += 1
                 counter += 1
 
-        if type(self.linear_index_data) != tuple:
-            self.set.insert(self.linear_index, element)
+        if type(data) != tuple:
+            self.set.insert(index, element)
 
 class MyDict(object):
     '''An abstract class that provides a dictionary interface which is just
