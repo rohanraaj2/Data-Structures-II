@@ -18,7 +18,13 @@ class MySet(object):
         Returns:
         None
         """
+        # self.set = []
+        # for i in elements:
+        #     print (i)
+        #     x = hash(i)
+        #     self.set.insert(x, i)
         # print (elements)
+        # print (self.set)
         self.set = elements
 
     def add(self, element: Any) -> None:
@@ -94,7 +100,7 @@ class ChainedSet(MySet):
         None
         """
         super().add(element)
-        desired_place_data = self.set[self.hash_value - 3]
+        desired_place_data = self.set[self.hash_value - 2]
         if type(desired_place_data) == tuple:
             chain = [desired_place_data, element]
             desired_place_data = chain
