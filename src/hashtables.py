@@ -110,18 +110,22 @@ class ChainedSet(MySet):
         None
         """
         # print ("chain add")
+        chain = [element]
         if element not in self.set:
             super().add(element)
             if self.hash_value > len(self.set):
-                self.set.insert(self.hash_value, element)
+                self.set.insert(self.hash_value, chain)
             else:
                 desired_place_data = self.set[self.hash_value]
                 if type(desired_place_data) == tuple:
-                    chain = [desired_place_data, element]
+                    chain.append(element)
                     self.set[self.hash_value] = chain
-                elif type(desired_place_data) == list:
-                    desired_place_data.append(element)
-
+                    # self.set.insert(self.hash_value, chain)
+            # print(self.set)
+                    # chain = [desired_place_data, element]
+                    # self.set[self.hash_value] = chain
+                # elif type(desired_place_data) == list:
+                #     desired_place_data.append(element)
 
 class LinearSet(MySet):
     '''Overrides and implementes the methods defined in MySet. Uses a linear
@@ -221,14 +225,11 @@ class MyDict(object):
         Returns:
         the stored value for key, default if no such value exists.
         """
-        # for k, value in self.dict.items():
-        #     if k == key:
-        #         return value
 
-        # # for k in self.dict:
-        # #     if k == key:
-        # #         return self.dict[key]
-        # return default
+        for k in self.dict:
+            if k == key:
+                return self.dict[key]
+        return default
         return self.dict.get(key, default)
 
     def items(self) -> [(Any, Any)]:
