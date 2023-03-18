@@ -20,12 +20,13 @@ class MySet(object):
         """
         # self.set = []
         # for i in elements:
-        #     print (i)
+        #     # print (i)
         #     self.x = hash(i)
+        #     print(self.x)
+
         #     self.set.insert(self.x, i)
         # print (elements)
         # print (self.set)
-        # self.set = elements
         self.set = elements.copy()
 
 
@@ -41,10 +42,12 @@ class MySet(object):
         Returns:
         None
         """
-        print("add")
-
-        self.hash_value = hash(element)
-        self.set.insert(self.hash_value, element)
+        # print("add")
+        print (element)
+        print(self.set)
+        self.hash_value = hash(element) % len(self.set)
+        print (self.hash_value)
+        # self.set.insert(self.hash_value, element)
 
     def discard(self, element: Any) -> None:
         """Removes element from this set.
@@ -107,13 +110,14 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        super().add(element)
-        desired_place_data = self.set[self.hash_value - 4]
-        if type(desired_place_data) == tuple:
-            chain = [desired_place_data, element]
-            desired_place_data = chain
-        elif type(desired_place_data) == list:
-            desired_place_data.append(element)
+        if element not in self.set:
+            super().add(element)
+            desired_place_data = self.set[self.hash_value]
+            if type(desired_place_data) == tuple:
+                chain = [desired_place_data, element]
+                desired_place_data = chain
+            elif type(desired_place_data) == list:
+                desired_place_data.append(element)
 
 
 class LinearSet(MySet):
@@ -148,20 +152,22 @@ class LinearSet(MySet):
         Returns:
         None
         """
-        super().add(element)
-        index = self.hash_value
-        index_data = self.set[index - 1]
-        counter = 0
-        while type(index_data) == tuple and counter < len(self.set):
-            if index == len:
-                index = 0
+        if element not in self.set:
+            super().add(element)
+            self.linear_index = self.hash_value 
+            # print(self.hash_value)
+            self.linear_index_data = self.set[self.linear_index - 1]
+            counter = 0
+            while type(self.linear_index_data) == tuple and counter < len(self.set):
+                if index == len:
+                    index = 0
+                    counter += 1
+                self.linear_index_data = self.set[index]
+                self.linear_index += 1
                 counter += 1
-            index_data = self.set[index]
-            index += 1
-            counter += 1
 
-        if type(index_data) != tuple:
-            self.set.insert(index, element)
+        if type(self.linear_index_data) != tuple:
+            self.set.insert(self.linear_index, element)
 
 class MyDict(object):
     '''An abstract class that provides a dictionary interface which is just
