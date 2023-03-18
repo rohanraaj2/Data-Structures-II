@@ -21,11 +21,13 @@ class MySet(object):
         # self.set = []
         # for i in elements:
         #     print (i)
-        #     x = hash(i)
-        #     self.set.insert(x, i)
+        #     self.x = hash(i)
+        #     self.set.insert(self.x, i)
         # print (elements)
         # print (self.set)
-        self.set = elements
+        # self.set = elements
+        self.set = elements.copy()
+
 
     def add(self, element: Any) -> None:
         """Adds element to this set.
