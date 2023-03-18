@@ -41,6 +41,8 @@ class MySet(object):
         Returns:
         None
         """
+        print("add")
+
         self.hash_value = hash(element)
         self.set.insert(self.hash_value, element)
 
@@ -56,8 +58,12 @@ class MySet(object):
         Returns:
         None
         """
+        # print ("discard")
         if element in self.set:
+            # print("before:", self.set)
             self.set.remove(element)
+            # print("after:", self.set)
+
 
     def __iter__(self):
         """Makes this set iterable.
@@ -102,7 +108,7 @@ class ChainedSet(MySet):
         None
         """
         super().add(element)
-        desired_place_data = self.set[self.hash_value - 2]
+        desired_place_data = self.set[self.hash_value - 4]
         if type(desired_place_data) == tuple:
             chain = [desired_place_data, element]
             desired_place_data = chain
@@ -161,7 +167,6 @@ class MyDict(object):
     '''An abstract class that provides a dictionary interface which is just
     sufficient for the implementation of this assignment.
     '''
-
     def __init__(self) -> None:
         """Initializes this dictionary.
 
@@ -189,7 +194,8 @@ class MyDict(object):
         Returns:
         None
         """
-        self.dict[key] = newvalue
+        if type(hash(key) == int):
+            self.dict[key] = newvalue
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -204,7 +210,14 @@ class MyDict(object):
         Returns:
         the stored value for key, default if no such value exists.
         """
+        # for k, value in self.dict.items():
+        #     if k == key:
+        #         return value
 
+        # # for k in self.dict:
+        # #     if k == key:
+        # #         return self.dict[key]
+        # return default
         return self.dict.get(key, default)
 
     def items(self) -> [(Any, Any)]:
@@ -217,8 +230,10 @@ class MyDict(object):
         the key-value pairs of the dictionary as tuples in a list.
         """
         pair_list = []
-        for pair in self.dict:
-            pair_list.append(pair)
+        for key in self.dict:
+            # print (key)
+            pair_list.append((key, self.dict[key]))
+        # print (pair_list)
         return pair_list
 
     def clear(self) -> None:
@@ -236,6 +251,9 @@ class ChainedDict(MyDict):
     '''Overrides and implementes the methods defined in MyDict. Uses a chained
     hash table to implement the dictionary.
     '''
+
+    def __init__(self) -> None:
+        super().__init__()
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
