@@ -109,14 +109,18 @@ class ChainedSet(MySet):
         Returns:
         None
         """
+        # print ("chain add")
         if element not in self.set:
             super().add(element)
-            desired_place_data = self.set[self.hash_value]
-            if type(desired_place_data) == tuple:
-                chain = [desired_place_data, element]
-                desired_place_data = chain
-            elif type(desired_place_data) == list:
-                desired_place_data.append(element)
+            if self.hash_value > len(self.set):
+                self.set.insert(self.hash_value, element)
+            else:
+                desired_place_data = self.set[self.hash_value]
+                if type(desired_place_data) == tuple:
+                    chain = [desired_place_data, element]
+                    self.set[self.hash_value] = chain
+                elif type(desired_place_data) == list:
+                    desired_place_data.append(element)
 
 
 class LinearSet(MySet):
@@ -151,20 +155,15 @@ class LinearSet(MySet):
         Returns:
         None
         """
-        data = ()
         index = 0
         done = False
 
         if element not in self.set:
             super().add(element)
             index = self.hash_value 
-            # print(self.hash_value)
-            counter = 0
             if index > len(self.set):
                 self.set.insert(index, element)
                 done = True
-                # index = 0
-                # counter += 1
             else:
                 while type (self.set[index - 1]) == tuple:
                     index += 1
