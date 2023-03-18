@@ -18,16 +18,15 @@ class MySet(object):
         Returns:
         None
         """
-        # self.set = []
-        # for i in elements:
-        #     # print (i)
-        #     self.x = hash(i)
-        #     print(self.x)
-
-        #     self.set.insert(self.x, i)
+        self.set = []
+        for i in elements:
+            # print (i)
+            self.x = hash(i) % len(elements)
+            # print("HV: ", self.x)
+            self.set.insert(self.x, i)
         # print (elements)
         # print (self.set)
-        self.set = elements.copy()
+        # self.set = elements.copy()
 
 
     def add(self, element: Any) -> None:
@@ -43,10 +42,10 @@ class MySet(object):
         None
         """
         # print("add")
-        print (element)
-        print(self.set)
+        # print (element)
+        # print(self.set)
         self.hash_value = hash(element) % len(self.set)
-        print (self.hash_value)
+        # print ("HV:", self.hash_value)
         # self.set.insert(self.hash_value, element)
 
     def discard(self, element: Any) -> None:
@@ -154,22 +153,27 @@ class LinearSet(MySet):
         """
         data = ()
         index = 0
+        done = False
+
         if element not in self.set:
             super().add(element)
             index = self.hash_value 
             # print(self.hash_value)
-            data = self.set[index - 1]
             counter = 0
-            while type(data) == tuple and counter < len(self.set):
-                if index == len:
-                    index = 0
-                    counter += 1
-                data = self.set[index]
-                index += 1
-                counter += 1
-
-        if type(data) != tuple:
-            self.set.insert(index, element)
+            if index > len(self.set):
+                self.set.insert(index, element)
+                done = True
+                # index = 0
+                # counter += 1
+            else:
+                while type (self.set[index - 1]) == tuple:
+                    index += 1
+                    if index > len(self.set):
+                        self.set.insert(index, element)
+                        done = True
+                        break
+                if done == False:
+                    self.set.insert(index, element)
 
 class MyDict(object):
     '''An abstract class that provides a dictionary interface which is just

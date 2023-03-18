@@ -100,7 +100,7 @@ class Life:
         # print(self._nbr_count.dict)
         # Apply rules based on numberof neighbors.
         for coord, count in self._nbr_count.items():
-            print(count)
+            # print(count)
             # Alive cells with too few or too many alive neighbors die.
             if count == 1 or count > 3:
                 self._alive.discard(coord)
