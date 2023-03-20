@@ -56,10 +56,10 @@ class AVLTree:
         elif bf < -1 and key >= parent.right.key:
             self.root = self.rotate_left(parent)
 
-        # left-right case
-        elif bf > 1 and key >= parent.left.key:
-            parent.left = self.rotate_left(parent.left)
-            self.root = self.rotate_right(parent)
+        # left-right case working
+        elif bf > 1 and key > self.root.left.key:
+            self.root.left = self.rotate_left(self.root.left)
+            self.root = self.rotate_right(self.root)
 
         # right-left case working
         elif bf < -1 and (key < self.root.right.key):
