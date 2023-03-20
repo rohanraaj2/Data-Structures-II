@@ -48,11 +48,11 @@ class AVLTree:
         # check balance factor and rotate if necessary
         bf = self._get_balance_factor(self.root)
         
-        # left-left case
+        # left-left case working
         if bf > 1 and (key < self.root.left.key):
             self.root = self.rotate_right(self.root)
 
-        # right-right case
+        # right-right case working
         elif bf < -1 and key >= parent.right.key:
             self.root = self.rotate_left(parent)
 
@@ -61,10 +61,10 @@ class AVLTree:
             parent.left = self.rotate_left(parent.left)
             self.root = self.rotate_right(parent)
 
-        # right-left case
+        # right-left case working
         elif bf < -1 and (key < self.root.right.key):
-            parent.right = self.rotate_right(parent.right)
-            self.root = self.rotate_left(parent)    
+            self.root.right = self.rotate_right(self.root.right)
+            self.root = self.rotate_left(self.root)    
 
     def search (self, key:str) -> list[tuple[int,int]] :
         # Searches for a keyword in the AVL Tree and returns a list of (doc id, sen id) corresponding to the keyword. 
