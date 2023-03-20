@@ -53,8 +53,8 @@ class AVLTree:
             self.root = self.rotate_right(self.root)
 
         # right-right case working
-        elif bf < -1 and key >= parent.right.key:
-            self.root = self.rotate_left(parent)
+        elif bf < -1 and key > self.root.right.key:
+            self.root = self.rotate_left(self.root)
 
         # left-right case working
         elif bf > 1 and key > self.root.left.key:
@@ -72,14 +72,14 @@ class AVLTree:
         temp = self.root
 
         while temp != None:
-            if key < temp.key:
+            if key == temp.key:
+                return temp.value
+            elif key < temp.key:
                 temp = temp.left
             elif key > temp.key:
                 temp = temp.right       
-            else:
-                return temp.value
-            return []
-        pass
+            
+        return []
 
     def rotate_left(self, node:AVLTreeNode) -> AVLTreeNode:
         # Performs a left rotation on the subtree rooted at the given node.
@@ -173,14 +173,16 @@ class AVLTree:
 
 # testing
 
-# A = AVLTree()
-# # Left Rotation - right right case
-# print("Inserting 8")
-# A.insert(8,1)
-# print("Inserting 9")
-# A.insert(9,1)
-# print("Inserting 10")
-# A.insert(10,2)                
+A = AVLTree()
+# Left Rotation - right right case
+print("Inserting 8")
+A.insert(8,1)
+print("Inserting 9")
+A.insert(9,1)
+print("Inserting 10")
+A.insert(10,2)  
+print("searching 8")
+A.search(8)              
 
 # B = AVLTree()
 # # Right Rotation
