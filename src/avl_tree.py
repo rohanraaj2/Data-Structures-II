@@ -1,5 +1,3 @@
-# import nltk
-
 class AVLTreeNode:
 
     def __init__(self, key, value) -> None:
@@ -14,57 +12,11 @@ class AVLTree:
     def __init__(self) -> None:
         self.root = None
 
-    def  insert (self, key:str, value: tuple[int,int]) -> None:
+    def insert (self, key:str, value: tuple[int,int]) -> None:
         # Inserts a (doc id, sen id) tuple into the AVL Tree with the given keyword
 
         node = AVLTreeNode(key,value)           # create a node to add in the tree
-
-        # add the node as you would in binary tree
-        # case 1: tree is empty
-        if (self.root == None):
-            self.root = node
-            return                              # no need to go ahead in the function
-
-        # case 2: node is smaller than existing node
-        # case 3: node is larger than existing node
-        else:
-            temp = self.root
-            while temp != None:
-                parent = temp
-                if key < temp.key:
-                    temp = temp.left
-                elif key > temp.key:  
-                    temp = temp.right  
-            temp = node 
-
-            if key < parent.key:
-                parent.left = temp
-            else:
-                parent.right = temp           
-
-        # update the height of each node in the tree
-        self._update_height(self.root, node)                                             
-
-        # check balance factor and rotate if necessary
-        bf = self._get_balance_factor(self.root)
-        
-        # left-left case working
-        if bf > 1 and (key < self.root.left.key):
-            self.root = self.rotate_right(self.root)
-
-        # right-right case working
-        elif bf < -1 and key > self.root.right.key:
-            self.root = self.rotate_left(self.root)
-
-        # left-right case working
-        elif bf > 1 and key > self.root.left.key:
-            self.root.left = self.rotate_left(self.root.left)
-            self.root = self.rotate_right(self.root)
-
-        # right-left case working
-        elif bf < -1 and (key < self.root.right.key):
-            self.root.right = self.rotate_right(self.root.right)
-            self.root = self.rotate_left(self.root)    
+        self.root = self._insert(self.root, node) 
 
     def search (self, key:str) -> list[tuple[int,int]] :
         # Searches for a keyword in the AVL Tree and returns a list of (doc id, sen id) corresponding to the keyword. 
@@ -112,12 +64,48 @@ class AVLTree:
     def display(self) -> list[str]:
         # Performs an in-order traversal on the AVL Tree and returns a list of keys.
         tree = []
-
         self._inorder_traversal(self.root,tree)     
-
         return tree                         
 
     # helper functions to make coding easier
+    def _insert(self, node:AVLTreeNode, node_to_insert:AVLTreeNode) -> AVLTreeNode:
+
+        if node != None:
+            if node_to_insert.key < node.key:
+                node.left = self._insert(node.left, node_to_insert)
+            elif node_to_insert.key > node.key:
+                node.right = self._insert(node.right, node_to_insert)
+            else:
+                node.value = node_to_insert.value
+
+            # update the node height
+            node.height = 1 + max(self._get_height(node.left), self._get_height(node.right))
+
+            # check balance factor and rotate if necessary
+            bf = self._get_balance_factor(node)
+
+            # left left case
+            if bf > 1 and node_to_insert.key < node.left.key:
+                return self.rotate_right(node)
+            
+            # right right case
+            if bf < -1 and node_to_insert.key > node.right.key:
+                return self.rotate_left(node)
+            
+            # left right case
+            if bf > 1 and node_to_insert.key > node.left.key:
+                node.left = self.rotate_left(node.left)
+                return self.rotate_right(node)
+            
+            # right left case
+            if bf < -1 and node_to_insert.key < node.right.key:
+                node.right = self.rotate_right(node.right)
+                return self.rotate_left(node)
+            return node 
+        
+        else:
+            return node_to_insert 
+        pass
 
     def _get_height(self, node: AVLTreeNode) -> int:
         # returns height of node
