@@ -113,29 +113,7 @@ class AVLTree:
         # Performs an in-order traversal on the AVL Tree and returns a list of keys.
         tree = []
 
-        temp = self.root
-        prev = None
-        parent = None
-
-        while temp != None:
-            if prev == parent:
-                if temp.left != None:
-                    next = temp.left
-                elif temp.right != None:
-                    next = temp.right
-                else:
-                    next = parent
-            elif prev == temp.left:
-                if temp.right != None:
-                    next = temp.right
-                else:
-                    next = parent
-            else:
-                next = parent
-
-            tree.append(temp.key)
-            prev = temp
-            temp = next      
+        self._inorder_traversal(self.root,tree)     
 
         return tree                         
 
@@ -171,18 +149,25 @@ class AVLTree:
             else:
                 self._update_height(node.right, inserted_node)  
 
+    def _inorder_traversal(self, node:AVLTreeNode, tree:list):
+        if node != None:
+            self._inorder_traversal(node.left,tree)
+            tree.append(node.key)
+            self._inorder_traversal(node.right,tree)
+        return  
+
 # testing
 
-A = AVLTree()
-# Left Rotation - right right case
-print("Inserting 8")
-A.insert(8,1)
-print("Inserting 9")
-A.insert(9,1)
-print("Inserting 10")
-A.insert(10,2)  
-print("searching 8")
-A.search(8)              
+# A = AVLTree()
+# # Left Rotation - right right case
+# print("Inserting 8")
+# A.insert(8,1)
+# print("Inserting 9")
+# A.insert(9,1)
+# print("Inserting 10")
+# A.insert(10,2)  
+# A.search(8)
+# A.display()             
 
 # B = AVLTree()
 # # Right Rotation
