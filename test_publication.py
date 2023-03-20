@@ -3,7 +3,7 @@ import random
 from publication import Publication
 
 P = Publication()
-P.read('hw3_data.csv')
+P.read('data/publications.csv')
 P.create_tree()
 @pytest.mark.parametrize('i', range(1000))
 def test_keyword(i):
