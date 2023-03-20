@@ -94,23 +94,17 @@ class Life:
         # Collect the number of times each coordinate appears as a
         # neighbor. That provides a count of the number of live neighbors of
         # these cells.
-        # print (self._alive.set)
         for coord in neighbors:
             self._nbr_count[coord] = self._nbr_count.get(coord, 0) + 1
-        # print(self._nbr_count.dict)
         # Apply rules based on numberof neighbors.
         for coord, count in self._nbr_count.items():
-            # print(count)
             # Alive cells with too few or too many alive neighbors die.
             if count == 1 or count > 3:
                 self._alive.discard(coord)
-                # print (self._alive.set)
             # Cells with 3 alive neighbors come alive.
             elif count == 3:
                 self._alive.add(coord)
-                # print("change")
 
-        # print (self._alive.set)
             # All other live cells survive.
         # Clear for next iteration.
         self._nbr_count.clear()
