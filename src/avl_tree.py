@@ -73,10 +73,12 @@ class AVLTree:
         if node != None:
             if node_to_insert.key < node.key:
                 node.left = self._insert(node.left, node_to_insert)
+
             elif node_to_insert.key > node.key:
                 node.right = self._insert(node.right, node_to_insert)
+                
             else:
-                node.value = node_to_insert.value
+                return node
 
             # update the node height
             node.height = 1 + max(self._get_height(node.left), self._get_height(node.right))
@@ -101,6 +103,7 @@ class AVLTree:
             if bf < -1 and node_to_insert.key < node.right.key:
                 node.right = self.rotate_right(node.right)
                 return self.rotate_left(node)
+            
             return node 
         
         else:
