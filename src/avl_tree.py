@@ -42,33 +42,29 @@ class AVLTree:
             else:
                 parent.right = temp           
 
-        # update heights, check bf and rotate if necessary
-        temp = node
-        while temp != None:
-            temp.height = 1 + max(self._get_height(temp.left), self._get_height(temp.right))
-            bf = self._get_height(temp.left) - self._get_height(temp.right)             # balance factor is within range if between -1 < bf < 1
+        # update the height of each node in the tree
+        self._update_height(self.root, node)                                             
 
-            # case 1: left-left
-            if bf > 1 and self._get_balance_factor(temp.left) >= 0:         
-                temp = self.rotate_right(temp)  
-                self.display()          
+        # check balance factor and rotate if necessary
+        bf = self._get_balance_factor(self.root)
+        
+        # left-left case
+        if bf > 1 and (key < self.root.left.key):
+            self.root = self.rotate_right(self.root)
 
-            # case 2: right-right
-            elif bf > 1 and self._get_balance_factor(temp.left) < 0:
-                temp.left = self.rotate_left(temp.left)
-                temp = self.rotate_right(temp)
-                self.display() 
+        # right-right case
+        elif bf < -1 and key >= parent.right.key:
+            self.root = self.rotate_left(parent)
 
-            # case 3: left-right
-            elif bf < -1 and self._get_balance_factor(temp.right) <= 0:
-                temp = self.rotate_left(temp)
-                self.display() 
+        # left-right case
+        elif bf > 1 and key >= parent.left.key:
+            parent.left = self.rotate_left(parent.left)
+            self.root = self.rotate_right(parent)
 
-            # case 4: right- left
-            elif bf < -1 and self._get_balance_factor(temp.right) > 0:
-                temp.right = self.rotate_right(temp.right)
-                temp = self.rotate_left(temp)
-                self.display() 
+        # right-left case
+        elif bf < -1 and (key < self.root.right.key):
+            parent.right = self.rotate_right(parent.right)
+            self.root = self.rotate_left(parent)    
 
     def search (self, key:str) -> list[tuple[int,int]] :
         # Searches for a keyword in the AVL Tree and returns a list of (doc id, sen id) corresponding to the keyword. 
@@ -87,26 +83,30 @@ class AVLTree:
 
     def rotate_left(self, node:AVLTreeNode) -> AVLTreeNode:
         # Performs a left rotation on the subtree rooted at the given node.
-        new_root = node.right
-        node.right = new_root.left
-        new_root.left = node
+        right_child = node.right
+        right_left_child = right_child.left
 
-        node.height = 1 + max(self._get_height(node.left), self._get_height(node.right))
-        new_root.height = 1 + max(self._get_height(new_root.left), self._get_height(new_root.right))
+        right_child.left = node
+        node.right = right_left_child
 
-        return new_root
+        node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
+        right_child.height = max(self._get_height(right_child.left), self._get_height(right_child.right)) + 1
+
+        return right_child
         pass
 
     def rotate_right(self, node:AVLTreeNode) -> AVLTreeNode:
         # Performs a right rotation on the subtree rooted at the given node.
-        new_root = node.left
-        node.left = new_root.right
-        new_root.right = node
+        left_child = node.left
+        left_right_child = left_child.right
 
-        node.height = 1 + max(self._get_height(node.left), self._get_height(node.right))
-        new_root.height = 1 + max(self._get_height(new_root.left), self._get_height(new_root.right))
+        left_child.right = node
+        node.left = left_right_child
 
-        return new_root
+        node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
+        left_child.height = max(self._get_height(left_child.left), self._get_height(left_child.right)) + 1
+
+        return left_child
         pass
 
     def display(self) -> list[str]:
@@ -143,7 +143,69 @@ class AVLTree:
 
     def _get_height(self, node: AVLTreeNode) -> int:
         # returns height of node
-        return node.height
+        if node != None:
+            return node.height
+        else:
+            return 0
     
     def _get_balance_factor(self, node: AVLTreeNode) -> int:
-        return self._get_height(node.left) - self._get_height(node.right)
+        if node != None:
+            return self._get_height(node.left) - self._get_height(node.right)
+        else:
+            return 0    
+        
+    def _update_height(self, node: AVLTreeNode, inserted_node: AVLTreeNode) -> None:
+        # Updates the height of each node in the tree from the inserted node up to the root
+
+        if node == None:
+            return
+        else:
+            # Update the height of the current node
+            node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
+
+            # Recursively update the height of the parent nodes up to the root
+            if node == inserted_node:
+                return
+            elif inserted_node.key < node.key:
+                self._update_height(node.left, inserted_node)
+            else:
+                self._update_height(node.right, inserted_node)  
+
+# testing
+
+# A = AVLTree()
+# # Left Rotation - right right case
+# print("Inserting 8")
+# A.insert(8,1)
+# print("Inserting 9")
+# A.insert(9,1)
+# print("Inserting 10")
+# A.insert(10,2)                
+
+# B = AVLTree()
+# # Right Rotation
+# print("Inserting 10")
+# B.insert(10,1)
+# print("Inserting 9")
+# B.insert(9,1)
+# print("Inserting 8")
+# B.insert(8,2)
+
+# C = AVLTree()
+# # Right - Left Rotation
+# print("Inserting 10")
+# C.insert(10,1)
+# print("Inserting 12")
+# C.insert(12,2)
+# print("Inserting 11")
+# C.insert(11,3)
+
+
+# D = AVLTree()
+# # Left - Right Rotation
+# print("Inserting 10")
+# D.insert(10,1)
+# print("Inserting 8")
+# D.insert(8,2)
+# print("Inserting 9")
+# D.insert(9,3)
