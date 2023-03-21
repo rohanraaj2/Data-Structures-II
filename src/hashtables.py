@@ -103,17 +103,20 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        self.hash_value = hash(element) % len(self.set)
+        hash_value = hash(element) % len(self.set)
         # print ("chain add")
-        chain = [element]
-        if element not in self.set:
-            if self.hash_value > len(self.set):
-                self.set.insert(self.hash_value, chain)
-            else:
-                desired_place_data = self.set[self.hash_value]
-                if type(desired_place_data) == tuple:
-                    chain.append(element)
-                    self.set[self.hash_value] = chain
+        chain = self.set[hash_value]
+        if element not in chain:
+            chain.append(element)
+        # chain = [element]
+        # if element not in self.set:
+        #     if self.hash_value > len(self.set):
+        #         self.set.insert(self.hash_value, chain)
+        #     else:
+        #         desired_place_data = self.set[self.hash_value]
+        #         if type(desired_place_data) == list:
+        #             chain.append(element)
+        #             self.set[self.hash_value] = chain
                     # self.set.insert(self.hash_value, chain)
             # print(self.set)
                     # chain = [desired_place_data, element]
