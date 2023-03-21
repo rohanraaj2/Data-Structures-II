@@ -137,9 +137,12 @@ class ChainedSet(MySet):
         None
         """
         # print ("discard")
-        if element in self.set:
-            # print("before:", self.set)
-            self.set.remove(element)
+        chain = self.set[hash(element) % len(self.set)]
+        if element in chain:
+            chain.remove(element)
+        # if element in self.set:
+        #     # print("before:", self.set)
+        #     self.set.remove(element)
             # print("after:", self.set)
 
     def __iter__(self):
@@ -151,7 +154,8 @@ class ChainedSet(MySet):
         Args:
         - self: manadatory reference to this object.
         """
-        return iter(self.set)
+        for chain in self.set:
+            yield from chain
 
 
 class LinearSet(MySet):
