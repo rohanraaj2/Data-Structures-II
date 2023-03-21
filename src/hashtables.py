@@ -177,11 +177,12 @@ class LinearSet(MySet):
         """
 
         self.set = []
-        for i in elements:
+        for element in elements:
+            # self.add(element)
             # print (i)
-            self.x = hash(i) % len(elements)
+            hash_value = hash(element) % len(elements)
             # print("HV: ", self.x)
-            self.set.insert(self.x, i)
+            self.set.insert(hash_value, element)
         # print (elements)
         # print (self.set)
         # self.set = elements.copy()
@@ -200,15 +201,15 @@ class LinearSet(MySet):
         """
         index = 0
         done = False
-        self.hash_value = hash(element) % len(self.set)
+        hash_value = hash(element) % len(self.set)
 
         if element not in self.set:
-            index = self.hash_value 
+            index = hash_value
             if index > len(self.set):
                 self.set.insert(index, element)
                 done = True
             else:
-                while type (self.set[index - 1]) == tuple:
+                while type(self.set[index - 1]) == tuple:
                     index += 1
                     if index > len(self.set):
                         self.set.insert(index, element)
@@ -244,11 +245,7 @@ class LinearSet(MySet):
         Args:
         - self: manadatory reference to this object.
         """
-
-        for element in self.set:
-            if element is not None:
-                yield element
-
+        return iter([element for element in self.set if element is not None])
 
 
 class MyDict(object):
@@ -378,7 +375,7 @@ class ChainedDict(MyDict):
             return self.dict[key]
         else:
             return default
-
+    
     def items(self) -> [(Any, Any)]:
         """Returns the key-value pairs of the dictionary as tuples in a list.
 
@@ -405,9 +402,6 @@ class ChainedDict(MyDict):
         None.
         """
         self.dict = {}
-
-
-
 
 class LinearDict(MyDict):
     '''Overrides and implementes the methods defined in MyDict. Uses a linear
