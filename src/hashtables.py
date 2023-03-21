@@ -80,16 +80,9 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        self.set = [[] for _ in range(len(elements))]
+        self.set = [[] for _ in range(len(elements))] # initializing set with empty lists
         for element in elements:
-            # print (i)
             self.add(element)
-            # self.x = hash(i) % len(elements)
-            # print("HV: ", self.x)
-            # self.set.insert(self.x, i)
-        # print (elements)
-        # print (self.set)
-        # self.set = elements.copy()
 
     def add(self, element: Any) -> None:
         """Adds element to this set.
@@ -103,26 +96,10 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        hash_value = hash(element) % len(self.set)
-        # print ("chain add")
-        chain = self.set[hash_value]
+        hash_value = hash(element) % len(self.set) # getting the hash value of the element
+        chain = self.set[hash_value] # getting the list at the index of the hash value
         if element not in chain:
-            chain.append(element)
-        # chain = [element]
-        # if element not in self.set:
-        #     if self.hash_value > len(self.set):
-        #         self.set.insert(self.hash_value, chain)
-        #     else:
-        #         desired_place_data = self.set[self.hash_value]
-        #         if type(desired_place_data) == list:
-        #             chain.append(element)
-        #             self.set[self.hash_value] = chain
-                    # self.set.insert(self.hash_value, chain)
-            # print(self.set)
-                    # chain = [desired_place_data, element]
-                    # self.set[self.hash_value] = chain
-                # elif type(desired_place_data) == list:
-                #     desired_place_data.append(element)
+            chain.append(element) 
 
     def discard(self, element: Any) -> None:
         """Removes element from this set.
@@ -136,14 +113,9 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        # print ("discard")
-        chain = self.set[hash(element) % len(self.set)]
+        chain = self.set[hash(element) % len(self.set)] # getting the list at the index of the hash value
         if element in chain:
             chain.remove(element)
-        # if element in self.set:
-        #     # print("before:", self.set)
-        #     self.set.remove(element)
-            # print("after:", self.set)
 
     def __iter__(self):
         """Makes this set iterable.
@@ -155,7 +127,7 @@ class ChainedSet(MySet):
         - self: manadatory reference to this object.
         """
         for chain in self.set:
-            yield from chain
+            yield from chain # yield from is used to iterate over the elements in the list
 
 
 class LinearSet(MySet):
@@ -176,17 +148,10 @@ class LinearSet(MySet):
         None
         """
 
-        size = len(elements) * 2 
-        self.set = [None] * size
+        size = len(elements) * 2 # initializing size to twice the length of the elements list
+        self.set = [None] * size # initializing set with None values
         for element in elements:
             self.add(element)
-            # print (i)
-            # hash_value = hash(element) % len(elements)
-            # print("HV: ", self.x)
-            # self.set.insert(hash_value, element)
-        # print (elements)
-        # print (self.set)
-        # self.set = elements.copy()
 
     def add(self, element: Any) -> None:
         """Adds element to this set.
@@ -202,7 +167,7 @@ class LinearSet(MySet):
         """
         index = 0
         done = False
-        hash_value = hash(element) % len(self.set)
+        hash_value = hash(element) % len(self.set) # getting the hash value of the element
 
         if element not in self.set:
             index = hash_value
@@ -210,10 +175,10 @@ class LinearSet(MySet):
                 self.set.insert(index, element)
                 done = True
             else:
-                while type(self.set[index - 1]) == tuple:
+                while type(self.set[index - 1]) == tuple: # not empty
                     index += 1
-                    if index > len(self.set):
-                        self.set.insert(index, element)
+                    if index > len(self.set): # if index is greater than the length of the list
+                        self.set.insert(index, element) # insert the element at the end of the list
                         done = True
                         break
                 if done == False:
@@ -231,11 +196,8 @@ class LinearSet(MySet):
         Returns:
         None
         """
-        # print ("discard")
-        if element in self.set:
-            # print("before:", self.set)
+        if element in self.set: # if element is in the list only then we can remove it
             self.set.remove(element)
-            # print("after:", self.set)
 
     def __iter__(self):
         """Makes this set iterable.
@@ -246,7 +208,7 @@ class LinearSet(MySet):
         Args:
         - self: manadatory reference to this object.
         """
-        return iter([element for element in self.set if element is not None])
+        return iter([element for element in self.set if element is not None]) # iterating over the list and returning the elements that are not None
 
 
 class MyDict(object):
@@ -355,8 +317,7 @@ class ChainedDict(MyDict):
         Returns:
         None
         """
-        # if type(hash(key) == int):
-        self.dict[key] = newvalue
+        self.dict[key] = newvalue # adding the key and value to the dictionary
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -372,10 +333,10 @@ class ChainedDict(MyDict):
         the stored value for key, default if no such value exists.
         """
 
-        if key in self.dict:
-            return self.dict[key]
+        if key in self.dict: # if the key is in the dictionary
+            return self.dict[key] # return the value
         else:
-            return default
+            return default # else return the default value
     
     def items(self) -> [(Any, Any)]:
         """Returns the key-value pairs of the dictionary as tuples in a list.
@@ -386,12 +347,10 @@ class ChainedDict(MyDict):
         Returns:
         the key-value pairs of the dictionary as tuples in a list.
         """
-        pair_list = []
-        for key in self.dict:
-            # print (key)
-            pair_list.append((key, self.dict[key]))
-        # print (pair_list)
-        return pair_list
+        pair_list = [] # creating an empty list
+        for key in self.dict: # iterating over the keys in the dictionary
+            pair_list.append((key, self.dict[key])) # appending the key and value to the list
+        return pair_list # returning the list
 
     def clear(self) -> None:
         """Clears the dictionary.
@@ -402,7 +361,7 @@ class ChainedDict(MyDict):
         Returns:
         None.
         """
-        self.dict = {}
+        self.dict = {} # clearing the dictionary
 
 class LinearDict(MyDict):
     '''Overrides and implementes the methods defined in MyDict. Uses a linear
@@ -418,7 +377,7 @@ class LinearDict(MyDict):
         Returns:
         none
         """
-        self.dict = {}
+        self.dict = {}  # creating an empty dictionary
 
     def __setitem__(self, key: Any, newvalue: Any) -> None:
         """Adds (key, newvalue) to the dictionary, overwriting any prior value.
@@ -436,8 +395,7 @@ class LinearDict(MyDict):
         Returns:
         None
         """
-        # if type(hash(key) == int):
-        self.dict[key] = newvalue
+        self.dict[key] = newvalue # adding the key and value to the dictionary
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -453,10 +411,10 @@ class LinearDict(MyDict):
         the stored value for key, default if no such value exists.
         """
 
-        if key in self.dict:
-            return self.dict[key]
-        else:
-            return default
+        if key in self.dict:    # if the key is in the dictionary
+            return self.dict[key]  # return the value
+        else:   
+            return default # else return the default value
 
     def items(self) -> [(Any, Any)]:
         """Returns the key-value pairs of the dictionary as tuples in a list.
@@ -467,12 +425,10 @@ class LinearDict(MyDict):
         Returns:
         the key-value pairs of the dictionary as tuples in a list.
         """
-        pair_list = []
-        for key in self.dict:
-            # print (key)
-            pair_list.append((key, self.dict[key]))
-        # print (pair_list)
-        return pair_list
+        pair_list = [] # creating an empty list
+        for key in self.dict: # iterating over the keys in the dictionary
+            pair_list.append((key, self.dict[key])) # appending the key and value to the list
+        return pair_list # returning the list
 
     def clear(self) -> None:
         """Clears the dictionary.
@@ -483,4 +439,4 @@ class LinearDict(MyDict):
         Returns:
         None.
         """
-        self.dict = {}
+        self.dict = {}  # clearing the dictionary
