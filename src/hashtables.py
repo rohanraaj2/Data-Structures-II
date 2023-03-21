@@ -244,7 +244,11 @@ class LinearSet(MySet):
         Args:
         - self: manadatory reference to this object.
         """
-        return iter(self.set)
+
+        for element in self.set:
+            if element is not None:
+                yield element
+
 
 
 class MyDict(object):
