@@ -80,12 +80,13 @@ class ChainedSet(MySet):
         Returns:
         None
         """
-        self.set = []
+        self.set = [[] for _ in range(len(elements))]
         for i in elements:
             # print (i)
-            self.x = hash(i) % len(elements)
+            self.add(i)
+            # self.x = hash(i) % len(elements)
             # print("HV: ", self.x)
-            self.set.insert(self.x, i)
+            # self.set.insert(self.x, i)
         # print (elements)
         # print (self.set)
         # self.set = elements.copy()
