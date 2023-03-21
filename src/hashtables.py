@@ -176,13 +176,14 @@ class LinearSet(MySet):
         None
         """
 
-        self.set = []
+        size = len(elements) * 2 
+        self.set = [None] * size
         for element in elements:
-            # self.add(element)
+            self.add(element)
             # print (i)
-            hash_value = hash(element) % len(elements)
+            # hash_value = hash(element) % len(elements)
             # print("HV: ", self.x)
-            self.set.insert(hash_value, element)
+            # self.set.insert(hash_value, element)
         # print (elements)
         # print (self.set)
         # self.set = elements.copy()
