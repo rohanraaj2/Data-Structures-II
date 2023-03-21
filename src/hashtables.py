@@ -353,8 +353,8 @@ class ChainedDict(MyDict):
         Returns:
         None
         """
-        if type(hash(key) == int):
-            self.dict[key] = newvalue
+        # if type(hash(key) == int):
+        self.dict[key] = newvalue
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -436,8 +436,8 @@ class LinearDict(MyDict):
         Returns:
         None
         """
-        if type(hash(key) == int):
-            self.dict[key] = newvalue
+        # if type(hash(key) == int):
+        self.dict[key] = newvalue
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
