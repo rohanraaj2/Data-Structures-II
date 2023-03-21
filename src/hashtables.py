@@ -453,10 +453,10 @@ class LinearDict(MyDict):
         the stored value for key, default if no such value exists.
         """
 
-        for k in self.dict:
-            if k == key:
-                return self.dict[key]
-        return default
+        if key in self.dict:
+            return self.dict[key]
+        else:
+            return default
 
     def items(self) -> [(Any, Any)]:
         """Returns the key-value pairs of the dictionary as tuples in a list.
@@ -483,4 +483,4 @@ class LinearDict(MyDict):
         Returns:
         None.
         """
-        self.dict.clear()
+        self.dict = {}
