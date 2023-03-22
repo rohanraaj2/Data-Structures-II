@@ -290,7 +290,7 @@ class ChainedDict(MyDict):
     hash table to implement the dictionary.
     '''
 
-    def __init__(self) -> None:
+    def __init__(self, size=10) -> None:
         """Initializes this dictionary.
 
         Args:
@@ -299,7 +299,9 @@ class ChainedDict(MyDict):
         Returns:
         none
         """
-        self.dict = {}
+        self.size = size
+        self.hash_table = [[] for _ in range(size)]
+        self.num_pairs = 0
 
     def __setitem__(self, key: Any, newvalue: Any) -> None:
         """Adds (key, newvalue) to the dictionary, overwriting any prior value.
@@ -308,7 +310,7 @@ class ChainedDict(MyDict):
         d[key] = newvalue
 
         key must be hashable by pytohn.
-
+        
         Args:
         - self: manadatory reference to this object.
         - key: the key to add to the dictionary
@@ -317,13 +319,23 @@ class ChainedDict(MyDict):
         Returns:
         None
         """
-        self.dict[key] = newvalue # adding the key and value to the dictionary
+        index = hash(key) % self.size
+        chain = self.hash_table[index]
+        for index, (key_in_chain, value_in_chain) in enumerate(chain):
+            if key_in_chain == key:
+                chain[index] = (key, newvalue)
+                return
+        chain.append((key, newvalue))
+        self.num_pairs += 1
+        
+        if self.num_pairs / self.size >= 0.75:
+            self._resize(self.size * 2)
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
 
         key must be hashable by pytohn.
-
+        
         Args:
         - self: manadatory reference to this object.
         - key: the key whose value is sought.
@@ -332,25 +344,29 @@ class ChainedDict(MyDict):
         Returns:
         the stored value for key, default if no such value exists.
         """
+        index = hash(key) % self.size
+        chain = self.hash_table[index]
+        for key_in_chain, value_in_chain in chain:
+            if key_in_chain == key:
+                return value_in_chain
+        return default
 
-        if key in self.dict: # if the key is in the dictionary
-            return self.dict[key] # return the value
-        else:
-            return default # else return the default value
-    
     def items(self) -> [(Any, Any)]:
         """Returns the key-value pairs of the dictionary as tuples in a list.
-
+        
         Args:
         - self: manadatory reference to this object.
 
         Returns:
         the key-value pairs of the dictionary as tuples in a list.
         """
-        pair_list = [] # creating an empty list
-        for key in self.dict: # iterating over the keys in the dictionary
-            pair_list.append((key, self.dict[key])) # appending the key and value to the list
-        return pair_list # returning the list
+
+        pair_list = []  # creating an empty list
+        for lists in self.hash_table:  # iterating over the keys in the dictionary
+            for tuples in lists:
+                if tuples is not None:
+                    pair_list.append(tuples)
+        return pair_list  # returning the list
 
     def clear(self) -> None:
         """Clears the dictionary.
@@ -361,7 +377,18 @@ class ChainedDict(MyDict):
         Returns:
         None.
         """
-        self.dict = {} # clearing the dictionary
+        self.hash_table = [[] for _ in range(self.size)]
+        self.num_pairs = 0
+
+    def _resize(self, new_size: int) -> None:
+
+        new_table = [[] for _ in range(new_size)]
+        for chain in self.hash_table:
+            for key, value in chain:
+                new_chain = new_table[hash(key) % new_size]
+                new_chain.append((key, value))
+        self.hash_table = new_table
+        self.size = new_size
 
 class LinearDict(MyDict):
     '''Overrides and implementes the methods defined in MyDict. Uses a linear
