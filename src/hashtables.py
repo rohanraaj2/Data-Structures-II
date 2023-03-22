@@ -173,20 +173,20 @@ class LinearSet(MySet):
 
         if element not in self.set:
             index = hash_value
-            if index > len(self.set):
-                self.set.insert(index, element)
+            if index > len(self.set) - 1:
+                self.set[index] = element
                 done = True
             else:
-                while type(self.set[index - 1]) == tuple:  # not empty
+                while self.set[index] is not None:  # not empty
                     index += 1
                     # if index is greater than the length of the list
-                    if index > len(self.set):
+                    if index > len(self.set) - 1:
                         # insert the element at the end of the list
-                        self.set.insert(index, element)
+                        self.set.append(element)
                         done = True
                         break
-                if done == False:
-                    self.set.insert(index, element)
+                if not done:
+                    self.set[index] = element
 
     def discard(self, element: Any) -> None:
         """Removes element from this set.
