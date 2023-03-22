@@ -181,7 +181,7 @@ class LinearSet(MySet):
                     index += 1
                     # if index is greater than the length of the list
                     if index > len(self.set) - 1:
-                        # insert the element at the end of the list
+                        # we insert the element at the end of the list
                         self.set.append(element)
                         done = True
                         break
@@ -364,12 +364,12 @@ class ChainedDict(MyDict):
         the key-value pairs of the dictionary as tuples in a list.
         """
 
-        pair_list = []  # creating an empty list
+        pair_list = []
         for lists in self.hash_table: # iterating over the hash table
             for tuples in lists: # iterating over the lists in the hash table
                 if tuples is not None: # if the list is not empty, then we append the key-value pairs to the list
                     pair_list.append(tuples)
-        return pair_list  # returning the list
+        return pair_list
 
     def clear(self) -> None:
         """Clears the dictionary.
@@ -469,11 +469,11 @@ class LinearDict(MyDict):
         the key-value pairs of the dictionary as tuples in a list.
         """
 
-        pair_list = []  # creating an empty list
+        pair_list = [] 
         for tuples in self.hash_table:  # iterating over the keys in the dictionary
             if tuples is not None: # if the list is not empty, then we append the key-value pairs to the list
                 pair_list.append(tuples)
-        return pair_list  # returning the list
+        return pair_list
 
     def clear(self) -> None:
         """Clears the dictionary.
@@ -490,7 +490,7 @@ class LinearDict(MyDict):
     def _resize(self, new_size: int) -> None:
             
         new_table = [None] * new_size # creating a new hash table with the new size
-        for key, value in self.items(): # iterating over the lists in the hash table
+        for key, value in self.items(): # iterating over the lists in the previous hash table
             index = hash(key) % new_size # finding the index of the hash table where the key-value pair should be stored
             while new_table[index] is not None: # finding the next empty index in the hash table
                 index = (index + 1) % new_size 
