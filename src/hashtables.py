@@ -148,8 +148,9 @@ class LinearSet(MySet):
         None
         """
 
-        size = len(elements) * 2 # initializing size to twice the length of the elements list
-        self.set = [None] * size # initializing set with None values
+        # initializing size to twice the length of the elements list
+        size = len(elements) * 2
+        self.set = [None] * size  # initializing set with None values
         for element in elements:
             self.add(element)
 
@@ -167,7 +168,8 @@ class LinearSet(MySet):
         """
         index = 0
         done = False
-        hash_value = hash(element) % len(self.set) # getting the hash value of the element
+        # getting the hash value of the element
+        hash_value = hash(element) % len(self.set)
 
         if element not in self.set:
             index = hash_value
@@ -175,10 +177,12 @@ class LinearSet(MySet):
                 self.set.insert(index, element)
                 done = True
             else:
-                while type(self.set[index - 1]) == tuple: # not empty
+                while type(self.set[index - 1]) == tuple:  # not empty
                     index += 1
-                    if index > len(self.set): # if index is greater than the length of the list
-                        self.set.insert(index, element) # insert the element at the end of the list
+                    # if index is greater than the length of the list
+                    if index > len(self.set):
+                        # insert the element at the end of the list
+                        self.set.insert(index, element)
                         done = True
                         break
                 if done == False:
@@ -196,7 +200,7 @@ class LinearSet(MySet):
         Returns:
         None
         """
-        if element in self.set: # if element is in the list only then we can remove it
+        if element in self.set:  # if element is in the list only then we can remove it
             self.set.remove(element)
 
     def __iter__(self):
@@ -208,8 +212,7 @@ class LinearSet(MySet):
         Args:
         - self: manadatory reference to this object.
         """
-        return iter([element for element in self.set if element is not None]) # iterating over the list and returning the elements that are not None
-
+        return iter([element for element in self.set if element is not None])  # iterating over the list and returning the elements that are not None
 
 class MyDict(object):
     '''An abstract class that provides a dictionary interface which is just
@@ -299,9 +302,9 @@ class ChainedDict(MyDict):
         Returns:
         none
         """
-        self.size = size
-        self.hash_table = [[] for _ in range(size)]
-        self.num_pairs = 0
+        self.size = size # size of the hash table
+        self.hash_table = [[] for _ in range(size)] # initializing the hash table with empty lists
+        self.num_pairs = 0 # number of key-value pairs in the dictionary
 
     def __setitem__(self, key: Any, newvalue: Any) -> None:
         """Adds (key, newvalue) to the dictionary, overwriting any prior value.
@@ -319,17 +322,17 @@ class ChainedDict(MyDict):
         Returns:
         None
         """
-        index = hash(key) % self.size
-        chain = self.hash_table[index]
-        for index, (key_in_chain, value_in_chain) in enumerate(chain):
-            if key_in_chain == key:
-                chain[index] = (key, newvalue)
+        index = hash(key) % self.size # finding the index of the hash table where the key-value pair should be stored
+        chain = self.hash_table[index] # the list at the index of the hash table
+        for index, (key_in_chain, value_in_chain) in enumerate(chain): # iterating over the list
+            if key_in_chain == key: # if the key is already present in the list, then we update the value
+                chain[index] = (key, newvalue) 
                 return
-        chain.append((key, newvalue))
-        self.num_pairs += 1
+        chain.append((key, newvalue)) # if the key is not present in the list, then we append the key-value pair to the list
+        self.num_pairs += 1 # incrementing the number of key-value pairs in the dictionary
         
-        if self.num_pairs / self.size >= 0.75:
-            self._resize(self.size * 2)
+        if self.num_pairs / self.size >= 0.75: # if the load factor is greater than or equal to 0.75, then we resize the hash table
+            self._resize(self.size * 2) # resizing the hash table by doubling its size
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -344,12 +347,12 @@ class ChainedDict(MyDict):
         Returns:
         the stored value for key, default if no such value exists.
         """
-        index = hash(key) % self.size
-        chain = self.hash_table[index]
-        for key_in_chain, value_in_chain in chain:
-            if key_in_chain == key:
+        index = hash(key) % self.size # finding the index of the hash table where the key-value pair should be stored
+        chain = self.hash_table[index] # the list at the index of the hash table
+        for key_in_chain, value_in_chain in chain: 
+            if key_in_chain == key: # if the key is present in the list, then we return the value
                 return value_in_chain
-        return default
+        return default # if the key is not present in the list, then we return the default value
 
     def items(self) -> [(Any, Any)]:
         """Returns the key-value pairs of the dictionary as tuples in a list.
@@ -362,9 +365,9 @@ class ChainedDict(MyDict):
         """
 
         pair_list = []  # creating an empty list
-        for lists in self.hash_table:  # iterating over the keys in the dictionary
-            for tuples in lists:
-                if tuples is not None:
+        for lists in self.hash_table: # iterating over the hash table
+            for tuples in lists: # iterating over the lists in the hash table
+                if tuples is not None: # if the list is not empty, then we append the key-value pairs to the list
                     pair_list.append(tuples)
         return pair_list  # returning the list
 
@@ -377,17 +380,17 @@ class ChainedDict(MyDict):
         Returns:
         None.
         """
-        self.hash_table = [[] for _ in range(self.size)]
-        self.num_pairs = 0
+        self.hash_table = [[] for _ in range(self.size)] # initializing the hash table with empty lists
+        self.num_pairs = 0 # number of key-value pairs in the dictionary
 
     def _resize(self, new_size: int) -> None:
 
-        new_table = [[] for _ in range(new_size)]
+        new_table = [[] for _ in range(new_size)] # creating a new hash table with the new size
         for chain in self.hash_table:
-            for key, value in chain:
+            for key, value in chain: # iterating over the lists in the hash table
                 new_chain = new_table[hash(key) % new_size]
-                new_chain.append((key, value))
-        self.hash_table = new_table
+                new_chain.append((key, value)) # appending the key-value pair to the list at the index of the new hash table
+        self.hash_table = new_table # updating the hash table
         self.size = new_size
 
 class LinearDict(MyDict):
@@ -404,9 +407,9 @@ class LinearDict(MyDict):
         Returns:
         none
         """
-        self.size = size
-        self.hash_table = [None] * size
-        self.num_pairs = 0
+        self.size = size # size of the hash table
+        self.hash_table = [None] * size # initializing the hash table with None
+        self.num_pairs = 0 # number of key-value pairs in the dictionary
 
     def __setitem__(self, key: Any, newvalue: Any) -> None:
         """Adds (key, newvalue) to the dictionary, overwriting any prior value.
@@ -424,17 +427,17 @@ class LinearDict(MyDict):
         Returns:
         None
         """
-        index = hash(key) % self.size
-        while self.hash_table[index] is not None:
-            if self.hash_table[index][0] == key:
+        index = hash(key) % self.size # finding the index of the hash table where the key-value pair should be stored
+        while self.hash_table[index] is not None: # while the index is not empty
+            if self.hash_table[index][0] == key: # if the key is already present in the hash table, then we update the value
                 self.hash_table[index] = (key, newvalue)
                 return
-            index = (index + 1) % self.size
-        self.hash_table[index] = (key, newvalue)
-        self.num_pairs += 1
+            index = (index + 1) % self.size # if the key is not present in the hash table, then we increment the index by 1
+        self.hash_table[index] = (key, newvalue) # if the index is empty, then we add the key-value pair to the hash table
+        self.num_pairs += 1 # incrementing the number of key-value pairs in the dictionary
         
-        if self.num_pairs / self.size >= 0.75:
-            self._resize(self.size * 2)
+        if self.num_pairs / self.size >= 0.75: # if the load factor is greater than or equal to 0.75, then we resize the hash table
+            self._resize(self.size * 2) # resizing the hash table by doubling its size
 
     def get(self, key: Any, default: Any = None) -> Any:
         """Returns the value stored for key, default if no value exists.
@@ -449,12 +452,12 @@ class LinearDict(MyDict):
         Returns:
         the stored value for key, default if no such value exists.
         """
-        index = hash(key) % self.size
-        while self.hash_table[index] is not None:
-            if self.hash_table[index][0] == key:
-                return self.hash_table[index][1]
-            index = (index + 1) % self.size
-        return default
+        index = hash(key) % self.size # finding the index of the hash table where the key-value pair should be stored
+        while self.hash_table[index] is not None: # while the index is not empty
+            if self.hash_table[index][0] == key: # if the key is present in the hash table, then we return the value
+                return self.hash_table[index][1] 
+            index = (index + 1) % self.size # if the key is not present in the hash table, then we increment the index by 1
+        return default # if the index is empty, then we return the default value
 
     def items(self) -> [(Any, Any)]:
         """Returns the key-value pairs of the dictionary as tuples in a list.
@@ -468,7 +471,7 @@ class LinearDict(MyDict):
 
         pair_list = []  # creating an empty list
         for tuples in self.hash_table:  # iterating over the keys in the dictionary
-            if tuples is not None:
+            if tuples is not None: # if the list is not empty, then we append the key-value pairs to the list
                 pair_list.append(tuples)
         return pair_list  # returning the list
 
@@ -481,16 +484,16 @@ class LinearDict(MyDict):
         Returns:
         None.
         """
-        self.hash_table = [None] * self.size
-        self.num_pairs = 0
+        self.hash_table = [None] * self.size # initializing the hash table with None
+        self.num_pairs = 0 
 
     def _resize(self, new_size: int) -> None:
             
-        new_table = [None] * new_size
-        for key, value in self.items():
-            index = hash(key) % new_size
-            while new_table[index] is not None:
-                index = (index + 1) % new_size
-            new_table[index] = (key, value)
-        self.hash_table = new_table
-        self.size = new_size
+        new_table = [None] * new_size # creating a new hash table with the new size
+        for key, value in self.items(): # iterating over the lists in the hash table
+            index = hash(key) % new_size # finding the index of the hash table where the key-value pair should be stored
+            while new_table[index] is not None: # finding the next empty index in the hash table
+                index = (index + 1) % new_size 
+            new_table[index] = (key, value) # appending the key-value pair to the list at the index of the new hash table
+        self.hash_table = new_table # updating the hash table
+        self.size = new_size # updating the size of the hash table
