@@ -56,12 +56,12 @@ def test_and_index(case):
     result = [doc for _,doc in result]
     print(case.result)
     assert result == case.result.split(), \
-        f'bad {result=} for {case.query=}, {case.k=}'
+        f'bad {result=} for {case.query1=}, for {case.query2=}, {case.k=}'
 @pytest.mark.parametrize('case', fetch_testcases(testcase2_path))
 def test_or_index(case):
     result = corpus.or_query(case.query1,case.query2,case.k)
     result = [doc for _,doc in result]
     print(case.result)
     assert result == case.result.split(), \
-        f'bad {result=} for {case.query=}, {case.k=}'
+        f'bad {result=} for {case.query1=}, for {case.query2=}, {case.k=}'
 
