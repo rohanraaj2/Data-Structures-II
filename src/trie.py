@@ -17,22 +17,13 @@ class Trie:
     def prefix_complete(self, prefix:str, node:TrieNode = None, word: str = "") -> dict[str,list[tuple[str,int,int]]]:
         # returns a dict in which each key is a completion from the corpus and the corresponding value is a list of 3-tuples representing ID, start and end index
         node = self.root
-        words = {}
         for val in prefix: 
             if val in node.children: 
                 node = node.children[val] 
             else:
-                return words
+                return {}
             word += val
-        
-        if node.end:
-            words[word] = node.locations
-
-        for child, next_child in node.children.items():
-            child_completions = self.prefix_complete("", next_child, word + child)
-            words.update(child_completions)
-    
-        return words
+        return self._get_collection(node, word)
 
     # helper functions
 
@@ -55,3 +46,14 @@ class Trie:
         # inserting a new doc means inserting each word from the doc 
         for word in doc:
             self._insert_word(word, doc.doc_id, doc[word])
+
+    def _get_collection(self, node : TrieNode, prefix : str) -> dict[str, list[tuple[str, int, int]]]:
+        # returns a collection of all the words in the trie
+        collection = {} 
+        if node.end: 
+            collection[prefix] = node.locations 
+
+        for child in node.children.values(): 
+            collection.update(self._get_collection(child,prefix+child.val)) 
+
+        return collection        
