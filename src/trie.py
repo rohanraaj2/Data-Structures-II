@@ -17,13 +17,16 @@ class Trie:
     def prefix_complete(self, prefix:str, node:TrieNode = None, word: str = "") -> dict[str,list[tuple[str,int,int]]]:
         # returns a dict in which each key is a completion from the corpus and the corresponding value is a list of 3-tuples representing ID, start and end index
         node = self.root
+        words = {}
         for val in prefix: 
             if val in node.children: 
                 node = node.children[val] 
             else:
-                return {}
+                return words
             word += val
-        return self._get_collection(node, word)
+
+        words = self._get_collection(node, word)
+        return words
 
     # helper functions
 
@@ -54,6 +57,6 @@ class Trie:
             collection[prefix] = node.locations 
 
         for child in node.children.values(): 
-            collection.update(self._get_collection(child,prefix+child.val)) 
+            collection.update(self._get_collection(child, prefix + child.val)) 
 
         return collection        
