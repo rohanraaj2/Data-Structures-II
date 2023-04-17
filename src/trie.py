@@ -17,15 +17,15 @@ class Trie:
     def prefix_complete(self, prefix:str, node:TrieNode = None, word: str = "") -> dict[str,list[tuple[str,int,int]]]:
         # returns a dict in which each key is a completion from the corpus and the corresponding value is a list of 3-tuples representing ID, start and end index
         node = self.root
-        words = {}
-        for val in prefix: 
-            if val in node.children: 
+        words = {}                              # empty dictionary to store completions and their locations
+        for val in prefix:                      # iterating through the chars in the prefix      
+            if val in node.children:            # move to next node if it exists in children of char
                 node = node.children[val] 
             else:
-                return words
-            word += val
+                return words                    # return empty dictionary if character is not found in the trie
+            word += val                         # updates the word by adding the char 
 
-        words = self._get_collection(node, word)
+        words = self._get_collection(node, word) # calls a recursive function to get collection of all words
         return words
 
     # helper functions
@@ -33,11 +33,13 @@ class Trie:
     def _insert_word(self, word, doc, location):
         # inserts a new word in the trie
         node = self.root
+
         for val in word:
             if val not in node.children:
                 node.children[val] = TrieNode(val)
             node = node.children[val]
         node.end = True
+
         if len(location) != 0:
             for i in range(len(location)):
                 start = location[i][0]
@@ -57,6 +59,6 @@ class Trie:
             collection[prefix] = node.locations 
 
         for child in node.children.values(): 
-            collection.update(self._get_collection(child, prefix + child.val)) 
+            collection.update(self._get_collection(child, prefix + child.val))  # recursively calls itself with the child of node and the updated prefix
 
         return collection        
