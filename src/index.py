@@ -40,21 +40,6 @@ class InvertedIndex:
 
     def and_query(self, query1:str, query2:str, k: int) -> list[tuple[int,str]]:
         # returns the intersection of the ranked list of documents for query1 and query2
-
-
-
-        # query_1 = self.query(query1,k)  #called the query function for query1
-        # query_2 = self.query(query2,k)  #called the query function for query2
-        # intersect_lst = []
-        # for rank_1, doc_id_1 in query_1:  #loops on both the queries
-        #     for rank_2, doc_id_2  in query_2:
-        #         if doc_id_2 == doc_id_1:#if the values of both od the queries is same
-        #             intersect_lst.append((doc_id_1))  #then append the value in the list 
-        # intersect_lst.sort()  #sorting the list
-        # final = []
-        # for i in range(len(intersect_lst)):
-        #     final.append((i+1, intersect_lst[i]))
-        # return final
         pass
 
     def or_query(self, query1:str, query2:str, k: int) -> list[tuple[int,str]]:
@@ -77,9 +62,7 @@ class InvertedIndex:
                 tfidf = tf * idf  
 
                 # add the tfidf for each doc for each word
-                self.inverted_index[word][doc.doc_id] = (tfidf) 
-
-        return self.inverted_index        
+                self.inverted_index[word][doc.doc_id] = (tfidf)  
         pass
 
     def _idf(self, docs : Document, word):
