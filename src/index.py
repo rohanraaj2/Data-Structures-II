@@ -6,6 +6,7 @@ class InvertedIndex:
     def __init__(self, docs: list) -> None:
         self.inverted_index = {}
         self.list_of_docs = docs
+        self.doc_size = {}
         self._create_inverted_index(docs)
 
     def query(self, terms:str, k: int) -> list[tuple[int,str]]:
@@ -51,18 +52,23 @@ class InvertedIndex:
 
     def _create_inverted_index(self, docs):
         # creates the inverted index that we will be using
-        for doc in docs:   
+        for doc in docs:
+            document_id = doc.doc_id
+
             for word in doc.terms:  
-                if word not in self.inverted_index:  
+                self.doc_size[id] += len(word)
+                word_frequency = len(doc.terms[word])
+
+                if word not in self.inverted_index.keys():  
                     self.inverted_index[word] = {}  
-                
+                    
                 # calculate the tf.idf of the word 
                 tf = (len(doc.terms[word])/len(doc.terms)) 
                 idf = self._idf(docs, word) 
                 tfidf = tf * idf  
 
                 # add the tfidf for each doc for each word
-                self.inverted_index[word][doc.doc_id] = (tfidf)  
+                self.inverted_index[word][document_id] = (tfidf)
         pass
 
     def _idf(self, docs : Document, word):
