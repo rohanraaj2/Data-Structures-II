@@ -23,7 +23,16 @@ class InvertedIndex:
             document_score.append((key, value))
             
         document_score.sort(key=lambda x: x[1], reverse=True)
-        return document_score[:k]
+
+        ranked_list = []
+        rank = 1
+        for document in document_score:
+            document_id = document[0]
+            ranked_list.append((rank, document_id))
+            rank += 1
+
+        return ranked_list[:k]
+    
             # idf = math.log(self.number_of_documents / len(self.inverted_index[term]))
 
         # x = self.list.__contains__
