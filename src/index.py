@@ -35,7 +35,23 @@ class InvertedIndex:
 
     def and_query(self, query1:str, query2:str, k: int) -> list[tuple[int,str]]:
         # returns the intersection of the ranked list of documents for query1 and query2
-        pass
+
+        common_docs = []
+        query1_doc_list = [x[1] for x in self.query(
+            query1, k)]  # list of doc_id for query1
+        query2_doc_list = [x[1] for x in self.query(query2, k)]
+
+        for doc in query1_doc_list:
+            if doc in query2_doc_list:
+                common_docs.append(doc)
+
+        ranked_list = []
+        rank = 1
+        for doc_id in (sorted(common_docs)):
+            ranked_list.append((rank, doc_id))
+            rank += 1
+
+        return ranked_list
 
     def or_query(self, query1:str, query2:str, k: int) -> list[tuple[int,str]]:
         # returns the union of the ranked list of documents for query1 and query2
