@@ -4,7 +4,9 @@ from document import Document
 class InvertedIndex:
 
     def __init__(self, docs: list) -> None:
+        self.inverted_index = {}
         self.list_of_docs = docs
+        self._create_inverted_index(docs)
 
     def query(self, terms:str, k: int) -> list[tuple[int,str]]:
         # returns a sorted list of 2-tuples (or pairs) representing the ranked list of documents
@@ -44,3 +46,29 @@ class InvertedIndex:
     def or_query(self, query1:str, query2:str, k: int) -> list[tuple[int,str]]:
         # returns the union of the ranked list of documents for query1 and query2
         return []
+    
+
+    # helper functions
+
+    def _create_inverted_index(self, docs):
+        for doc in docs:
+            for word in doc.terms:                      # iterating over words in the document
+                if word not in self.inverted_index:
+                    self.inverted_index[word] =  {'doc_id': doc.doc_id, 'count': 1}
+                else:
+                    c = self.inverted_index[word]['count']
+                    self.inverted_index[word]['doc_id'] = doc.doc_id
+                    self.inverted_index[word]['count'] = c+1  
+
+        return self.inverted_index
+        pass
+
+    def _idf(self, docs : Document, word):
+        df = 0 
+
+        for doc in docs: 
+            if word in doc.terms:
+                df += 1
+
+        idf = math.log(len(docs)/df)  
+        return idf
