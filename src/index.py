@@ -51,8 +51,7 @@ class InvertedIndex:
             self.doc_size[document_id] = sum(len(x)
                                            for x in doc.terms.values())
 
-            for word in doc.terms:
-                self.doc_size[document_id] += len(word)
+            for word in doc:
                 word_frequency = len(doc.terms[word])
 
                 if word not in self.inverted_index.keys():  
