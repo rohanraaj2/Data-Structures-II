@@ -37,9 +37,9 @@ class InvertedIndex:
         # returns the intersection of the ranked list of documents for query1 and query2
 
         common_docs = []
-        query1_doc_list = [x[1] for x in self.query(
+        query1_doc_list = [element[1] for element in self.query(
             query1, k)]  # list of doc_id for query1
-        query2_doc_list = [x[1] for x in self.query(query2, k)]
+        query2_doc_list = [element[1] for element in self.query(query2, k)]
 
         for doc in query1_doc_list:
             if doc in query2_doc_list:
@@ -55,7 +55,23 @@ class InvertedIndex:
 
     def or_query(self, query1:str, query2:str, k: int) -> list[tuple[int,str]]:
         # returns the union of the ranked list of documents for query1 and query2
-        return []
+        query1_doc_list = [element[1] for element in self.query(
+            query1, k)]  # list of doc_id for query1
+        query2_doc_list = [element[1] for element in self.query(query2, k)]
+        union_list = query1_doc_list
+        for doc in query2_doc_list:
+            if doc not in union_list:
+                union_list.append(doc)
+        union_list.sort()
+
+        ranked_list = []
+        rank = 1
+        for doc_id in (sorted(union_list)):
+            ranked_list.append((rank, doc_id))
+            rank += 1
+
+        return ranked_list
+
     
 
     # helper functions
@@ -66,7 +82,6 @@ class InvertedIndex:
             document_id = doc.doc_id
             self.doc_size[document_id] = sum(len(x)
                                            for x in doc.terms.values())
-
             for word in doc:
                 word_frequency = len(doc.terms[word])
 
