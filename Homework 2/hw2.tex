@@ -1,0 +1,134 @@
+\documentclass[addpoints]{exam}
+
+\usepackage{caption}
+\usepackage{graphbox}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{pythonhighlight}
+\usepackage{ragged2e}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{titling}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{pythonhighlight}
+
+% Header and footer.
+\pagestyle{headandfoot}
+\runningheadrule
+\runningfootrule
+\runningheader{CS 201, Spring 2023}{HW 2: Skiplists and Dynamic List ADT}{\theauthor}
+\runningfooter{}{Page \thepage\ of \numpages}{}
+\firstpageheader{}{}{}
+
+\qformat{{\large\bf \thequestion. \thequestiontitle}\hfill[\totalpoints\ points]}
+% \qformat{{\large\bf \thequestion. \thequestiontitle}\hfill}
+\boxedpoints
+
+\printanswers
+
+\graphicspath{{images/}}
+
+\newcommand\colheader[1]{\multicolumn{1}{c}{#1}} % Note: no vertical bars
+
+\title{Homework 2: Skiplists and Dynamic List ADT}
+\author{l2-group-6}  % <=== Enter your team name.
+\date{Habib University\\Spring 2023}
+
+\begin{document}
+\begin{questions}
+
+  \titledquestion{A Ranked Set}[10]\footnote{Adapted from Exercise 4.9 in the textbook.}
+  Design a version of a skiplist that implements the \texttt{SSet} interface, but also allows fast access to elements by \textit{rank}. That is, it also supports the function \texttt{get(i)}, which returns the element whose rank is \texttt{i} in $O(\log n)$ expected time. (The rank of an element \texttt{x} in an \texttt{SSet} is the number of elements in the \texttt{SSet} that are less than \texttt{x}.)
+  Describe how your version differs from a regular skiplist and provide pseudocode of \texttt{find(x)} and \texttt{get(i)} for this version.
+  \begin{solution}
+    In our version of the skiplist, we are keeping track of additional information (rank, span) alongside the other information contained in a skiplist such as head, forward, height etc. Due to this change, we now have two additional functions, $\text{get}(i)$ and $\text{find}(x)$, which allows us to access elements faster using their ranks. This also means that now, when updating the skiplist (adding/removing nodes), we will have to update the ranks of each node.
+    \par The pseudocode for the $\text{get}(i)$ and $\text{find}(x)$ functions are as follows, taking the assumption that rank and span have already been initialized in the skiplist:
+    \begin{lstlisting}[language=Python]
+    def find(self, x) -> int:
+      current_node = self.head
+      # start from the highest level
+      for level in range(self.height() - 1, -1, -1):         
+          # check if there is another node on the same level and key < x 
+          while current_node.forward[level] != None           
+          and current_node.forward[level].key < x:
+              # if true, assign the next node to current node             
+              current_node = current_node.forward[level]   
+      # assign next node at level 0 to current node           
+      current_node = current_node.forward[0]                  
+      if current_node != None and current_node.key == x:
+          # return value of current node
+          return current_node.value                           
+  
+    def get(self, i) -> int:
+      current_node = self.head
+      rank = -1
+      # start from the highest level
+      for level in range(self.height()-1, -1, -1):
+          # check if there is another node on the same level and rank+span < i           
+          while current_node.forward[level] != None         
+          and rank + current_node.forward[level].span <= i: 
+              # if true, update the rank and assign the next node to current node
+              rank += current_node.forward[level].span        
+              current_node = current_node.forward[level]     
+      # assign next node at level 0 to current node
+      current_node = current_node.forward[0]                  
+      if current_node != None and rank + 1 == i:
+          # returns element with rank i
+          return current_node.value                           
+      \end{lstlisting}
+  \end{solution}
+
+  \titledquestion{Finger Search}[10]\footnote{Adapted from Exercise 4.10 in the textbook.}
+  A \textit{finger} in a skiplist is an array that stores the sequence of nodes on a search path at which the search path goes down. (The variable \texttt{stack} in the \texttt{add(x)} code on page 87 is a finger; the shaded nodes in Figure 4.3 show the contents of the finger.) One can think of a finger as pointing out the path to a node in the lowest list, $L_0$.
+
+  A \textit{finger search} implements the find(x) operation using a finger, walking up the list using the finger until reaching a node \texttt{u} such that \texttt{u.x < x} and \texttt{u.next = nil} or \texttt{u.next.x > x} and then performing a normal search for \texttt{x} starting from \texttt{u}. It is possible to prove that the expected number of steps required for a finger search is $O(1+\log r)$, where $r$ is the number values in $L_0$ between \texttt{x} and the value pointed to by the finger.
+
+  Design, i.e. provide the necessary pseudo code for, a version of a skiplist that implements \texttt{find(x)} operations using an internal finger. This subclass stores a finger, which is then used so that every \texttt{find(x)} operation is implemented as a finger search. During each \texttt{find(x)} operation the finger is updated so that each \texttt{find(x)} operation uses, as a starting point, a finger that points to the result of the previous \texttt{find(x)} operation.
+  \begin{solution}
+    \begin{lstlisting}[language=Python]
+      class SkipList(object):
+          def __init__(self) -> None:
+              # initialize finger to empty array
+              self.finger = []       
+              self.head = Node((None, None))
+              self.max_level = 0
+              self.size = 0
+      
+          def find(self, x) -> int:
+              # check if array is empty
+              if len(self.finger) == 0:
+                  # if true, start search from head
+                  node = self.head
+                  level = self.maxLevel
+              else:
+                  # else, start search from finger node
+                  node, level = self.finger[-1]
+      
+              while True:
+                  if level == 0:
+                      # element not found
+                      return None
+                  elif node.next[level] != None and node.next[level].x < x:
+                      node = node.next[level]
+                  elif node.next[level] != None and node.next[level].x == x:
+                      # update finger to point to this node
+                      self.finger.append((node, level))
+                      return node.next[level]
+                  else:
+                      # node.next[level] != None and node.next[level].x > x
+                      # move down a level and update finger
+                      level -= 1
+                      self.finger.append((node, level))
+          \end{lstlisting}
+  \end{solution}
+
+
+\end{questions}
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
