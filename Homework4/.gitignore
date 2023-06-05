@@ -1,0 +1,13 @@
+*~
+hw3.pdf
+*.aux
+*.log
+*.out
+*.pdf
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+/solution
+/corpus
+corpus.zip
+__pycache__
